@@ -294,7 +294,7 @@ class DLLIMPORT ProjectManager : public Mgr<ProjectManager>, public wxEvtHandler
           * If the project has more than one build targets, a dialog appears so
           * that the user can select which build target these files should belong to.
           */
-        int AddMultipleFilesToProject(const wxArrayString& filelist, cbProject* project, int target = -1);
+        int AddMultipleFilesToProject(const wxArrayString& filelist, cbProject* project, int target = -1, const wxString& basedir = wxEmptyString);
         /** Add multiple files to a project. This function comes in two versions. This version,
           * expects an array of build target indices for the added files to belong to.
           * @param filelist The files to add to the project.
@@ -308,7 +308,7 @@ class DLLIMPORT ProjectManager : public Mgr<ProjectManager>, public wxEvtHandler
           * Also note than when this function returns, the targets array will contain
           * the user-selected build targets.
           */
-        int AddMultipleFilesToProject(const wxArrayString& filelist, cbProject* project, wxArrayInt& targets);
+        int AddMultipleFilesToProject(const wxArrayString& filelist, cbProject* project, wxArrayInt& targets, const wxString& basedir = wxEmptyString);
         /** Remove a file from a project.
           * @param pfile The file to remove from the project.
           * @param project The project to remove this file from. If NULL, the active project is used.
@@ -453,7 +453,7 @@ class DLLIMPORT ProjectManager : public Mgr<ProjectManager>, public wxEvtHandler
         ProjectManager();
         ~ProjectManager();
         void OnAppDoneStartup(CodeBlocksEvent& event);
-        int  DoAddFileToProject(const wxString& filename, cbProject* project, wxArrayInt& targets);
+        int  DoAddFileToProject(const wxString& filename, cbProject* project, wxArrayInt& targets, const wxString& basedir = wxEmptyString);
 
         cbProjectManagerUI *m_ui;
         cbProject*           m_pActiveProject;

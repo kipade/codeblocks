@@ -1322,8 +1322,35 @@ void ProjectManagerUI::OnAddFilesToProjectRecursively(wxCommandEvent& event)
         return;
     array = dlg.GetSelectedStrings();
 
+    wxString basedir = realpath(dir);
+    int last_slash = basedir.Find(wxFileName::GetPathSeparator(), true);
+    int dirEnd = basedir.Length() - 1;
+    //去掉末尾的路径分隔符
+    while(last_slash == basedir.Length() - 1)
+    {
+        basedir[basedir.Length() - 1] = wxT('\0');
+        last_slash = basedir.Find(wxFileName::GetPathSeparator(), true);
+    }
+    wxString dirName;
+    while(last_slash < dirEnd)
+    {
+        dirName = basedir.SubString(last_slash + 1, dirEnd - last_slash);
+        if(FindRootDirInProject(prj, dirName))
+        {
+            dirEnd = last_slash;
+            //basedir[dirEnd] = wxT('\0');
+	    basedir = basedir.Left(dirEnd);
+            last_slash = basedir.Find(wxFileName::GetPathSeparator(), true);
+        }
+        else
+        {
+            break;
+        }
+    }
+    basedir[last_slash] = wxT('\0');
+
     // finally add the files
-    pm->AddMultipleFilesToProject(array, prj, targets);
+    pm->AddMultipleFilesToProject(array, prj, targets, basedir);
     RebuildTree();
 }
 
@@ -3404,6 +3431,14 @@ void ProjectManagerUI::BuildProjectTree(cbProject* project, cbTreeCtrl* tree, co
         {
             nodetext = pf->file.GetFullName();
         }
+        else
+        {
+            if(pf->basePathSplitPos > 0)
+            {
+                nodetext = realpath(pf->file.GetFullPath());
+                nodetext = nodetext.Right(nodetext.Length() - pf->basePathSplitPos);
+            }
+        }
 
         // add file in the tree
         bool useFolders = (ptvs&ptvsUseFolders) || (folders_kind == FileTreeData::ftdkVirtualFolder);
@@ -3431,4 +3466,35 @@ void ProjectManagerUI::BuildProjectTree(cbProject* project, cbTreeCtrl* tree, co
 #ifdef fileload_measuring
     Manager::Get()->GetLogManager()->DebugLogError(F(_T("%s::%s:%d  took : %d ms"), cbC2U(__FILE__).c_str(),cbC2U(__PRETTY_FUNCTION__).c_str(), __LINE__, (int)sw.Time()));
 #endif
+}
+
+bool ProjectManagerUI::FindRootDirInProject(cbProject* project, const wxString& dirname)
+{
+    const wxTreeItemId root = project->GetProjectNode();
+    wxTreeItemIdValue cookie, subcookie;
+    wxTreeItemId firstGroupNode = m_pTree->GetFirstChild(root, cookie);
+    if(!firstGroupNode.IsOk())
+            return false;
+
+    wxTreeItemId groupNode = firstGroupNode;
+    //外层循环为遍历每个分类结点
+    while(groupNode.IsOk())
+    {
+        wxTreeItemId firstDirNode = m_pTree->GetFirstChild(groupNode, subcookie); //得到组的第一个子项
+        wxTreeItemId dirNode = firstDirNode;
+        while(dirNode.IsOk())
+        {
+            //检查结点名
+            wxString nodeText = m_pTree->GetItemText(dirNode);
+            if(nodeText.CmpNoCase(dirname) == 0)
+            {
+                return true;
+            }
+            //遍历该组下的下一子项
+            dirNode = m_pTree->GetNextChild(groupNode, subcookie);
+        }
+        groupNode = m_pTree->GetNextChild(root, cookie);
+	}
+
+    return false;
 }

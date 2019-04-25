@@ -65,6 +65,7 @@ class ProjectManagerUI : public wxEvtHandler, public cbProjectManagerUI
         void DoOpenSelectedFile();
         void RemoveFilesRecursively(wxTreeItemId& sel_id);
         void OpenFilesRecursively(wxTreeItemId& sel_id);
+        bool FindRootDirInProject(cbProject* project, const wxString& dirname);
     private:
 
         void OnTabContextMenu(wxAuiNotebookEvent& event);

@@ -1079,6 +1079,9 @@ void ProjectLoader::DoUnitOptions(const TiXmlElement* parentNode, ProjectFile* f
         //
         if (node->QueryIntAttribute("weight", &tempval) == TIXML_SUCCESS)
             file->weight = tempval;
+
+        if (node->QueryIntAttribute("basedirpos", &tempval) == TIXML_SUCCESS)
+            file->basePathSplitPos = tempval;
         //
         if (node->Attribute("virtualFolder"))
             file->virtual_path = UnixFilename(cbC2U(node->Attribute("virtualFolder")));
@@ -1566,6 +1569,8 @@ bool ProjectLoader::ExportTargetAsProject(const wxString& filename, const wxStri
 
         if (!f->virtual_path.IsEmpty())
             AddElement(unitnode, "Option", "virtualFolder", UnixFilename(f->virtual_path, wxPATH_UNIX));
+        if(f->basePathSplitPos > 0)
+            AddElement(unitnode, "Option", "basedirpos", f->basePathSplitPos);
 
         // loop and save custom build commands
         for (pfCustomBuildMap::iterator it = f->customBuild.begin(); it != f->customBuild.end(); ++it)

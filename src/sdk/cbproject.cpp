@@ -614,13 +614,13 @@ void cbProject::EndRemoveFiles()
     Manager::Get()->ProcessEvent(event);
 }
 
-ProjectFile* cbProject::AddFile(const wxString& targetName, const wxString& filename, bool compile, bool link, unsigned short int weight)
+ProjectFile* cbProject::AddFile(const wxString& targetName, const wxString& filename, bool compile, bool link, unsigned short int weight, const wxString& basedir)
 {
     int idx = IndexOfBuildTargetName(targetName);
     return AddFile(idx, filename, compile, link, weight);
 }
 
-ProjectFile* cbProject::AddFile(int targetIndex, const wxString& filename, bool compile, bool link, cb_unused unsigned short int weight)
+ProjectFile* cbProject::AddFile(int targetIndex, const wxString& filename, bool compile, bool link, cb_unused unsigned short int weight, const wxString& basedir)
 {
 //  NOTE (Rick#1#): When loading the project, do not search for existing files
 //  (Assuming that there are no duplicate entries in the .cbp file)
@@ -778,6 +778,17 @@ ProjectFile* cbProject::AddFile(int targetIndex, const wxString& filename, bool 
     fname.Normalize(wxPATH_NORM_DOTS | wxPATH_NORM_TILDE, projectBasePath);
 
     const wxString &fullFilename = realpath(fname.GetFullPath());
+    if(filename[0] == wxT('.'))
+    {
+        wxString real_basedir = realpath(basedir);
+        pf->basePathSplitPos = fullFilename.Find(real_basedir);
+        if(pf->basePathSplitPos >= 0)
+            pf->basePathSplitPos += real_basedir.Length();
+    }
+    else
+    {
+        pf->basePathSplitPos = 0;
+    }
     pf->file              = fullFilename;
     pf->relativeFilename  = UnixFilename(local_filename);
 

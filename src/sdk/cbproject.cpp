@@ -783,7 +783,13 @@ ProjectFile* cbProject::AddFile(int targetIndex, const wxString& filename, bool 
         wxString real_basedir = realpath(basedir);
         pf->basePathSplitPos = fullFilename.Find(real_basedir);
         if(pf->basePathSplitPos >= 0)
+        {
             pf->basePathSplitPos += real_basedir.Length();
+            if(fullFilename[pf->basePathSplitPos] == wxFileName::GetPathSeparator())
+            {
+                pf->basePathSplitPos += 1;
+            }
+        }
     }
     else
     {

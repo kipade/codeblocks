@@ -1403,7 +1403,7 @@ void ProjectManagerUI::OnAddFileToProject(wxCommandEvent& event)
 
         wxArrayString array;
         dlg.GetPaths(array);
-        pm->AddMultipleFilesToProject(array, prj, targets);
+        pm->AddMultipleFilesToProject(array, prj, targets, wxFileName(array[0]).GetPath());
         RebuildTree();
     }
 }

@@ -1332,22 +1332,20 @@ void ProjectManagerUI::OnAddFilesToProjectRecursively(wxCommandEvent& event)
         last_slash = basedir.Find(wxFileName::GetPathSeparator(), true);
     }
     wxString dirName;
-    while(last_slash < dirEnd)
+    if(last_slash < dirEnd)
     {
         dirName = basedir.SubString(last_slash + 1, dirEnd - last_slash);
-        if(FindRootDirInProject(prj, dirName))
+        wxString conflictDir = FindConflictRootDir(prj, dirName); //找到一个冲突项
+        if(conflictDir.Length())//如果存在冲突项
         {
             dirEnd = last_slash;
-            //basedir[dirEnd] = wxT('\0');
-	    basedir = basedir.Left(dirEnd);
-            last_slash = basedir.Find(wxFileName::GetPathSeparator(), true);
-        }
-        else
-        {
-            break;
+            int newSplitPos = CalcConfilctPathNewSplitPos(basedir.Left(basedir.Length() - dirName.Length()), conflictDir); //计算新目录与冲突目录的新的分界，返回新的拆分位置
+            UpdateProjectFilePathSplitPos(prj, dirName, newSplitPos); //将存在目录名冲突的文件分界位置统统更新
+            //冲突项分隔位置前移多少，新目录基址亦应前移多少
+            dirEnd = basedir.Length() - dirName.Length() - (conflictDir.Length() - newSplitPos);
+            basedir = basedir.Left(dirEnd);
         }
     }
-    basedir[last_slash] = wxT('\0');
 
     // finally add the files
     pm->AddMultipleFilesToProject(array, prj, targets, basedir);
@@ -2606,13 +2604,13 @@ bool ProjectManagerUI::QueryCloseWorkspace()
             switch (cbMessageBox(msg, _("Save workspace"),
                                  wxYES_NO | wxCANCEL | wxICON_QUESTION))
             {
-                case wxID_YES:
-                    Manager::Get()->GetProjectManager()->SaveWorkspace();
-                    break;
-                case wxID_CANCEL:
-                    return false;
-                default:
-                    break;
+            case wxID_YES:
+                Manager::Get()->GetProjectManager()->SaveWorkspace();
+                break;
+            case wxID_CANCEL:
+                return false;
+            default:
+                break;
             }
         }
     }
@@ -2695,7 +2693,8 @@ void ProjectManagerUI::CheckForExternallyModifiedProjects()
             wxFileName fname(prj->GetFilename());
             wxDateTime last = fname.GetModificationTime();
             if (last.IsLaterThan(prj->GetLastModificationTime()))
-            {    // was modified -> reload
+            {
+                // was modified -> reload
                 int ret = -1;
                 if (!reloadAll)
                 {
@@ -3468,33 +3467,182 @@ void ProjectManagerUI::BuildProjectTree(cbProject* project, cbTreeCtrl* tree, co
 #endif
 }
 
-bool ProjectManagerUI::FindRootDirInProject(cbProject* project, const wxString& dirname)
+wxString ProjectManagerUI::FindConflictRootDir(cbProject* project, const wxString& dirName)
 {
-    const wxTreeItemId root = project->GetProjectNode();
-    wxTreeItemIdValue cookie, subcookie;
-    wxTreeItemId firstGroupNode = m_pTree->GetFirstChild(root, cookie);
-    if(!firstGroupNode.IsOk())
-            return false;
+    wxTreeItemId prjRoot = project->GetProjectNode();
+    bool categorized = Manager::Get()->GetAppFrame()->GetMenuBar()->IsChecked(idMenuViewCategorize);//当前是否分类显示
+    wxTreeItemIdValue cookie;
 
-    wxTreeItemId groupNode = firstGroupNode;
-    //外层循环为遍历每个分类结点
-    while(groupNode.IsOk())
+    wxTreeItemId nextNode = m_pTree->GetFirstChild(prjRoot, cookie);
+    while(nextNode.IsOk())
     {
-        wxTreeItemId firstDirNode = m_pTree->GetFirstChild(groupNode, subcookie); //得到组的第一个子项
-        wxTreeItemId dirNode = firstDirNode;
-        while(dirNode.IsOk())
+        //如果是分类显示，则需查验下一层结点
+        if(categorized)
         {
-            //检查结点名
-            wxString nodeText = m_pTree->GetItemText(dirNode);
-            if(nodeText.CmpNoCase(dirname) == 0)
+            wxTreeItemIdValue childCookie;
+            wxTreeItemId nextChild = m_pTree->GetFirstChild(nextNode, childCookie);
+            while(nextChild.IsOk())
             {
-                return true;
+                wxString nodeText = m_pTree->GetItemText(nextChild);
+                if(nodeText.CmpNoCase(dirName) == 0)
+                {
+                    //得到冲突，每次只可能有一个冲突
+                    return GetNodePath(nextChild);
+                }
+                nextChild = m_pTree->GetNextChild(nextNode, childCookie);
             }
-            //遍历该组下的下一子项
-            dirNode = m_pTree->GetNextChild(groupNode, subcookie);
         }
-        groupNode = m_pTree->GetNextChild(root, cookie);
-	}
+        else
+        {
 
-    return false;
+            wxString nodeText = m_pTree->GetItemText(nextNode);
+            if(nodeText.CmpNoCase(dirName) == 0)
+            {
+                //得到冲突
+                return GetNodePath(nextNode);
+            }
+
+        }
+        nextNode = m_pTree->GetNextChild(prjRoot, cookie);
+    }
+
+    return wxEmptyString;
+}
+
+int ProjectManagerUI::CalcConfilctPathNewSplitPos(const wxString& baseDir, const wxString& conflictDir)
+{
+    wxString path1 = baseDir;
+    wxString path2 = conflictDir;
+    int pos = path1.Length() - 1;
+
+    if(path1[path1.Length() - 1] != wxFileName::GetPathSeparator())
+    {
+        path1.Append(wxFileName::GetPathSeparator());
+    }
+    if(path2[path2.Length() - 1] != wxFileName::GetPathSeparator())
+    {
+        path2.Append(wxFileName::GetPathSeparator());
+    }
+
+    //从后往前查找第一个不相等
+    wxFileName dir1(path1);
+    wxFileName dir2(path2);
+    pos = path2.Length() - 1;
+    if(dir1.IsOk() && dir2.IsOk())
+    {
+        wxArrayString dirs1, dirs2;
+
+        dirs1 = dir1.GetDirs();
+        dirs2 = dir2.GetDirs();
+        while(dirs1.Count() > 0 && dirs2.Count() > 0)
+        {
+            wxString name = dirs2.Last();
+            pos -= (name.Length() + 1);
+            if(name.CmpNoCase(dirs1.Last()) != 0)
+            {
+                //路径名不同
+                break;
+            }
+            dirs1.pop_back();
+            dirs2.pop_back();
+        }
+    }
+    if(pos < 0)
+    {
+        pos = -1;
+    }
+    return pos;
+}
+
+wxString ProjectManagerUI::GetNodePath(wxTreeItemId node)
+{
+    wxTreeItemId childNode = node;
+    wxTreeItemIdValue cookie;
+
+    while(childNode.IsOk() && m_pTree->GetChildrenCount(childNode) > 0)
+    {
+        childNode = m_pTree->GetFirstChild(childNode, cookie);
+    }
+    if(childNode.IsOk())
+    {
+        FileTreeData* ftd = (FileTreeData*)m_pTree->GetItemData(childNode);
+        if(ftd != NULL && ftd->GetKind() == FileTreeData::ftdkFile)
+        {
+            ProjectFile* pf = ftd->GetProjectFile();
+            return pf->file.GetFullPath().Left(pf->basePathSplitPos);
+        }
+    }
+    return wxEmptyString;
+}
+
+void ProjectManagerUI::UpdateProjectFilePathSplitPos(wxTreeItemId root, int newSplitPos)
+{
+    wxTreeItemId nextChild;
+    wxTreeItemIdValue cookie;
+
+    if(root.IsOk())
+    {
+        nextChild = m_pTree->GetFirstChild(root, cookie);
+        while(nextChild.IsOk())
+        {
+            UpdateProjectFilePathSplitPos(nextChild, newSplitPos);
+            nextChild = m_pTree->GetNextChild(root, cookie);
+        }
+
+        if(m_pTree->GetChildrenCount(root) == 0)
+        {
+            FileTreeData* ftd = (FileTreeData*)m_pTree->GetItemData(root);
+            if(ftd->GetKind() == FileTreeData::ftdkFile)
+            {
+                ProjectFile* pf = ftd->GetProjectFile();
+                pf->basePathSplitPos = newSplitPos;
+            }
+        }
+    }
+    return;
+}
+
+void ProjectManagerUI::UpdateProjectFilePathSplitPos(cbProject* project, const wxString& dirName, int newSplitPos)
+{
+    wxTreeItemId prjRoot = project->GetProjectNode();
+    bool categorized = Manager::Get()->GetAppFrame()->GetMenuBar()->IsChecked(idMenuViewCategorize);//当前是否分类显示
+    wxTreeItemIdValue cookie;
+
+    wxTreeItemId nextNode = m_pTree->GetFirstChild(prjRoot, cookie);
+    while(nextNode.IsOk())
+    {
+        //如果是分类显示，则需查验下一层结点
+        if(categorized)
+        {
+            wxTreeItemIdValue childCookie;
+            wxTreeItemId nextChild = m_pTree->GetFirstChild(nextNode, childCookie);
+            while(nextChild.IsOk())
+            {
+                wxString nodeText = m_pTree->GetItemText(nextChild);
+                if(nodeText.CmpNoCase(dirName) == 0)
+                {
+                    //得到冲突
+                    UpdateProjectFilePathSplitPos(nextChild, newSplitPos);
+                    //分类情况下，每种分类只有一个冲突项
+                    break;
+                }
+                nextChild = m_pTree->GetNextChild(nextNode, childCookie);
+            }//处理完一个分类，跳出内循环准备处理下一分类
+        }
+        else
+        {
+
+            wxString nodeText = m_pTree->GetItemText(nextNode);
+            if(nodeText.CmpNoCase(dirName) == 0)
+            {
+                //得到冲突
+                UpdateProjectFilePathSplitPos(nextNode, newSplitPos);
+                break;//不分类的情况下，只有一个冲突项
+            }
+
+        }
+        nextNode = m_pTree->GetNextChild(prjRoot, cookie);
+    }
+
+    return ;
 }

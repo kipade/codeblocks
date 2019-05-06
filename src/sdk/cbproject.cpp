@@ -148,7 +148,7 @@ void cbProject::SetCompilerID(const wxString& id)
                     ProjectFile* pf = *it;
                     wxFileName obj(pf->GetObjName());
                     if (   (FileTypeOf(pf->relativeFilename) != ftResource)
-                        && (obj.GetExt() == compiler->GetSwitches().objectExtension) )
+                            && (obj.GetExt() == compiler->GetSwitches().objectExtension) )
                     {
                         obj.SetExt(compiler->GetSwitches().objectExtension);
                         pf->SetObjName(obj.GetFullName());
@@ -237,7 +237,7 @@ void cbProject::ClearAllProperties()
 {
     Delete(m_pExtensionsElement);
 
-    for (FilesList::iterator it = m_Files.begin(); it != m_Files.end();++it)
+    for (FilesList::iterator it = m_Files.begin(); it != m_Files.end(); ++it)
         delete(*it);
     m_Files.clear();
     m_FileArray.Clear();
@@ -778,22 +778,29 @@ ProjectFile* cbProject::AddFile(int targetIndex, const wxString& filename, bool 
     fname.Normalize(wxPATH_NORM_DOTS | wxPATH_NORM_TILDE, projectBasePath);
 
     const wxString &fullFilename = realpath(fname.GetFullPath());
-    if(filename[0] == wxT('.'))
+    if(pf->basePathSplitPos <= 0)
     {
         wxString real_basedir = realpath(basedir);
-        pf->basePathSplitPos = fullFilename.Find(real_basedir);
-        if(pf->basePathSplitPos >= 0)
+        if(filename[0] == wxT('.'))
         {
-            pf->basePathSplitPos += real_basedir.Length();
-            if(fullFilename[pf->basePathSplitPos] == wxFileName::GetPathSeparator())
+            pf->basePathSplitPos = fullFilename.Find(real_basedir);
+            if(pf->basePathSplitPos >= 0)
             {
-                pf->basePathSplitPos += 1;
+                pf->basePathSplitPos += real_basedir.Find(wxFileName::GetPathSeparator(), true);
+                if(fullFilename[pf->basePathSplitPos] == wxFileName::GetPathSeparator())
+                {
+                    pf->basePathSplitPos += 1;
+                }
             }
         }
-    }
-    else
-    {
-        pf->basePathSplitPos = 0;
+        else
+        {
+            pf->basePathSplitPos = real_basedir.Find(wxFileName::GetPathSeparator(), true);
+            if(pf->basePathSplitPos == 0)
+            {
+                pf->basePathSplitPos = real_basedir.Length();
+            }
+        }
     }
     pf->file              = fullFilename;
     pf->relativeFilename  = UnixFilename(local_filename);

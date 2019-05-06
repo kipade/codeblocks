@@ -1335,7 +1335,8 @@ void ProjectManagerUI::OnAddFilesToProjectRecursively(wxCommandEvent& event)
     if(last_slash < dirEnd)
     {
         dirName = basedir.SubString(last_slash + 1, dirEnd - last_slash);
-        wxString conflictDir = FindConflictRootDir(prj, dirName); //找到一个冲突项
+        wxString existedParentDir;
+        wxString conflictDir = FindConflictRootDir(prj, basedir, existedParentDir); //找到一个冲突项
         if(conflictDir.Length())//如果存在冲突项
         {
             dirEnd = last_slash;
@@ -1344,6 +1345,10 @@ void ProjectManagerUI::OnAddFilesToProjectRecursively(wxCommandEvent& event)
             //冲突项分隔位置前移多少，新目录基址亦应前移多少
             dirEnd = basedir.Length() - dirName.Length() - (conflictDir.Length() - newSplitPos);
             basedir = basedir.Left(dirEnd);
+        }
+        else if(existedParentDir.Length() > 0)
+        {//存在父目录
+            basedir = existedParentDir;
         }
     }
 
@@ -3467,11 +3472,19 @@ void ProjectManagerUI::BuildProjectTree(cbProject* project, cbTreeCtrl* tree, co
 #endif
 }
 
-wxString ProjectManagerUI::FindConflictRootDir(cbProject* project, const wxString& dirName)
+wxString ProjectManagerUI::FindConflictRootDir(cbProject* project, const wxString& baseDir, wxString& parentDir)
 {
+    wxFileName filename(baseDir + wxFileName::GetPathSeparator()); //保证最后一个是目录分隔符，否则最后一级目录会被当成文件来处理
+    if(!filename.IsOk())
+    {
+        return wxEmptyString;
+    }
     wxTreeItemId prjRoot = project->GetProjectNode();
     bool categorized = Manager::Get()->GetAppFrame()->GetMenuBar()->IsChecked(idMenuViewCategorize);//当前是否分类显示
     wxTreeItemIdValue cookie;
+
+    wxArrayString dirs = filename.GetDirs();
+    const wxString& dirName = dirs.Last();
 
     wxTreeItemId nextNode = m_pTree->GetFirstChild(prjRoot, cookie);
     while(nextNode.IsOk())
@@ -3483,11 +3496,17 @@ wxString ProjectManagerUI::FindConflictRootDir(cbProject* project, const wxStrin
             wxTreeItemId nextChild = m_pTree->GetFirstChild(nextNode, childCookie);
             while(nextChild.IsOk())
             {
+                wxString nodePath = GetNodePath(nextChild);
+                if(baseDir.Find(nodePath) == 0)
+                {
+                    parentDir = nodePath;
+                    return wxEmptyString;
+                }
                 wxString nodeText = m_pTree->GetItemText(nextChild);
                 if(nodeText.CmpNoCase(dirName) == 0)
                 {
                     //得到冲突，每次只可能有一个冲突
-                    return GetNodePath(nextChild);
+                    return nodePath;
                 }
                 nextChild = m_pTree->GetNextChild(nextNode, childCookie);
             }
@@ -3496,10 +3515,16 @@ wxString ProjectManagerUI::FindConflictRootDir(cbProject* project, const wxStrin
         {
 
             wxString nodeText = m_pTree->GetItemText(nextNode);
+            wxString nodePath = GetNodePath(nextNode);
+            if(baseDir.Find(nodePath) == 0)
+            {
+                parentDir = nodePath;
+                return wxEmptyString;
+            }
             if(nodeText.CmpNoCase(dirName) == 0)
             {
                 //得到冲突
-                return GetNodePath(nextNode);
+                return nodePath;
             }
 
         }

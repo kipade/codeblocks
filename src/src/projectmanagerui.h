@@ -65,7 +65,7 @@ class ProjectManagerUI : public wxEvtHandler, public cbProjectManagerUI
         void DoOpenSelectedFile();
         void RemoveFilesRecursively(wxTreeItemId& sel_id);
         void OpenFilesRecursively(wxTreeItemId& sel_id);
-        wxString FindConflictRootDir(cbProject* project, const wxString& dirName);
+        wxString FindConflictRootDir(cbProject* project, const wxString& baseDir, wxString& parentDir);
         static int CalcConfilctPathNewSplitPos(const wxString& path1, const wxString& path2);
         wxString GetNodePath(wxTreeItemId node);
         void UpdateProjectFilePathSplitPos(cbProject* project, const wxString& dirName, int newSplitPos);

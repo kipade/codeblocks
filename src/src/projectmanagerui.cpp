@@ -1363,7 +1363,11 @@ void ProjectManagerUI::AdjustSplitbaseAndDealConflict(cbProject* project, wxStri
             wxString baseDir = realpath(basedirPath);
             if(existedParentDir.Length() > 0)
             {//存在父目录
-                basedir = existedParentDir + wxFileName::GetPathSeparator();
+                basedir = existedParentDir;//
+                if(basedir[basedir.Length() - 1] != wxFileName::GetPathSeparator())
+                {
+                    basedir.Append(wxFileName::GetPathSeparator());
+                }
                 return;
             }
             if(prjDir.Cmp(baseDir) == 0)

@@ -802,6 +802,10 @@ ProjectFile* cbProject::AddFile(int targetIndex, const wxString& filename, bool 
             }
         }
     }
+    if(pf->basePathSplitPos >= 0 && fullFilename[pf->basePathSplitPos] == wxFileName::GetPathSeparator())
+    {
+        pf->basePathSplitPos++;
+    }
     pf->file              = fullFilename;
     pf->relativeFilename  = UnixFilename(local_filename);
 

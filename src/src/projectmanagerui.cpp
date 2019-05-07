@@ -1323,6 +1323,14 @@ void ProjectManagerUI::OnAddFilesToProjectRecursively(wxCommandEvent& event)
     array = dlg.GetSelectedStrings();
 
     wxString basedir = realpath(dir);
+    AdjustSplitbaseAndDealConflict(prj, basedir);
+    // finally add the files
+    pm->AddMultipleFilesToProject(array, prj, targets, basedir);
+    RebuildTree();
+}
+
+void ProjectManagerUI::AdjustSplitbaseAndDealConflict(cbProject* project, wxString& basedir)
+{
     int last_slash = basedir.Find(wxFileName::GetPathSeparator(), true);
     int dirEnd = basedir.Length() - 1;
     //去掉末尾的路径分隔符
@@ -1336,25 +1344,35 @@ void ProjectManagerUI::OnAddFilesToProjectRecursively(wxCommandEvent& event)
     {
         dirName = basedir.SubString(last_slash + 1, dirEnd - last_slash);
         wxString existedParentDir;
-        wxString conflictDir = FindConflictRootDir(prj, basedir, existedParentDir); //找到一个冲突项
+        wxString conflictDir = FindConflictRootDir(project, basedir, existedParentDir); //找到一个冲突项
         if(conflictDir.Length())//如果存在冲突项
         {
             dirEnd = last_slash;
             int newSplitPos = CalcConfilctPathNewSplitPos(basedir.Left(basedir.Length() - dirName.Length()), conflictDir); //计算新目录与冲突目录的新的分界，返回新的拆分位置
-            UpdateProjectFilePathSplitPos(prj, dirName, newSplitPos); //将存在目录名冲突的文件分界位置统统更新
+            UpdateProjectFilePathSplitPos(project, dirName, newSplitPos); //将存在目录名冲突的文件分界位置统统更新
             //冲突项分隔位置前移多少，新目录基址亦应前移多少
             dirEnd = basedir.Length() - dirName.Length() - (conflictDir.Length() - newSplitPos);
+	        dirEnd = basedir.find(wxFileName::GetPathSeparator(), dirEnd + 1);
             basedir = basedir.Left(dirEnd);
         }
-        else if(existedParentDir.Length() > 0)
-        {//存在父目录
-            basedir = existedParentDir;
-        }
+        else
+        {
+            wxFileName fn(basedir);
+            wxString basedirPath = basedir + wxFileName::GetPathSeparator(); //得到父目录
+            wxString prjDir = realpath(project->GetBasePath());
+            wxString baseDir = realpath(basedirPath);
+            if(existedParentDir.Length() > 0)
+            {//存在父目录
+                basedir = existedParentDir + wxFileName::GetPathSeparator();
+                return;
+            }
+            if(prjDir.Cmp(baseDir) == 0)
+            {//基础目录就是工程目录
+                basedir = basedirPath;
+                return;
+            }
+        }//end if conflictDir.Length
     }
-
-    // finally add the files
-    pm->AddMultipleFilesToProject(array, prj, targets, basedir);
-    RebuildTree();
 }
 
 void ProjectManagerUI::OnAddFileToProject(wxCommandEvent& event)
@@ -1406,7 +1424,10 @@ void ProjectManagerUI::OnAddFileToProject(wxCommandEvent& event)
 
         wxArrayString array;
         dlg.GetPaths(array);
-        pm->AddMultipleFilesToProject(array, prj, targets, wxFileName(array[0]).GetPath());
+        wxFileName oneFile(array[0]);
+        wxString baseDir = realpath(oneFile.GetPath());
+        AdjustSplitbaseAndDealConflict(prj, baseDir);
+        pm->AddMultipleFilesToProject(array, prj, targets, baseDir);
         RebuildTree();
     }
 }

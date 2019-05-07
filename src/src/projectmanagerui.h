@@ -70,6 +70,7 @@ class ProjectManagerUI : public wxEvtHandler, public cbProjectManagerUI
         wxString GetNodePath(wxTreeItemId node);
         void UpdateProjectFilePathSplitPos(cbProject* project, const wxString& dirName, int newSplitPos);
         void UpdateProjectFilePathSplitPos(wxTreeItemId root, int newSplitPos);
+        void AdjustSplitbaseAndDealConflict(cbProject* project, wxString& baseDir);
     private:
 
         void OnTabContextMenu(wxAuiNotebookEvent& event);

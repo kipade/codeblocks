@@ -71,6 +71,7 @@ class ProjectManagerUI : public wxEvtHandler, public cbProjectManagerUI
         void UpdateProjectFilePathSplitPos(cbProject* project, const wxString& dirName, int newSplitPos);
         void UpdateProjectFilePathSplitPos(wxTreeItemId root, int newSplitPos);
         void AdjustSplitbaseAndDealConflict(cbProject* project, wxString& baseDir);
+        void RemoveFileFromProjectBySel(wxTreeItemId& sel, int eventId);
     private:
 
         void OnTabContextMenu(wxAuiNotebookEvent& event);

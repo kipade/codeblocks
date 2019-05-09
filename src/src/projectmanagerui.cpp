@@ -2913,7 +2913,21 @@ wxTreeItemId ProjectAddTreeNode(cbProject* project, wxTreeCtrl* tree,  const wxS
             FileTreeData* ftd = new FileTreeData(*data);
             ftd->SetKind(folders_kind);
             if (folders_kind != FileTreeData::ftdkVirtualFolder)
-                ftd->SetFolder(project->GetCommonTopLevelPath() + GetRelativeFolderPath(tree, parent) + folder + wxFILE_SEP_PATH);
+            {
+                wxString folderPath = project->GetCommonTopLevelPath() + GetRelativeFolderPath(tree, parent) + folder + wxFILE_SEP_PATH;
+                if(!wxDirExists(folderPath))
+                {
+                    FileTreeData* parentFtd = (FileTreeData*)tree->GetItemData(parent);
+                    folderPath = parentFtd->GetFolder();
+                    if(folderPath.Length() <= 0)
+                    {
+                        ProjectFile* pf = data->GetProjectFile();
+                        folderPath = pf->file.GetFullPath().Left(pf->basePathSplitPos);
+                    }
+                    folderPath.Append(folder + wxFILE_SEP_PATH);
+                }
+                ftd->SetFolder(folderPath);
+            }
             else
                 ftd->SetFolder(GetRelativeFolderPath(tree, parent) + folder + wxFILE_SEP_PATH);
             ftd->SetProjectFile(nullptr);
@@ -3530,7 +3544,7 @@ wxString ProjectManagerUI::FindConflictRootDir(cbProject* project, const wxStrin
             wxTreeItemId nextChild = m_pTree->GetFirstChild(nextNode, childCookie);
             while(nextChild.IsOk())
             {
-                wxString nodePath = GetNodePath(nextChild);
+                wxString nodePath = GetNodeBaseSplitPath(nextChild);
                 if(baseDir.Find(nodePath) == 0)
                 {
                     parentDir = nodePath;
@@ -3549,7 +3563,7 @@ wxString ProjectManagerUI::FindConflictRootDir(cbProject* project, const wxStrin
         {
 
             wxString nodeText = m_pTree->GetItemText(nextNode);
-            wxString nodePath = GetNodePath(nextNode);
+            wxString nodePath = GetNodeBaseSplitPath(nextNode);
             if(baseDir.Find(nodePath) == 0)
             {
                 parentDir = nodePath;
@@ -3613,7 +3627,7 @@ int ProjectManagerUI::CalcConfilctPathNewSplitPos(const wxString& baseDir, const
     return pos;
 }
 
-wxString ProjectManagerUI::GetNodePath(wxTreeItemId node)
+wxString ProjectManagerUI::GetNodeBaseSplitPath(wxTreeItemId node)
 {
     wxTreeItemId childNode = node;
     wxTreeItemIdValue cookie;

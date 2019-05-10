@@ -68,6 +68,7 @@ class ProjectManagerUI : public wxEvtHandler, public cbProjectManagerUI
         wxString FindConflictRootDir(cbProject* project, const wxString& baseDir, wxString& parentDir);
         static int CalcConfilctPathNewSplitPos(const wxString& path1, const wxString& path2);
         wxString GetNodeBaseSplitPath(wxTreeItemId node);
+        wxString GetNodeFullPath(const wxTreeItemId& noe) const;
         void UpdateProjectFilePathSplitPos(cbProject* project, const wxString& dirName, int newSplitPos);
         void UpdateProjectFilePathSplitPos(wxTreeItemId root, int newSplitPos);
         void AdjustSplitbaseAndDealConflict(cbProject* project, wxString& baseDir);

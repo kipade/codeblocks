@@ -1344,7 +1344,7 @@ void ProjectManagerUI::AdjustSplitbaseAndDealConflict(cbProject* project, wxStri
     {
         dirName = basedir.SubString(last_slash + 1, dirEnd - last_slash);
         wxString existedParentDir;
-        wxString conflictDir = FindConflictRootDir(project, basedir, existedParentDir); //找到一个冲突项
+        wxString conflictDir = FindConflictRootDir(project, basedir + wxFileName::GetPathSeparator(), existedParentDir); //找到一个冲突项
         if(conflictDir.Length())//如果存在冲突项
         {
             dirEnd = last_slash;
@@ -3544,13 +3544,14 @@ wxString ProjectManagerUI::FindConflictRootDir(cbProject* project, const wxStrin
             wxTreeItemId nextChild = m_pTree->GetFirstChild(nextNode, childCookie);
             while(nextChild.IsOk())
             {
-                wxString nodePath = GetNodeBaseSplitPath(nextChild);
+                wxString nodeText = m_pTree->GetItemText(nextChild);
+                wxString nodePath = GetNodeFullPath(nextChild);
                 if(baseDir.Find(nodePath) == 0)
                 {
-                    parentDir = nodePath;
+                    parentDir = nodePath.Left(nodePath.Length() - nodeText.Length() - 1);
                     return wxEmptyString;
                 }
-                wxString nodeText = m_pTree->GetItemText(nextChild);
+
                 if(nodeText.CmpNoCase(dirName) == 0)
                 {
                     //得到冲突，每次只可能有一个冲突
@@ -3561,12 +3562,11 @@ wxString ProjectManagerUI::FindConflictRootDir(cbProject* project, const wxStrin
         }
         else
         {
-
             wxString nodeText = m_pTree->GetItemText(nextNode);
-            wxString nodePath = GetNodeBaseSplitPath(nextNode);
+            wxString nodePath = GetNodeFullPath(nextNode);
             if(baseDir.Find(nodePath) == 0)
             {
-                parentDir = nodePath;
+                parentDir = nodePath.Left(nodePath.Length() - nodeText.Length() - 1);
                 return wxEmptyString;
             }
             if(nodeText.CmpNoCase(dirName) == 0)
@@ -3625,6 +3625,16 @@ int ProjectManagerUI::CalcConfilctPathNewSplitPos(const wxString& baseDir, const
         pos = -1;
     }
     return pos;
+}
+
+wxString ProjectManagerUI::GetNodeFullPath(const wxTreeItemId& node) const
+{
+    FileTreeData* ftd = (FileTreeData*)m_pTree->GetItemData(node);
+    if(ftd != NULL)
+    {
+        return ftd->GetFolder();
+    }
+    return wxEmptyString;
 }
 
 wxString ProjectManagerUI::GetNodeBaseSplitPath(wxTreeItemId node)

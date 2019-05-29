@@ -174,7 +174,7 @@ ClassBrowser::~ClassBrowser()
         // awake the thread
         m_ClassBrowserSemaphore.Post();
         // free the system-resources
-        m_ClassBrowserBuilderThread->Wait();
+        //m_ClassBrowserBuilderThread->Wait();
         // according to the wxWidgets-documentation the wxThread object itself has to be deleted explicitly,
         // to free the memory, if it is created on the heap, this is not done by Wait()
         delete m_ClassBrowserBuilderThread;
@@ -880,10 +880,10 @@ void ClassBrowser::ThreadedBuildTree(cbProject* activeProject)
     if (!m_ClassBrowserBuilderThread)
     {
         m_ClassBrowserBuilderThread = new ClassBrowserBuilderThread(this, m_ClassBrowserSemaphore);
-        m_ClassBrowserBuilderThread->Create();
+        //m_ClassBrowserBuilderThread->Create();
         thread_needs_run = true; // just created, so surely need to run it
     }
-
+#if 0
     if (!thread_needs_run) // this means a worker thread is already created
     {
         TRACE(wxT("ClassBrowser: Pausing ClassBrowserBuilderThread..."));
@@ -896,6 +896,7 @@ void ClassBrowser::ThreadedBuildTree(cbProject* activeProject)
            &&  m_ClassBrowserBuilderThread->IsAlive()     // thread is alive: i.e. running or suspended
            &&  m_ClassBrowserBuilderThread->IsRunning()   // running
            && !m_ClassBrowserBuilderThread->IsPaused() )  // not paused
+           )
     {
         thread_needs_resume = true;
         m_ClassBrowserBuilderThread->Pause();
@@ -909,7 +910,7 @@ void ClassBrowser::ThreadedBuildTree(cbProject* activeProject)
     {
         TRACE(wxT("ClassBrowser: ClassBrowserBuilderThread: Paused."));
     }
-
+#endif
     // initialise it, this function is called from the GUI main thread.
     m_ClassBrowserBuilderThread->Init(m_NativeParser,
                                       m_CCTreeCtrl,
@@ -919,7 +920,9 @@ void ClassBrowser::ThreadedBuildTree(cbProject* activeProject)
                                       m_Parser->ClassBrowserOptions(),
                                       m_Parser->GetTokenTree(),
                                       idThreadEvent);
-
+    m_ClassBrowserBuilderThread->BuildTree();
+    return;
+    #if 0
     // when m_ClassBrowserSemaphore.Post(), the worker thread has chance to build the tree
     if      (thread_needs_run)
     {
@@ -937,6 +940,7 @@ void ClassBrowser::ThreadedBuildTree(cbProject* activeProject)
             m_ClassBrowserSemaphore.Post();        // ...and allow BuildTree
         }
     }
+    #endif
 }
 
 void ClassBrowser::OnTreeItemExpanding(wxTreeEvent& event)

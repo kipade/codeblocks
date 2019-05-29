@@ -1077,7 +1077,7 @@ bool ClassBrowserBuilderThread::AddNodes(CCTreeCtrl* tree, wxTreeItemId parent, 
         }
     }
 
-    tree->SortChildren(parent);
+    //tree->SortChildren(parent);
 //    tree->RemoveDoubles(parent);
 #ifdef CC_BUILDTREE_MEASURING
     CCLogger::Get()->DebugLog(F(_T("Added %d nodes"), count));

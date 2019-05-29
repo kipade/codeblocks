@@ -66,12 +66,14 @@ public:
      *  Called from external: when the class browser window get destroyed
      */
     void RequestTermination(bool terminate = true) { m_TerminationRequested = terminate; }
-
+     
+    // Called from Entry():
+    void BuildTree();
 protected:
     virtual void* Entry();
 
     // Called from Entry():
-    void BuildTree();
+    //void BuildTree();
 
     // Called from BuildTree():
     void RemoveInvalidNodes(CCTreeCtrl* tree, wxTreeItemId parent); // recursive

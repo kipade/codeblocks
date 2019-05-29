@@ -1953,7 +1953,8 @@ void ProjectManagerUI::OnGotoFile(cb_unused wxCommandEvent& event)
         for (FilesList::iterator it = prj->GetFilesList().begin(); it != prj->GetFilesList().end(); ++it)
         {
             ProjectFile *projectFile = *it;
-            uniqueAbsPathFiles.insert({projectFile->file.GetFullPath(), projectFile});
+            wxString realFilepath = realpath(projectFile->file.GetFullPath());
+            uniqueAbsPathFiles.insert({realFilepath.Right(realFilepath.Length() - projectFile->basePathSplitPos), projectFile});
         }
     }
 

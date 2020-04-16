@@ -886,6 +886,7 @@ int DebuggerGDB::DoDebug(bool breakOnEntry)
         //       One easy optimization is to parse  the info only for the project and the target
         //       which is being debugged.
         const RemoteDebuggingMap &remoteDebuggingMap = ParseRemoteDebuggingMap(*m_pProject);
+
         // project settings
         RemoteDebuggingMap::const_iterator it = remoteDebuggingMap.find(nullptr);
         if (it != remoteDebuggingMap.end())

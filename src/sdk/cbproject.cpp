@@ -735,7 +735,7 @@ ProjectFile* cbProject::AddFile(const wxString& targetName, const wxString& file
     return AddFile(idx, filename, compile, link, weight);
 }
 
-ProjectFile* cbProject::AddFile(int targetIndex, const wxString& filename, bool compile, bool link, cb_unused unsigned short int weight)
+ProjectFile* cbProject::AddFile(int targetIndex, const wxString& filename, bool compile, bool link, cb_unused unsigned short int weight, const wxString& basedir)
 {
 //  NOTE (Rick#1#): When loading the project, do not search for existing files
 //  (Assuming that there are no duplicate entries in the .cbp file)
@@ -893,13 +893,43 @@ ProjectFile* cbProject::AddFile(int targetIndex, const wxString& filename, bool 
     fname.Normalize(wxPATH_NORM_DOTS | wxPATH_NORM_TILDE, projectBasePath);
 
     const wxString &fullFilename = realpath(fname.GetFullPath());
-    pf->file = fullFilename;
+
+    if(pf->basePathSplitPos <= 0)
+    {
+        wxString real_basedir = realpath(basedir);
+        if(filename[0] == wxT('.'))
+        {
+            pf->basePathSplitPos = fullFilename.Find(real_basedir);
+            if(pf->basePathSplitPos >= 0)
+            {
+                pf->basePathSplitPos += real_basedir.Find(wxFileName::GetPathSeparator(), true);
+                if(fullFilename[pf->basePathSplitPos] == wxFileName::GetPathSeparator())
+                {
+                    pf->basePathSplitPos += 1;
+                }
+            }
+        }
+        else
+        {
+            pf->basePathSplitPos = real_basedir.Find(wxFileName::GetPathSeparator(), true);
+            if(pf->basePathSplitPos == 0)
+            {
+                pf->basePathSplitPos = real_basedir.Length();
+            }
+        }
+    }
+    if(pf->basePathSplitPos >= 0 && fullFilename[pf->basePathSplitPos] == wxFileName::GetPathSeparator())
+    {
+        pf->basePathSplitPos++;
+    }
+    pf->file              = fullFilename;
 
     // Make sure the relativeFilename is really relative to the project file.
     // This is a bit slower but a bit more correct.
     fname.MakeRelativeTo(projectBasePath);
     const wxString &fixedRelativePath = fname.GetFullPath();
     pf->relativeFilename = UnixFilename(fixedRelativePath);
+
 
     // now check if we have already added this file
     // if we have, return the existing file, but add the specified target

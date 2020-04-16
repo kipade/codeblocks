@@ -692,7 +692,7 @@ bool ProjectManager::IsClosingWorkspace()
 }
 
 
-int ProjectManager::DoAddFileToProject(const wxString& filename, cbProject* project, wxArrayInt& targets)
+int ProjectManager::DoAddFileToProject(const wxString& filename, cbProject* project, wxArrayInt& targets, const wxString& basedir)
 {
     if (!project)
         return 0;
@@ -718,7 +718,7 @@ int ProjectManager::DoAddFileToProject(const wxString& filename, cbProject* proj
     fname.MakeRelativeTo(project->GetBasePath());
 
     // add the file to the project first
-    ProjectFile* pf = project->AddFile(-1, fname.GetFullPath());
+    ProjectFile* pf = project->AddFile(-1, fname.GetFullPath(), true, true, 50, basedir);
     if (pf)
     {
         // if the file was added successfully,
@@ -773,7 +773,7 @@ int ProjectManager::AddMultipleFilesToProject(const wxArrayString& filelist, cbP
     return -1;
 }
 
-int ProjectManager::AddMultipleFilesToProject(const wxArrayString& filelist, cbProject* project, wxArrayInt& targets)
+int ProjectManager::AddMultipleFilesToProject(const wxArrayString& filelist, cbProject* project, wxArrayInt& targets, const wxString& basedir)
 {
     wxProgressDialog progress(_("Project Manager"), _("Please wait while adding files to project..."), filelist.GetCount(), Manager::Get()->GetAppFrame());
 
@@ -787,7 +787,7 @@ int ProjectManager::AddMultipleFilesToProject(const wxArrayString& filelist, cbP
         wxArrayString addedFiles; // to know which files were added successfully
         for (unsigned int i = 0; i < filelist.GetCount(); ++i)
         {
-            if (DoAddFileToProject(filelist[i], project, targets) != 0)
+            if (DoAddFileToProject(filelist[i], project, targets, basedir) != 0)
                 addedFiles.Add(filelist[i]);
             progress.Update(i);
         }

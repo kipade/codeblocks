@@ -17,24 +17,25 @@
 					<Add option="-Wshadow" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
-					<Add option="-fPIC" />
 					<Add option="$(#CB_RELEASE_TYPE)" />
+					<Add option="-fPIC" />
 					<Add option="-fexceptions" />
 					<Add option="-Winvalid-pch" />
-					<Add option="`wx-config --version=2.8 --cflags`" />
-					<Add option="-DcbDEBUG" />
-					<Add option="-DCB_PRECOMP" />
-					<Add option="-DWX_PRECOMP" />
+					<Add option="`$(WX_CONFIG) --cflags`" />
 					<Add directory="../../../include" />
 					<Add directory="../../../include/tinyxml" />
 					<Add directory="../../../sdk/wxscintilla/include" />
+					<Add directory="../FortranProject" />
 				</Compiler>
 				<Linker>
-					<Add option="`wx-config --version=2.8 --libs`" />
+					<Add option="`$(WX_CONFIG) --libs std,aui,propgrid,richtext`" />
 					<Add library="codeblocks" />
 					<Add directory="../../../devel" />
 				</Linker>
 			</Target>
+			<Environment>
+				<Variable name="WX_CONFIG" value="wx-config" />
+			</Environment>
 		</Build>
 		<VirtualTargets>
 			<Add alias="All" targets="default;" />
@@ -112,6 +113,8 @@
 		<Unit filename="parserf.h" />
 		<Unit filename="parserthreadf.cpp" />
 		<Unit filename="parserthreadf.h" />
+		<Unit filename="preprocfunction.cpp" />
+		<Unit filename="preprocfunction.h" />
 		<Unit filename="projectdependencies.cpp" />
 		<Unit filename="projectdependencies.h" />
 		<Unit filename="resources/calltreeview.xrc" />
@@ -129,6 +132,8 @@
 		<Unit filename="tokenf.h" />
 		<Unit filename="tokenizerf.cpp" />
 		<Unit filename="tokenizerf.h" />
+		<Unit filename="tokenizerpp.cpp" />
+		<Unit filename="tokenizerpp.h" />
 		<Unit filename="usetokenf.cpp" />
 		<Unit filename="usetokenf.h" />
 		<Unit filename="workspacebrowserbuilder.cpp" />

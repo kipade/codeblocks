@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13312 $
- * $Id: compilergcc.cpp 13312 2023-06-28 06:30:54Z wh11204 $
+ * $Revision: 13445 $
+ * $Id: compilergcc.cpp 13445 2024-02-09 08:18:30Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/compilergcc/compilergcc.cpp $
  */
 
@@ -1060,17 +1060,17 @@ void CompilerGCC::PrepareCompileFile(wxFileName& file)
         // make sure it is saved
         ed->Save();
         file.Assign(ed->GetFilename());
-    }
 
-    // Now activate the project this file belongs to
-    ProjectFile* pf = ed->GetProjectFile();
-    if (pf)
-    {
-        cbProject* CurProject = pf->GetParentProject();
-        if (CurProject)
+        // Now activate the project this file belongs to
+        ProjectFile* pf = ed->GetProjectFile();
+        if (pf)
         {
-            Manager::Get()->GetProjectManager()->SetProject(CurProject, true);
-            CheckProject();
+            cbProject* CurProject = pf->GetParentProject();
+            if (CurProject)
+            {
+                Manager::Get()->GetProjectManager()->SetProject(CurProject, true);
+                CheckProject();
+            }
         }
     }
 }

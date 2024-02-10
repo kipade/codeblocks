@@ -480,7 +480,7 @@ namespace
         wxASSERT( propgrid );
 
         // Must only occur when user triggers event
-        if ( !(propgrid->GetInternalFlags() & wxPG_FL_IN_HANDLECUSTOMEDITOREVENT) )
+        if ( !(propgrid->GetInternalFlags() & wxPropertyGrid::wxPG_FL_IN_HANDLECUSTOMEDITOREVENT) )
             return res;
 
         wxColourPropertyValue val = GetVal();
@@ -578,7 +578,7 @@ namespace
             int index = paintdata.m_choiceItem;
             value = wxsColourValues[index];
         }
-        else if ( !(m_flags & wxPG_PROP_UNSPECIFIED) )
+        else if ( !((int)m_flags & wxPG_PROP_UNSPECIFIED) )
         {
             value = GetVal().m_type;
         }

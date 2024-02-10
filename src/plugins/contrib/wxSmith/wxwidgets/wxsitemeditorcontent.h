@@ -24,6 +24,7 @@
 #define WXSITEMEDITORCONTENT_H
 
 #include "wxsdrawingwindow.h"
+#include <wx/hashmap.h>
 
 class wxsItemEditorDragAssist;
 class wxsItemResData;

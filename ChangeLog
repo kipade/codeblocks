@@ -1,3 +1,8 @@
+2024-02-10 09:51  wh11204
+
+svn13447:  - ToolsPlus: the base class (wxPanel) already has a
+	  Name property, there is no need to duplicate it.
+
 2024-02-09 21:37  wh11204
 
 svn13446:  - ToolsPlus: Remove warning about overloading vira

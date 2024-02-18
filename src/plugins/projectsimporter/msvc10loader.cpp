@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13141 $
- * $Id: msvc10loader.cpp 13141 2023-01-03 18:29:37Z mortenmacfly $
+ * $Revision: 13451 $
+ * $Id: msvc10loader.cpp 13451 2024-02-15 11:55:40Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/projectsimporter/msvc10loader.cpp $
  */
 
@@ -329,7 +329,7 @@ void MSVC10Loader::SetConfigurationValuesPath(const TiXmlElement* root, const ch
             value = (wxString*)((char*)&m_pc[config]+target);
 
         *value = UnixFilename(GetText(e));
-        if ((*value).Last()!=wxFILE_SEP_PATH)
+        if (!value->empty() && (value->Last() != wxFILE_SEP_PATH))
             *value += wxFILE_SEP_PATH;
     }
 }
@@ -948,11 +948,12 @@ wxArrayString MSVC10Loader::GetArrayPaths(const TiXmlElement* e, const SProjectC
             for (size_t i=0; i<aVal.Count(); ++i)
             {
                 val = aVal.Item(i);
-                if (!val.Trim().IsEmpty())
+                if (!val.Trim().empty())
                 {
                     val = UnixFilename(val);
-                    if (val.Last()!=wxFILE_SEP_PATH)
+                    if (!val.empty() && (val.Last() != wxFILE_SEP_PATH))
                         val += wxFILE_SEP_PATH;
+
                     sResult.Add(val);
                 }
             }

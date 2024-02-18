@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13442 $
- * $Id: classbrowserbuilderthread.cpp 13442 2024-02-01 19:34:57Z pecanh $
+ * $Revision: 13450 $
+ * $Id: classbrowserbuilderthread.cpp 13450 2024-02-14 19:22:13Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/classbrowserbuilderthread.cpp $
  */
 
@@ -581,7 +581,6 @@ void ClassBrowserBuilderThread::BuildTree()
     CCTreeItem* root = m_CCTreeTop->GetRootItem();
     if (!root)
         root = m_CCTreeTop->AddRoot(_("Symbols"), PARSER_IMG_SYMBOLS_FOLDER, PARSER_IMG_SYMBOLS_FOLDER, new CCTreeCtrlData(sfRoot));
-    if (not root) asm("int3"); /*trap*/
     if (root) //(ph 2024/01/18) Show root as "Symbols(<project owning editor>)"
     {
         wxString prjTitle = _("Unparsed project");

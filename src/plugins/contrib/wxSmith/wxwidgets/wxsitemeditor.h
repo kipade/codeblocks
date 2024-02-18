@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12909 $
-* $Id: wxsitemeditor.h 12909 2022-09-27 07:20:14Z wh11204 $
+* $Revision: 13453 $
+* $Id: wxsitemeditor.h 13453 2024-02-17 03:11:41Z ollydbg $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxsitemeditor.h $
 */
 
@@ -56,6 +56,21 @@ class wxsItemEditor : public wxsEditor
         /** \brief Notifying that configuration has been changed */
         static void ConfigChanged();
 
+        /** \brief PasteBefore from context menu */
+        void PasteBefore()             { SetInsertionType(itBefore); Paste(); }
+
+        /** \brief PasteInto from context menu */
+        void PasteInto()               { SetInsertionType(itInto); Paste(); }
+
+        /** \brief PasteAfter from context menu */
+        void PasteAfter()              { SetInsertionType(itAfter); Paste(); }
+
+        /** \brief Copying from main menu or context menu*/
+        virtual void Copy();
+
+        /** \brief Cutting from main menu or context menu*/
+        virtual void Cut();
+
     protected:
 
         /** \brief Returns true if resource is modified, false otherwise */
@@ -81,12 +96,6 @@ class wxsItemEditor : public wxsEditor
 
         /** \brief Redoing */
         virtual void Redo();
-
-        /** \brief Cutting */
-        virtual void Cut();
-
-        /** \brief Copying */
-        virtual void Copy();
 
         /** \brief Pasting */
         virtual void Paste();

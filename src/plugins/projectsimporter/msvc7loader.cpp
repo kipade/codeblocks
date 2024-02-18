@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 12999 $
- * $Id: msvc7loader.cpp 12999 2022-11-01 13:12:28Z wh11204 $
+ * $Revision: 13451 $
+ * $Id: msvc7loader.cpp 13451 2024-02-15 11:55:40Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/projectsimporter/msvc7loader.cpp $
  */
 
@@ -278,7 +278,9 @@ bool MSVC7Loader::DoImport(TiXmlElement* conf)
 
             tmp = ReplaceMSVCMacros(cbC2U(tool->Attribute("OutputFile")));
             tmp = UnixFilename(tmp);
-            if (tmp.Last() == _T('.')) tmp.RemoveLast();
+            if (!tmp.empty() && (tmp.Last() == '.'))
+                tmp.RemoveLast();
+
             if (bt->GetTargetType() == ttStaticLib)
             {
                 // convert the lib name

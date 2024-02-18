@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13442 $
- * $Id: parsemanager.cpp 13442 2024-02-01 19:34:57Z pecanh $
+ * $Revision: 13448 $
+ * $Id: parsemanager.cpp 13448 2024-02-11 18:09:25Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parsemanager.cpp $
  */
 
@@ -438,6 +438,107 @@ wxImageList* ParseManager::GetImageList(int maxSize)
         return it->second.get();
 }
 int ParseManager::GetTokenKindImage(const Token* token)
+{
+    if (!token)
+        return PARSER_IMG_NONE;
+
+    switch (token->m_TokenKind)
+    {
+        case tkMacroDef:          return PARSER_IMG_MACRO_DEF;
+
+        case tkEnum:
+            switch (token->m_Scope)
+            {
+                case tsPublic:    return PARSER_IMG_ENUM_PUBLIC;
+                case tsProtected: return PARSER_IMG_ENUM_PROTECTED;
+                case tsPrivate:   return PARSER_IMG_ENUM_PRIVATE;
+                case tsUndefined:
+                default:          return PARSER_IMG_ENUM;
+            }
+
+        case tkEnumerator:        return PARSER_IMG_ENUMERATOR;
+
+        case tkClass:
+            switch (token->m_Scope)
+            {
+                case tsPublic:    return PARSER_IMG_CLASS_PUBLIC;
+                case tsProtected: return PARSER_IMG_CLASS_PROTECTED;
+                case tsPrivate:   return PARSER_IMG_CLASS_PRIVATE;
+                case tsUndefined:
+                default:          return PARSER_IMG_CLASS;
+            }
+
+        case tkNamespace:         return PARSER_IMG_NAMESPACE;
+
+        case tkTypedef:
+            switch (token->m_Scope)
+            {
+                case tsPublic:    return PARSER_IMG_TYPEDEF_PUBLIC;
+                case tsProtected: return PARSER_IMG_TYPEDEF_PROTECTED;
+                case tsPrivate:   return PARSER_IMG_TYPEDEF_PRIVATE;
+                case tsUndefined:
+                default:          return PARSER_IMG_TYPEDEF;
+            }
+
+        case tkMacroUse:
+            switch (token->m_Scope)
+            {
+                case tsPublic:    return PARSER_IMG_MACRO_USE_PUBLIC;
+                case tsProtected: return PARSER_IMG_MACRO_USE_PROTECTED;
+                case tsPrivate:   return PARSER_IMG_MACRO_USE_PRIVATE;
+                case tsUndefined:
+                default:          return PARSER_IMG_MACRO_USE;
+            }
+
+        case tkConstructor:
+            switch (token->m_Scope)
+            {
+                case tsProtected: return PARSER_IMG_CTOR_PROTECTED;
+                case tsPrivate:   return PARSER_IMG_CTOR_PRIVATE;
+                case tsUndefined:
+                case tsPublic:
+                default:          return PARSER_IMG_CTOR_PUBLIC;
+            }
+
+        case tkDestructor:
+            switch (token->m_Scope)
+            {
+                case tsProtected: return PARSER_IMG_DTOR_PROTECTED;
+                case tsPrivate:   return PARSER_IMG_DTOR_PRIVATE;
+                case tsUndefined:
+                case tsPublic:
+                default:          return PARSER_IMG_DTOR_PUBLIC;
+            }
+
+        case tkFunction:
+            switch (token->m_Scope)
+            {
+                case tsProtected: return PARSER_IMG_FUNC_PROTECTED;
+                case tsPrivate:   return PARSER_IMG_FUNC_PRIVATE;
+                case tsUndefined:
+                case tsPublic:
+                default:          return PARSER_IMG_FUNC_PUBLIC;
+            }
+
+        case tkVariable:
+            switch (token->m_Scope)
+            {
+                case tsProtected: return PARSER_IMG_VAR_PROTECTED;
+                case tsPrivate:   return PARSER_IMG_VAR_PRIVATE;
+                case tsUndefined:
+                case tsPublic:
+                default:          return PARSER_IMG_VAR_PUBLIC;
+            }
+
+        case tkAnyContainer:
+        case tkAnyFunction:
+        case tkUndefined:
+        default:                  return PARSER_IMG_NONE;
+    }
+}
+// ----------------------------------------------------------------------------
+int ParseManager::GetTokenImageFromSemanticTokenType(Token* token)
+// ----------------------------------------------------------------------------
 {
     if (!token)
         return PARSER_IMG_NONE;
@@ -3364,4 +3465,12 @@ void ParseManager::ClearAllIdleCallbacks()
                 pParser->GetIdleCallbackHandler()->ClearIdleCallbacks();
         }
     }
+}
+// ----------------------------------------------------------------------------
+bool ParseManager::GetUseCCIconsOption()
+// ----------------------------------------------------------------------------
+{
+    ConfigManager* cfg = Manager::Get()->GetConfigManager("clangd_client");
+    bool useIcons = cfg->ReadBool("/useCompletionIcons_Check", false);
+    return useIcons;
 }

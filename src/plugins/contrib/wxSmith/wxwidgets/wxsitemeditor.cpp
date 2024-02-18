@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13455 $
-* $Id: wxsitemeditor.cpp 13455 2024-02-17 04:06:52Z ollydbg $
+* $Revision: 13456 $
+* $Id: wxsitemeditor.cpp 13456 2024-02-17 09:22:48Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxsitemeditor.cpp $
 */
 
@@ -907,7 +907,7 @@ void wxsItemEditor::ShowPopup(wxsItem* Item,wxMenu* Popup)
     Popup->Append(wxsCopyId,_("Copy"));
     Popup->Append(wxsInsBeforeId,_("Paste Before Selected"));
     Popup->Append(wxsInsIntoId,_("Paste Inside Selected"));
-    Popup->Append(wxsInsAfterId,_("Paste After Selected    "));
+    Popup->Append(wxsInsAfterId,_("Paste After Selected"));
     wxWindow::PopupMenu(Popup);
 }
 

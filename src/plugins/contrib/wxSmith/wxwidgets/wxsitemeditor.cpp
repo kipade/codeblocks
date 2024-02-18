@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13453 $
-* $Id: wxsitemeditor.cpp 13453 2024-02-17 03:11:41Z ollydbg $
+* $Revision: 13455 $
+* $Id: wxsitemeditor.cpp 13455 2024-02-17 04:06:52Z ollydbg $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxsitemeditor.cpp $
 */
 
@@ -960,6 +960,5 @@ BEGIN_EVENT_TABLE(wxsItemEditor,wxsEditor)
     EVT_BUTTON(wxsQuickPropsId,wxsItemEditor::OnQuickProps)
     EVT_BUTTON(-1,wxsItemEditor::OnButton)
     EVT_KEY_DOWN(wxsItemEditor::OnKeyDown)
-    EVT_RIGHT_UP(wxsItemEditor::OnMouseClick)
     EVT_MENU(wxID_ANY,wxsItemEditor::OnPopup)
 END_EVENT_TABLE()

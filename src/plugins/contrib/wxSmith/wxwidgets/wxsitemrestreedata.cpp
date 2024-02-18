@@ -15,14 +15,24 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 7109 $
-* $Id: wxsitemrestreedata.cpp 7109 2011-04-15 11:53:16Z mortenmacfly $
+* $Revision: 13453 $
+* $Id: wxsitemrestreedata.cpp 13453 2024-02-17 03:11:41Z ollydbg $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxsitemrestreedata.cpp $
 */
 
 #include "wxsitemrestreedata.h"
 #include "wxsitemresdata.h"
 #include "wxsitem.h"
+#include "wxsitemeditor.h"                // for Context menu functions
+
+namespace
+{
+const int MenuCutId         = wxNewId();
+const int MenuCopyId        = wxNewId();
+const int MenuPasteBeforeId = wxNewId();
+const int MenuPasteIntoId   = wxNewId();
+const int MenuPasteAfterId  = wxNewId();
+}
 
 wxsItemResTreeData::wxsItemResTreeData(wxsItem* Item): m_Item(Item)
 {
@@ -40,6 +50,42 @@ void wxsItemResTreeData::OnSelect()
     }
 }
 
+
+// Provides context menu functions for all tree item controls.
+// The context menu performs the same functions as
+//   context/copy, context/PasteAfter
+//   select button "InsertAfter", Menu/Edit/Copy, Menu/Edit/Paste
 void wxsItemResTreeData::OnRightClick()
 {
+    if (!m_Item)
+        return;
+    m_Item->GetResourceData()->SelectItem(m_Item,true);  // the clicked item could not have been selected before
+    wxMenu Popup;
+    Popup.Append( MenuCutId,_("Cut"));
+    Popup.Append( MenuCopyId,_("Copy"));
+    Popup.Append( MenuPasteBeforeId,_("Paste Before Selected"));
+    Popup.Append( MenuPasteIntoId,_("Paste Inside Selected"));
+    Popup.Append( MenuPasteAfterId,_("Paste After Selected"));
+    if (!m_Item->GetResourceData()->CanPaste())
+    {
+        Popup.Enable( MenuPasteBeforeId, false );
+        Popup.Enable( MenuPasteIntoId, false );
+        Popup.Enable( MenuPasteAfterId, false );
+    }
+    PopupMenu(&Popup);   // base class call, evt. loop is in base class
+}
+
+bool wxsItemResTreeData::OnPopup( long Id )
+{
+    wxsItemEditor*  Editor = m_Item->GetResourceData()->GetEditor();        // select
+    if (!Editor)
+        return false;
+
+    if ( Id == MenuCutId ) { Editor->Cut(); }
+    else if (Id == MenuCopyId) { Editor->Copy(); }
+    else if (Id == MenuPasteBeforeId) { Editor->PasteBefore(); }
+    else if (Id == MenuPasteIntoId) { Editor->PasteInto(); }
+    else if (Id == MenuPasteAfterId) { Editor->PasteAfter(); }
+    else { return false; }
+    return true;
 }

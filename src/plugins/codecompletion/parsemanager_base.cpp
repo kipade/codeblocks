@@ -2,9 +2,9 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13316 $
- * $Id: nativeparser_base.cpp 13316 2023-07-02 05:02:03Z mortenmacfly $
- * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/nativeparser_base.cpp $
+ * $Revision: 13457 $
+ * $Id: parsemanager_base.cpp 13457 2024-02-20 02:36:26Z ollydbg $
+ * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parsemanager_base.cpp $
  */
 
 #include <sdk.h>

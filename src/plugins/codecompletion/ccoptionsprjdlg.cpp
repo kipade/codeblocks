@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13463 $
- * $Id: ccoptionsprjdlg.cpp 13463 2024-02-20 02:37:33Z ollydbg $
+ * $Revision: 13471 $
+ * $Id: ccoptionsprjdlg.cpp 13471 2024-02-20 02:38:52Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/ccoptionsprjdlg.cpp $
  */
 
@@ -33,10 +33,10 @@ BEGIN_EVENT_TABLE(CCOptionsProjectDlg, wxPanel)
     EVT_BUTTON(XRCID("btnDelete"), CCOptionsProjectDlg::OnDelete)
 END_EVENT_TABLE()
 
-CCOptionsProjectDlg::CCOptionsProjectDlg(wxWindow* parent, cbProject* project, ParseManager* np) :
+CCOptionsProjectDlg::CCOptionsProjectDlg(wxWindow* parent, cbProject* project, ParseManager* pm) :
     m_Project(project),
-    m_ParseManager(np),
-    m_Parser(&np->GetParser())
+    m_ParseManager(pm),
+    m_Parser(&pm->GetParser())
 {
     wxXmlResource::Get()->LoadPanel(this, parent, _T("pnlProjectCCOptions"));
     m_OldPaths = m_ParseManager->ParseProjectSearchDirs(*m_Project);

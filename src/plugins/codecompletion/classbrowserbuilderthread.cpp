@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13465 $
- * $Id: classbrowserbuilderthread.cpp 13465 2024-02-20 02:37:49Z ollydbg $
+ * $Revision: 13471 $
+ * $Id: classbrowserbuilderthread.cpp 13471 2024-02-20 02:38:52Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/classbrowserbuilderthread.cpp $
  */
 
@@ -147,7 +147,7 @@ ClassBrowserBuilderThread::~ClassBrowserBuilderThread()
 }
 
 // ----------------------------------------------------------------------------
-void ClassBrowserBuilderThread::Init(ParseManager*         np,
+void ClassBrowserBuilderThread::Init(ParseManager*         pm,
                                      const wxString&       active_filename,
                                      void*                 user_data, // active project
                                      const BrowserOptions& bo,
@@ -160,7 +160,7 @@ void ClassBrowserBuilderThread::Init(ParseManager*         np,
 
     CC_LOCKER_TRACK_CBBT_MTX_LOCK(m_ClassBrowserBuilderThreadMutex);
 
-    m_ParseManager     = np;
+    m_ParseManager     = pm;
 
     // patch 1444 tigerbeard 2024/01/11
     if (not m_CCTreeTop )

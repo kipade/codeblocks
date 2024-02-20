@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13463 $
- * $Id: classbrowserbuilderthread.cpp 13463 2024-02-20 02:37:33Z ollydbg $
+ * $Revision: 13465 $
+ * $Id: classbrowserbuilderthread.cpp 13465 2024-02-20 02:37:49Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/classbrowserbuilderthread.cpp $
  */
 
@@ -194,7 +194,7 @@ void ClassBrowserBuilderThread::Init(ParseManager*         np,
         // get all filenames' indices matching our mask
         wxArrayString paths = m_ParseManager->GetAllPathsByFilename(m_ActiveFilename);
 
-        // Should add locker after called m_NativeParser->GetAllPathsByFilename
+        // Should add locker after called m_ParseManager->GetAllPathsByFilename
         CC_LOCKER_TRACK_TT_MTX_LOCK(s_TokenTreeMutex)
 
         TokenFileSet result;

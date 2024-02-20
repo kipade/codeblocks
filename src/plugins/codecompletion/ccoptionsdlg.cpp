@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13462 $
- * $Id: ccoptionsdlg.cpp 13462 2024-02-20 02:37:21Z ollydbg $
+ * $Revision: 13465 $
+ * $Id: ccoptionsdlg.cpp 13465 2024-02-20 02:37:49Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/ccoptionsdlg.cpp $
  */
 
@@ -118,7 +118,7 @@ CCOptionsDlg::CCOptionsDlg(wxWindow* parent, ParseManager* np, CodeCompletion* c
     XRCCTRL(*this, "chkKL_9",               wxCheckBox)->SetValue(cfg->ReadBool(_T("/lexer_keywords_set9"),  false));
 
     // Page "C / C++ parser"
-    // NOTE (Morten#1#): Keep this in sync with files in the XRC file (settings.xrc) and nativeparser.cpp
+    // NOTE (Morten#1#): Keep this in sync with files in the XRC file (settings.xrc) and parsemanager.cpp
     XRCCTRL(*this, "spnThreadsNum",            wxSpinCtrl)->SetValue(cfg->ReadInt(_T("/max_threads"), 1));
     XRCCTRL(*this, "spnThreadsNum",            wxSpinCtrl)->Enable(false);
     XRCCTRL(*this, "spnParsersNum",            wxSpinCtrl)->SetValue(cfg->ReadInt(_T("/max_parsers"), 5));

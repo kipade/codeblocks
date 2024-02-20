@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13461 $
- * $Id: ccoptionsprjdlg.cpp 13461 2024-02-20 02:37:10Z ollydbg $
+ * $Revision: 13463 $
+ * $Id: ccoptionsprjdlg.cpp 13463 2024-02-20 02:37:33Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/ccoptionsprjdlg.cpp $
  */
 
@@ -35,11 +35,11 @@ END_EVENT_TABLE()
 
 CCOptionsProjectDlg::CCOptionsProjectDlg(wxWindow* parent, cbProject* project, ParseManager* np) :
     m_Project(project),
-    m_NativeParser(np),
+    m_ParseManager(np),
     m_Parser(&np->GetParser())
 {
     wxXmlResource::Get()->LoadPanel(this, parent, _T("pnlProjectCCOptions"));
-    m_OldPaths = m_NativeParser->ParseProjectSearchDirs(*m_Project);
+    m_OldPaths = m_ParseManager->ParseProjectSearchDirs(*m_Project);
 
     wxListBox* control = XRCCTRL(*this, "lstPaths", wxListBox);
     control->Clear();
@@ -122,7 +122,7 @@ void CCOptionsProjectDlg::OnApply()
                 m_Parser->AddIncludeDir(newpaths[i]);
         }
 
-        m_NativeParser->SetProjectSearchDirs(*m_Project, newpaths);
+        m_ParseManager->SetProjectSearchDirs(*m_Project, newpaths);
         m_Project->SetModified(true);
 
         cbMessageBox(_("You have changed the C/C++ parser search paths for this project.\n"

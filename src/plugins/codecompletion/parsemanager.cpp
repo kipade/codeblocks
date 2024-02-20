@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13457 $
- * $Id: parsemanager.cpp 13457 2024-02-20 02:36:26Z ollydbg $
+ * $Revision: 13458 $
+ * $Id: parsemanager.cpp 13458 2024-02-20 02:36:40Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parsemanager.cpp $
  */
 
@@ -39,7 +39,7 @@
 #include <cbstyledtextctrl.h>
 #include <compilercommandgenerator.h>
 
-#include "nativeparser.h"
+#include "parsemanager.h"
 #include "classbrowser.h"
 #include "parser/parser.h"
 #include "parser/profiletimer.h"

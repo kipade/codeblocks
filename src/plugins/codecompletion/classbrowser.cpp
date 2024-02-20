@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13435 $
- * $Id: classbrowser.cpp 13435 2024-01-29 11:49:39Z wh11204 $
+ * $Revision: 13458 $
+ * $Id: classbrowser.cpp 13458 2024-02-20 02:36:40Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/classbrowser.cpp $
  */
 
@@ -42,7 +42,7 @@
 #include <cbstyledtextctrl.h>
 
 #include "classbrowser.h" // class's header file
-#include "nativeparser.h"
+#include "parsemanager.h"
 
 #include "parser/ccdebuginfo.h"
 

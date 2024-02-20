@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13316 $
- * $Id: coderefactoring.cpp 13316 2023-07-02 05:02:03Z mortenmacfly $
+ * $Revision: 13458 $
+ * $Id: coderefactoring.cpp 13458 2024-02-20 02:36:40Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/coderefactoring.cpp $
  */
 
@@ -31,7 +31,7 @@
 #include <searchresultslog.h>
 
 #include "coderefactoring.h"
-#include "nativeparser.h"
+#include "parsemanager.h"
 
 #define CC_CODEREFACTORING_DEBUG_OUTPUT 0
 

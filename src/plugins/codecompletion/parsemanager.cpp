@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13464 $
- * $Id: parsemanager.cpp 13464 2024-02-20 02:37:41Z ollydbg $
+ * $Revision: 13466 $
+ * $Id: parsemanager.cpp 13466 2024-02-20 02:38:03Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parsemanager.cpp $
  */
 
@@ -44,23 +44,23 @@
 #include "parser/parser.h"
 #include "parser/profiletimer.h"
 
-#define CC_NATIVEPARSER_DEBUG_OUTPUT 0
+#define CC_PARSEMANAGER_DEBUG_OUTPUT 0
 
 #if defined (CC_GLOBAL_DEBUG_OUTPUT)
     #if CC_GLOBAL_DEBUG_OUTPUT == 1
-        #undef CC_NATIVEPARSER_DEBUG_OUTPUT
-        #define CC_NATIVEPARSER_DEBUG_OUTPUT 1
+        #undef CC_PARSEMANAGER_DEBUG_OUTPUT
+        #define CC_PARSEMANAGER_DEBUG_OUTPUT 1
     #elif CC_GLOBAL_DEBUG_OUTPUT == 2
-        #undef CC_NATIVEPARSER_DEBUG_OUTPUT
-        #define CC_NATIVEPARSER_DEBUG_OUTPUT 2
+        #undef CC_PARSEMANAGER_DEBUG_OUTPUT
+        #define CC_PARSEMANAGER_DEBUG_OUTPUT 2
     #endif
 #endif
 
-#if CC_NATIVEPARSER_DEBUG_OUTPUT == 1
+#if CC_PARSEMANAGER_DEBUG_OUTPUT == 1
     #define TRACE(format, args...) \
         CCLogger::Get()->DebugLog(F(format, ##args))
     #define TRACE2(format, args...)
-#elif CC_NATIVEPARSER_DEBUG_OUTPUT == 2
+#elif CC_PARSEMANAGER_DEBUG_OUTPUT == 2
     #define TRACE(format, args...)                            \
         do                                                    \
         {                                                     \

@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13436 $
- * $Id: cclogger.cpp 13436 2024-01-30 03:51:50Z pecanh $
+ * $Revision: 13466 $
+ * $Id: cclogger.cpp 13466 2024-02-20 02:38:03Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parser/cclogger.cpp $
  */
 
@@ -41,7 +41,7 @@ long           g_idCCDebugErrorLogger = wxNewId();
 // --> Debugging output for CC will be generated only, when the user enabled this
 //     through the menu in the symbols browser (similar to debug smart sense)
 // For single files only, the same applies to the individual #define per file
-// (like CC_BUILDERTHREAD_DEBUG_OUTPUT, CC_NATIVEPARSER_DEBUG_OUTPUT, etc.)
+// (like CC_BUILDERTHREAD_DEBUG_OUTPUT, CC_PARSEMANAGER_DEBUG_OUTPUT, etc.)
 
 // ----------------------------------------------------------------------------
 CCLogger::CCLogger() :

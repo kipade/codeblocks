@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13460 $
- * $Id: parsemanager_base.cpp 13460 2024-02-20 02:36:56Z ollydbg $
+ * $Revision: 13466 $
+ * $Id: parsemanager_base.cpp 13466 2024-02-20 02:38:03Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parsemanager_base.cpp $
  */
 
@@ -17,15 +17,15 @@
 
 #include "parser/cclogger.h"
 
-#define CC_NATIVEPARSERBASE_DEBUG_OUTPUT 0
+#define CC_PARSEMANAGERBASE_DEBUG_OUTPUT 0
 
 #if defined(CC_GLOBAL_DEBUG_OUTPUT)
     #if CC_GLOBAL_DEBUG_OUTPUT == 1
-        #undef CC_NATIVEPARSERBASE_DEBUG_OUTPUT
-        #define CC_NATIVEPARSERBASE_DEBUG_OUTPUT 1
+        #undef CC_PARSEMANAGERBASE_DEBUG_OUTPUT
+        #define CC_PARSEMANAGERBASE_DEBUG_OUTPUT 1
     #elif CC_GLOBAL_DEBUG_OUTPUT == 2
-        #undef CC_NATIVEPARSERBASE_DEBUG_OUTPUT
-        #define CC_NATIVEPARSERBASE_DEBUG_OUTPUT 2
+        #undef CC_PARSEMANAGERBASE_DEBUG_OUTPUT
+        #define CC_PARSEMANAGERBASE_DEBUG_OUTPUT 2
     #endif
 #endif
 
@@ -37,13 +37,13 @@
     #define TRACE2(format, args...) \
             CCLogger::Get()->DebugLog(F(format, ##args))
 #else
-    #if CC_NATIVEPARSERBASE_DEBUG_OUTPUT == 1
+    #if CC_PARSEMANAGERBASE_DEBUG_OUTPUT == 1
         #define ADDTOKEN(format, args...) \
                 CCLogger::Get()->AddToken(F(format, ##args))
         #define TRACE(format, args...) \
             CCLogger::Get()->DebugLog(F(format, ##args))
         #define TRACE2(format, args...)
-    #elif CC_NATIVEPARSERBASE_DEBUG_OUTPUT == 2
+    #elif CC_PARSEMANAGERBASE_DEBUG_OUTPUT == 2
         #define ADDTOKEN(format, args...) \
                 CCLogger::Get()->AddToken(F(format, ##args))
         #define TRACE(format, args...)                            \

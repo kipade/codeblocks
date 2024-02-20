@@ -2,9 +2,9 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13316 $
- * $Id: nativeparser_base.cpp 13316 2023-07-02 05:02:03Z mortenmacfly $
- * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/nativeparser_base.cpp $
+ * $Revision: 13468 $
+ * $Id: parsemanager_base.cpp 13468 2024-02-20 02:38:24Z ollydbg $
+ * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parsemanager_base.cpp $
  */
 
 #include <sdk.h>
@@ -12,20 +12,20 @@
 #ifndef CB_PRECOMP
 #endif
 
-#include "nativeparser_base.h"
+#include "parsemanager_base.h"
 #include "parser/tokenizer.h"
 
 #include "parser/cclogger.h"
 
-#define CC_NATIVEPARSERBASE_DEBUG_OUTPUT 0
+#define CC_PARSEMANAGERBASE_DEBUG_OUTPUT 0
 
 #if defined(CC_GLOBAL_DEBUG_OUTPUT)
     #if CC_GLOBAL_DEBUG_OUTPUT == 1
-        #undef CC_NATIVEPARSERBASE_DEBUG_OUTPUT
-        #define CC_NATIVEPARSERBASE_DEBUG_OUTPUT 1
+        #undef CC_PARSEMANAGERBASE_DEBUG_OUTPUT
+        #define CC_PARSEMANAGERBASE_DEBUG_OUTPUT 1
     #elif CC_GLOBAL_DEBUG_OUTPUT == 2
-        #undef CC_NATIVEPARSERBASE_DEBUG_OUTPUT
-        #define CC_NATIVEPARSERBASE_DEBUG_OUTPUT 2
+        #undef CC_PARSEMANAGERBASE_DEBUG_OUTPUT
+        #define CC_PARSEMANAGERBASE_DEBUG_OUTPUT 2
     #endif
 #endif
 
@@ -37,13 +37,13 @@
     #define TRACE2(format, args...) \
             CCLogger::Get()->DebugLog(F(format, ##args))
 #else
-    #if CC_NATIVEPARSERBASE_DEBUG_OUTPUT == 1
+    #if CC_PARSEMANAGERBASE_DEBUG_OUTPUT == 1
         #define ADDTOKEN(format, args...) \
                 CCLogger::Get()->AddToken(F(format, ##args))
         #define TRACE(format, args...) \
             CCLogger::Get()->DebugLog(F(format, ##args))
         #define TRACE2(format, args...)
-    #elif CC_NATIVEPARSERBASE_DEBUG_OUTPUT == 2
+    #elif CC_PARSEMANAGERBASE_DEBUG_OUTPUT == 2
         #define ADDTOKEN(format, args...) \
                 CCLogger::Get()->AddToken(F(format, ##args))
         #define TRACE(format, args...)                            \
@@ -62,15 +62,15 @@
     #endif
 #endif
 
-NativeParserBase::NativeParserBase()
+ParseManagerBase::ParseManagerBase()
 {
 }
 
-NativeParserBase::~NativeParserBase()
+ParseManagerBase::~ParseManagerBase()
 {
 }
 
-void NativeParserBase::Reset()
+void ParseManagerBase::Reset()
 {
     m_LastComponent.Clear();
 }
@@ -84,7 +84,7 @@ void NativeParserBase::Reset()
 //
 // No critical section needed in this recursive function!
 // All functions that call this recursive function, should already entered a critical section.
-size_t NativeParserBase::FindAIMatches(TokenTree*                  tree,
+size_t ParseManagerBase::FindAIMatches(TokenTree*                  tree,
                                        std::queue<ParserComponent> components,
                                        TokenIdxSet&                result,
                                        int                         parentTokenIdx,
@@ -100,7 +100,7 @@ size_t NativeParserBase::FindAIMatches(TokenTree*                  tree,
     if (g_DebugSmartSense)
         CCLogger::Get()->DebugLog(_T("FindAIMatches() ----- FindAIMatches - enter -----"));
 
-    TRACE(_T("NativeParser::FindAIMatches()"));
+    TRACE(_T("ParseManager::FindAIMatches()"));
 
     // pop top component
     ParserComponent parser_component = components.front();
@@ -299,7 +299,7 @@ size_t NativeParserBase::FindAIMatches(TokenTree*                  tree,
     return result.size();
 }
 
-void NativeParserBase::FindCurrentFunctionScope(TokenTree*        tree,
+void ParseManagerBase::FindCurrentFunctionScope(TokenTree*        tree,
                                                 const TokenIdxSet& procResult,
                                                 TokenIdxSet&       scopeResult)
 {
@@ -332,7 +332,7 @@ void NativeParserBase::FindCurrentFunctionScope(TokenTree*        tree,
     CC_LOCKER_TRACK_TT_MTX_UNLOCK(s_TokenTreeMutex)
 }
 
-void NativeParserBase::CleanupSearchScope(TokenTree*   tree,
+void ParseManagerBase::CleanupSearchScope(TokenTree*   tree,
                                           TokenIdxSet* searchScope)
 {
     CC_LOCKER_TRACK_TT_MTX_LOCK(s_TokenTreeMutex)
@@ -353,12 +353,12 @@ void NativeParserBase::CleanupSearchScope(TokenTree*   tree,
 }
 
 // Set start and end for the calltip highlight region.
-void NativeParserBase::GetCallTipHighlight(const wxString& calltip,
+void ParseManagerBase::GetCallTipHighlight(const wxString& calltip,
                                            int*            start,
                                            int*            end,
                                            int             typedCommas)
 {
-    TRACE(_T("NativeParserBase::GetCallTipHighlight()"));
+    TRACE(_T("ParseManagerBase::GetCallTipHighlight()"));
 
     int pos = 0;
     int paramsCloseBracket = calltip.length() - 1;
@@ -402,7 +402,7 @@ void NativeParserBase::GetCallTipHighlight(const wxString& calltip,
         *end = paramsCloseBracket;
 }
 
-int NativeParserBase::FindFunctionOpenParenthesis(const wxString& calltip)
+int ParseManagerBase::FindFunctionOpenParenthesis(const wxString& calltip)
 {
     int nest = 0;
     for (size_t i = calltip.length(); i > 0; --i)
@@ -420,7 +420,7 @@ int NativeParserBase::FindFunctionOpenParenthesis(const wxString& calltip)
     return -1;
 }
 
-wxString NativeParserBase::GetCCToken(wxString&        line,
+wxString ParseManagerBase::GetCCToken(wxString&        line,
                                       ParserTokenType& tokenType,
                                       OperatorType&    tokenOperatorType)
 {
@@ -483,7 +483,7 @@ wxString NativeParserBase::GetCCToken(wxString&        line,
 //  SomeObject->SomeMethod(arg1, arg2)->Method2()
 //              ^end                 ^begin
 // note we skip the nest brace (arg1, arg2).
-unsigned int NativeParserBase::FindCCTokenStart(const wxString& line)
+unsigned int ParseManagerBase::FindCCTokenStart(const wxString& line)
 {
     // Careful: startAt can become negative, so it's defined as integer here!
     int startAt = line.Len() - 1;
@@ -555,7 +555,7 @@ unsigned int NativeParserBase::FindCCTokenStart(const wxString& line)
     return startAt;
 }
 
-wxString NativeParserBase::GetNextCCToken(const wxString& line,
+wxString ParseManagerBase::GetNextCCToken(const wxString& line,
                                           unsigned int&   startAt,
                                           OperatorType&   tokenOperatorType)
 {
@@ -644,7 +644,7 @@ wxString NativeParserBase::GetNextCCToken(const wxString& line,
     return res;
 }
 
-void NativeParserBase::RemoveLastFunctionChildren(TokenTree* tree,
+void ParseManagerBase::RemoveLastFunctionChildren(TokenTree* tree,
                                                   int&       lastFuncTokenIdx)
 {
     CC_LOCKER_TRACK_TT_MTX_LOCK(s_TokenTreeMutex)
@@ -674,7 +674,7 @@ void NativeParserBase::RemoveLastFunctionChildren(TokenTree* tree,
 // (empty space)    [pttSearchText]
 //
 // It also classifies each component as a pttClass, pttNamespace, pttFunction, pttSearchText
-size_t NativeParserBase::BreakUpComponents(const wxString&              actual,
+size_t ParseManagerBase::BreakUpComponents(const wxString&              actual,
                                            std::queue<ParserComponent>& components)
 {
     ParserTokenType tokenType;
@@ -683,7 +683,7 @@ size_t NativeParserBase::BreakUpComponents(const wxString&              actual,
     // break up components of phrase
     if (g_DebugSmartSense)
         CCLogger::Get()->DebugLog(wxString::Format("BreakUpComponents() Breaking up '%s'", statement));
-    TRACE(_T("NativeParserBase::BreakUpComponents()"));
+    TRACE(_T("ParseManagerBase::BreakUpComponents()"));
 
     while (true)
     {
@@ -733,7 +733,7 @@ size_t NativeParserBase::BreakUpComponents(const wxString&              actual,
     return 0;
 }
 
-size_t NativeParserBase::ResolveExpression(TokenTree*                  tree,
+size_t ParseManagerBase::ResolveExpression(TokenTree*                  tree,
                                            std::queue<ParserComponent> components,
                                            const TokenIdxSet&          searchScope,
                                            TokenIdxSet&                result,
@@ -957,7 +957,7 @@ size_t NativeParserBase::ResolveExpression(TokenTree*                  tree,
     return result.size();
 }
 
-void NativeParserBase::AddConstructors(TokenTree *tree, const TokenIdxSet& source, TokenIdxSet& dest)
+void ParseManagerBase::AddConstructors(TokenTree *tree, const TokenIdxSet& source, TokenIdxSet& dest)
 {
     for (TokenIdxSet::iterator It = source.begin(); It != source.end(); ++It)
     {
@@ -986,7 +986,7 @@ void NativeParserBase::AddConstructors(TokenTree *tree, const TokenIdxSet& sourc
     }
 }
 
-void NativeParserBase::ResolveOperator(TokenTree*          tree,
+void ParseManagerBase::ResolveOperator(TokenTree*          tree,
                                        const OperatorType& tokenOperatorType,
                                        const TokenIdxSet&  tokens,
                                        const TokenIdxSet&  searchScope,
@@ -1077,7 +1077,7 @@ void NativeParserBase::ResolveOperator(TokenTree*          tree,
     }
 }
 
-size_t NativeParserBase::ResolveActualType(TokenTree*         tree,
+size_t ParseManagerBase::ResolveActualType(TokenTree*         tree,
                                            wxString           searchText,
                                            const TokenIdxSet& searchScope,
                                            TokenIdxSet&       result)
@@ -1128,7 +1128,7 @@ size_t NativeParserBase::ResolveActualType(TokenTree*         tree,
     return result.size();
 }
 
-void NativeParserBase::ResolveTemplateMap(TokenTree*         tree,
+void ParseManagerBase::ResolveTemplateMap(TokenTree*         tree,
                                           const wxString&    searchStr,
                                           const TokenIdxSet& actualTypeScope,
                                           TokenIdxSet&       initialScope)
@@ -1151,7 +1151,7 @@ void NativeParserBase::ResolveTemplateMap(TokenTree*         tree,
     }
 }
 
-void NativeParserBase::AddTemplateAlias(TokenTree*         tree,
+void ParseManagerBase::AddTemplateAlias(TokenTree*         tree,
                                         const int&         id,
                                         const TokenIdxSet& actualTypeScope,
                                         TokenIdxSet&       initialScope)
@@ -1212,7 +1212,7 @@ void NativeParserBase::AddTemplateAlias(TokenTree*         tree,
 //
 // Note that parentIdx could be the global namespace
 // Some kinds of Token types, such as Enum or Namespaces could be handled specially
-size_t NativeParserBase::GenerateResultSet(TokenTree*      tree,
+size_t ParseManagerBase::GenerateResultSet(TokenTree*      tree,
                                            const wxString& target,
                                            int             parentIdx,
                                            TokenIdxSet&    result,
@@ -1220,7 +1220,7 @@ size_t NativeParserBase::GenerateResultSet(TokenTree*      tree,
                                            bool            isPrefix,
                                            short int       kindMask)
 {
-    TRACE(_T("NativeParserBase::GenerateResultSet_1()"));
+    TRACE(_T("ParseManagerBase::GenerateResultSet_1()"));
 
     Token* parent = tree->at(parentIdx);
     if (g_DebugSmartSense)
@@ -1374,7 +1374,7 @@ size_t NativeParserBase::GenerateResultSet(TokenTree*      tree,
  *
  * Walking through the example:
  *
- * [in NativeParserBase::GenerateResultSet()]
+ * [in ParseManagerBase::GenerateResultSet()]
  * CC sees that back() returns const_reference. It searches the TokenTree for const_reference and
  * finds the typedef belonging to allocator:
  *
@@ -1383,7 +1383,7 @@ size_t NativeParserBase::GenerateResultSet(TokenTree*      tree,
  * CC then checks that back()'s parent, AAA, is an STL container which relies on allocator. Since it
  * is, this typedef is added to the search scope.
  *
- * [in NativeParserBase::AddTemplateAlias()]
+ * [in ParseManagerBase::AddTemplateAlias()]
  * CC sees the typedef in the search scope. It searches AAA's template map for the actual type of
  * "_Tp" and finds "string". So "string" is added to the scope.
  *
@@ -1391,7 +1391,7 @@ size_t NativeParserBase::GenerateResultSet(TokenTree*      tree,
  * is written. If the library is ever changed significantly, then this patch will need to be updated.
  * It was an ok sacrifice to make for cleaner, maintainable code.
  */
-size_t NativeParserBase::GenerateResultSet(TokenTree*          tree,
+size_t ParseManagerBase::GenerateResultSet(TokenTree*          tree,
                                            const wxString&     target,
                                            const TokenIdxSet&  parentSet,
                                            TokenIdxSet&        result,
@@ -1401,7 +1401,7 @@ size_t NativeParserBase::GenerateResultSet(TokenTree*          tree,
 {
     if (!tree) return 0;
 
-    TRACE(_T("NativeParserBase::GenerateResultSet_2()"));
+    TRACE(_T("ParseManagerBase::GenerateResultSet_2()"));
 
     if (target.IsEmpty())
     {
@@ -1587,7 +1587,7 @@ size_t NativeParserBase::GenerateResultSet(TokenTree*          tree,
 
 // No critical section needed in this function!
 // All functions that call this function, should already entered a critical section.
-bool NativeParserBase::IsAllocator(TokenTree*   tree,
+bool ParseManagerBase::IsAllocator(TokenTree*   tree,
                                    const int&   id)
 {
     if (!tree)
@@ -1601,7 +1601,7 @@ bool NativeParserBase::IsAllocator(TokenTree*   tree,
 // All functions that call this recursive function, should already entered a critical section.
 //
 // Currently, this function only identifies STL containers dependent on allocator.
-bool NativeParserBase::DependsOnAllocator(TokenTree*    tree,
+bool ParseManagerBase::DependsOnAllocator(TokenTree*    tree,
                                           const int&    id)
 {
     if (!tree)
@@ -1625,7 +1625,7 @@ bool NativeParserBase::DependsOnAllocator(TokenTree*    tree,
     return DependsOnAllocator(tree, token->m_ParentIndex);
 }
 
-void NativeParserBase::CollectSearchScopes(const TokenIdxSet& searchScope,
+void ParseManagerBase::CollectSearchScopes(const TokenIdxSet& searchScope,
                                            TokenIdxSet&       actualTypeScope,
                                            TokenTree*         tree)
 {
@@ -1656,12 +1656,12 @@ void NativeParserBase::CollectSearchScopes(const TokenIdxSet& searchScope,
 
 // No critical section needed in this recursive function!
 // All functions that call this function, should already entered a critical section.
-int NativeParserBase::GetTokenFromCurrentLine(TokenTree*         tree,
+int ParseManagerBase::GetTokenFromCurrentLine(TokenTree*         tree,
                                               const TokenIdxSet& tokens,
                                               size_t             curLine,
                                               const wxString&    file)
 {
-    TRACE(_T("NativeParserBase::GetTokenFromCurrentLine()"));
+    TRACE(_T("ParseManagerBase::GetTokenFromCurrentLine()"));
 
     int result = -1;
     bool found = false;
@@ -1727,7 +1727,7 @@ int NativeParserBase::GetTokenFromCurrentLine(TokenTree*         tree,
     return result;
 }
 
-void NativeParserBase::ComputeCallTip(TokenTree*         tree,
+void ParseManagerBase::ComputeCallTip(TokenTree*         tree,
                                       const TokenIdxSet& tokens,
                                       wxArrayString&     items)
 {
@@ -1818,7 +1818,7 @@ void NativeParserBase::ComputeCallTip(TokenTree*         tree,
     CC_LOCKER_TRACK_TT_MTX_UNLOCK(s_TokenTreeMutex)
 }
 
-bool NativeParserBase::PrettyPrintToken(TokenTree*   tree,
+bool ParseManagerBase::PrettyPrintToken(TokenTree*   tree,
                                         const Token* token,
                                         wxString&    result,
                                         bool         isRoot)

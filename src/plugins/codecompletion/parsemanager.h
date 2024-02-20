@@ -3,10 +3,10 @@
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-#ifndef NATIVEPARSER_H
-#define NATIVEPARSER_H
+#ifndef PARSEMANAGER_H
+#define PARSEMANAGER_H
 
-#include "nativeparser_base.h"
+#include "parsemanager_base.h"
 #include "parser/parser.h"
 
 #include <queue>
@@ -42,20 +42,20 @@ enum BrowserViewMode
     bvmInheritance
 };
 
-/** @brief NativeParser class is just like a manager class to control Parser objects.
+/** @brief ParseManager class is just like a manager class to control Parser objects.
  *
  * Normally, Each C::B Project (cbp) will have an associated Parser object.
  * In another mode, all C::B projects belong to a C::B workspace share a single Parser object.
  * Nativeparser will manage all the Parser objects.
  */
-class NativeParser : public wxEvtHandler, NativeParserBase
+class ParseManager : public wxEvtHandler, ParseManagerBase
 {
 public:
     /** Constructor */
-    NativeParser();
+    ParseManager();
 
     /** Destructor */
-    ~NativeParser();
+    ~ParseManager();
 
     /** return a reference to the current active Parser object */
     ParserBase& GetParser() { return *m_Parser; }
@@ -529,5 +529,5 @@ private:
 
 };
 
-#endif // NATIVEPARSER_H
+#endif // PARSEMANAGER_H
 

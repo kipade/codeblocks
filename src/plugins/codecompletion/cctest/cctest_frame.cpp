@@ -1,8 +1,8 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
- * $Revision: 13433 $
- * $Id: cctest_frame.cpp 13433 2024-01-27 18:19:10Z mortenmacfly $
+ * $Revision: 13467 $
+ * $Id: cctest_frame.cpp 13467 2024-02-20 02:38:14Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/cctest/cctest_frame.cpp $
  */
 
@@ -18,7 +18,7 @@
 #include "token.h"
 #include "tokentree.h"
 
-#include "nativeparser_test.h"
+#include "parsemanager_test.h"
 
 //(*InternalHeaders(CCTestFrame)
 #include <wx/intl.h>

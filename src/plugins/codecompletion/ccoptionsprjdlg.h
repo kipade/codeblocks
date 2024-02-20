@@ -9,7 +9,7 @@
 #include <wx/intl.h>
 #include "configurationpanel.h"
 #include <settings.h>
-#include "nativeparser.h"
+#include "parsemanager.h"
 #include "parser/parser.h"
 
 class cbProject;
@@ -17,7 +17,7 @@ class cbProject;
 class CCOptionsProjectDlg : public cbConfigurationPanel
 {
 public:
-    CCOptionsProjectDlg(wxWindow* parent, cbProject* project, NativeParser* np);
+    CCOptionsProjectDlg(wxWindow* parent, cbProject* project, ParseManager* pm);
     ~CCOptionsProjectDlg() override;
 
     wxString GetTitle() const override { return _("C/C++ parser options"); }
@@ -33,7 +33,7 @@ protected:
 
 private:
     cbProject*    m_Project;
-    NativeParser* m_NativeParser;
+    ParseManager* m_ParseManager;
     ParserBase*   m_Parser;
     wxArrayString m_OldPaths;
 

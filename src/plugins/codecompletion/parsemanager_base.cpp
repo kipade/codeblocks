@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13467 $
- * $Id: parsemanager_base.cpp 13467 2024-02-20 02:38:14Z ollydbg $
+ * $Revision: 13468 $
+ * $Id: parsemanager_base.cpp 13468 2024-02-20 02:38:24Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parsemanager_base.cpp $
  */
 
@@ -100,7 +100,7 @@ size_t ParseManagerBase::FindAIMatches(TokenTree*                  tree,
     if (g_DebugSmartSense)
         CCLogger::Get()->DebugLog(_T("FindAIMatches() ----- FindAIMatches - enter -----"));
 
-    TRACE(_T("NativeParser::FindAIMatches()"));
+    TRACE(_T("ParseManager::FindAIMatches()"));
 
     // pop top component
     ParserComponent parser_component = components.front();

@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13461 $
- * $Id: parsemanager.cpp 13461 2024-02-20 02:37:10Z ollydbg $
+ * $Revision: 13464 $
+ * $Id: parsemanager.cpp 13464 2024-02-20 02:37:41Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parsemanager.cpp $
  */
 
@@ -86,7 +86,7 @@
  * FindCurrentFunctionStart() -> GetTokenFromCurrentLine
  */
 
-namespace NativeParserHelper
+namespace ParseManagerHelper
 {
     class ParserDirTraverser : public wxDirTraverser
     {
@@ -117,7 +117,7 @@ namespace NativeParserHelper
         const wxString& m_ExcludeDir;
         wxArrayString&  m_Files;
     };
-}// namespace NativeParserHelper
+}// namespace ParseManagerHelper
 
 /** event id for the sequence project parsing timer */
 int idTimerParsingOneByOne = wxNewId();
@@ -468,7 +468,7 @@ wxArrayString ParseManager::GetAllPathsByFilename(const wxString& filename)
         return wxArrayString();
 
     wxArrayString files;
-    NativeParserHelper::ParserDirTraverser traverser(wxEmptyString, files);
+    ParseManagerHelper::ParserDirTraverser traverser(wxEmptyString, files);
     const wxString filespec = fn.HasExt() ? fn.GetName() + _T(".*") : fn.GetName();
     CCLogger::Get()->DebugLog(_T("NativeParser::GetAllPathsByFilename: Traversing '") + fn.GetPath() + _T("' for: ") + filespec);
 
@@ -497,7 +497,7 @@ wxArrayString ParseManager::GetAllPathsByFilename(const wxString& filename)
                     if ( priorityDir.IsOpened() )
                     {
                         wxArrayString priorityPathSub;
-                        NativeParserHelper::ParserDirTraverser traverser_2(wxEmptyString, priorityPathSub);
+                        ParseManagerHelper::ParserDirTraverser traverser_2(wxEmptyString, priorityPathSub);
                         CCLogger::Get()->DebugLog(_T("NativeParser::GetAllPathsByFilename: Traversing '") + priorityPath + _T("' for: ") + filespec);
                         priorityDir.Traverse(traverser_2, filespec, wxDIR_FILES | wxDIR_DIRS);
                         if (priorityPathSub.GetCount() == 1)
@@ -513,7 +513,7 @@ wxArrayString ParseManager::GetAllPathsByFilename(const wxString& filename)
                 {
                     // try to search the project top level folder
                     wxArrayString prjDirSub;
-                    NativeParserHelper::ParserDirTraverser traverser_2(priorityPath, prjDirSub);
+                    ParseManagerHelper::ParserDirTraverser traverser_2(priorityPath, prjDirSub);
                     CCLogger::Get()->DebugLog(_T("NativeParser::GetAllPathsByFilename: Traversing '") + priorityPath + wxT(" - ") + prjPath + _T("' for: ") + filespec);
                     prjDir.Traverse(traverser_2, filespec, wxDIR_FILES | wxDIR_DIRS);
                     if (prjDirSub.GetCount() == 1)

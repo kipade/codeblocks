@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13458 $
- * $Id: coderefactoring.cpp 13458 2024-02-20 02:36:40Z ollydbg $
+ * $Revision: 13461 $
+ * $Id: coderefactoring.cpp 13461 2024-02-20 02:37:10Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/coderefactoring.cpp $
  */
 
@@ -119,7 +119,7 @@ private:
 const long ScopeDialog::ID_OPEN_FILES = wxNewId();
 const long ScopeDialog::ID_PROJECT_FILES = wxNewId();
 
-CodeRefactoring::CodeRefactoring(NativeParser& np) :
+CodeRefactoring::CodeRefactoring(ParseManager& np) :
     m_NativeParser(np)
 {
 }

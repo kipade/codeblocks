@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 11862 $
- * $Id: ccoptionsprjdlg.cpp 11862 2019-09-29 12:54:26Z fuscated $
+ * $Revision: 13461 $
+ * $Id: ccoptionsprjdlg.cpp 13461 2024-02-20 02:37:10Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/ccoptionsprjdlg.cpp $
  */
 
@@ -33,7 +33,7 @@ BEGIN_EVENT_TABLE(CCOptionsProjectDlg, wxPanel)
     EVT_BUTTON(XRCID("btnDelete"), CCOptionsProjectDlg::OnDelete)
 END_EVENT_TABLE()
 
-CCOptionsProjectDlg::CCOptionsProjectDlg(wxWindow* parent, cbProject* project, NativeParser* np) :
+CCOptionsProjectDlg::CCOptionsProjectDlg(wxWindow* parent, cbProject* project, ParseManager* np) :
     m_Project(project),
     m_NativeParser(np),
     m_Parser(&np->GetParser())

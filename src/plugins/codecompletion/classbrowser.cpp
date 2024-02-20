@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13458 $
- * $Id: classbrowser.cpp 13458 2024-02-20 02:36:40Z ollydbg $
+ * $Revision: 13461 $
+ * $Id: classbrowser.cpp 13461 2024-02-20 02:37:10Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/classbrowser.cpp $
  */
 
@@ -154,7 +154,7 @@ namespace
 
 // class constructor
 // ----------------------------------------------------------------------------
-ClassBrowser::ClassBrowser(wxWindow* parent, NativeParser* np) :
+ClassBrowser::ClassBrowser(wxWindow* parent, ParseManager* np) :
     // ----------------------------------------------------------------------------
     m_NativeParser(np),
     m_targetTreeCtrl(nullptr),

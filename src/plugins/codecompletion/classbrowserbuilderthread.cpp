@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13438 $
- * $Id: classbrowserbuilderthread.cpp 13438 2024-01-31 16:14:30Z pecanh $
+ * $Revision: 13461 $
+ * $Id: classbrowserbuilderthread.cpp 13461 2024-02-20 02:37:10Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/classbrowserbuilderthread.cpp $
  */
 
@@ -147,7 +147,7 @@ ClassBrowserBuilderThread::~ClassBrowserBuilderThread()
 }
 
 // ----------------------------------------------------------------------------
-void ClassBrowserBuilderThread::Init(NativeParser*         np,
+void ClassBrowserBuilderThread::Init(ParseManager*         np,
                                      const wxString&       active_filename,
                                      void*                 user_data, // active project
                                      const BrowserOptions& bo,

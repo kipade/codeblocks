@@ -1,8 +1,8 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
- * $Revision: 13475 $
- * $Id: cctest_frame.cpp 13475 2024-02-24 01:52:03Z ollydbg $
+ * $Revision: 13478 $
+ * $Id: cctest_frame.cpp 13478 2024-02-24 01:52:24Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/cctest/cctest_frame.cpp $
  */
 
@@ -270,6 +270,8 @@ void CCTestFrame::Start()
         if (!include.IsEmpty())
             CCTestAppGlobal::s_includeDirs.Add(include);
     }
+
+    wxArrayString includePaths = m_ParseManager.GetCompilerIncludePaths();
 
     // set the macro replacement rule, and include search paths of the Parser object
     m_ParseManager.Init();

@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13465 $
- * $Id: codecompletion.cpp 13465 2024-02-20 02:37:49Z ollydbg $
+ * $Revision: 13483 $
+ * $Id: codecompletion.cpp 13483 2024-02-24 22:42:37Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/codecompletion.cpp $
  */
 
@@ -353,7 +353,9 @@ BEGIN_EVENT_TABLE(CodeCompletion, cbCodeCompletionPlugin)
     EVT_CHOICE(XRCID("chcCodeCompletionFunction"), CodeCompletion::OnFunction)
 END_EVENT_TABLE()
 
+// ----------------------------------------------------------------------------
 CodeCompletion::CodeCompletion() :
+    // ----------------------------------------------------------------------------
     m_InitDone(false),
     m_CodeRefactoring(m_ParseManager),
     m_EditorHookId(0),
@@ -380,8 +382,10 @@ CodeCompletion::CodeCompletion() :
     m_SystemHeadersThreadCS(),
     m_DocHelper(this)
 {
+
     // CCLogger are the log event bridges, those events were finally handled by its parent, here
     // it is the CodeCompletion plugin ifself.
+    // This is an initial init. We re-init it in OnAttach() for the correct plugin.
     CCLogger::Get()->Init(this, g_idCCLogger, g_idCCErrorLogger, g_idCCDebugLogger, g_idCCDebugErrorLogger); //(ph 2024/01/25)
 
     if (!Manager::LoadResource(_T("codecompletion.zip")))
@@ -408,7 +412,9 @@ CodeCompletion::CodeCompletion() :
             CodeBlocksThreadEventHandler(CodeCompletion::OnSystemHeadersThreadFinish));
 }
 
+// ----------------------------------------------------------------------------
 CodeCompletion::~CodeCompletion()
+// ----------------------------------------------------------------------------
 {
     Disconnect(g_idCCLogger,g_idCCDebugErrorLogger, wxEVT_COMMAND_MENU_SELECTED, CodeBlocksThreadEventHandler(CodeCompletion::OnCCLogger));
     //-Disconnect(g_idCCDebugLogger,           wxEVT_COMMAND_MENU_SELECTED, CodeBlocksThreadEventHandler(CodeCompletion::OnCCLogger)); //(ph 2024/01/25)
@@ -436,7 +442,9 @@ CodeCompletion::~CodeCompletion()
     }
 }
 
+// ----------------------------------------------------------------------------
 void CodeCompletion::OnAttach()
+// ----------------------------------------------------------------------------
 {
     m_EditMenu    = 0;
     m_SearchMenu  = 0;
@@ -452,6 +460,14 @@ void CodeCompletion::OnAttach()
     m_ToolbarNeedRefresh = true; // by default
 
     m_LastFile.clear();
+
+    // Re-init the CCLogger now that we can determine if it's used for CodeCompletion or Clangd_client
+    PluginInfo* pInfo = (PluginInfo*)(Manager::Get()->GetPluginManager()->GetPluginInfo(this)); //(ph 2024/02/24)
+    // CCLogger is the log event bridge, those events were finally handled by its parent,
+    // Here, it is the CodeCompletion plugin ifself.
+    if (pInfo)
+        CCLogger::Get()->Init(this, g_idCCLogger, g_idCCErrorLogger, g_idCCDebugLogger, g_idCCDebugErrorLogger); //(ph 2024/01/25)
+
 
     // read options from configure file
     RereadOptions();

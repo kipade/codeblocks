@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13477 $
- * $Id: cclogger.cpp 13477 2024-02-24 01:52:17Z ollydbg $
+ * $Revision: 13482 $
+ * $Id: cclogger.cpp 13482 2024-02-24 01:52:53Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parser/cclogger.cpp $
  */
 
@@ -76,7 +76,7 @@ void CCLogger::Init(wxEvtHandler* parent, int logId, int logErrorId, int debugLo
     m_DebugLogErrorId = debugLogErrorId;
     m_AddTokenId = addTokenId;
     m_AddTokenId = addTokenId;
-    //m_pCfgMgr    = Manager::Get()->GetConfigManager("clangd_client");
+    m_pCfgMgr    = Manager::Get()->GetConfigManager("clangd_client");
 
 }
 

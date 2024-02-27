@@ -1,8 +1,8 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
- * $Revision: 13481 $
- * $Id: cctest_frame.cpp 13481 2024-02-24 01:52:46Z ollydbg $
+ * $Revision: 13482 $
+ * $Id: cctest_frame.cpp 13482 2024-02-24 01:52:53Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/cctest/cctest_frame.cpp $
  */
 
@@ -19,6 +19,8 @@
 #include "tokentree.h"
 
 #include "parsemanager_test.h"
+
+#include "personalitymanager.h"
 
 //(*InternalHeaders(CCTestFrame)
 #include <wx/intl.h>
@@ -214,6 +216,8 @@ CCTestFrame::CCTestFrame(const wxString& main_file) :
     Connect(wxID_TOKEN, wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&CCTestFrame::OnMenuTokenSelected);
     Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&CCTestFrame::OnMenuAboutSelected);
     //*)
+
+    Manager::Get()->GetPersonalityManager()->MarkAsReady();
 
     // redirect the wxLogMessage to the text ctrl of the frame
     wxLogTextCtrl* textLog = new wxLogTextCtrl(m_CompletionTestCtrl);

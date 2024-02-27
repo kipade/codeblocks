@@ -1,8 +1,8 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
- * $Revision: 13480 $
- * $Id: cctest_frame.cpp 13480 2024-02-24 01:52:39Z ollydbg $
+ * $Revision: 13481 $
+ * $Id: cctest_frame.cpp 13481 2024-02-24 01:52:46Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/cctest/cctest_frame.cpp $
  */
 
@@ -220,23 +220,6 @@ CCTestFrame::CCTestFrame(const wxString& main_file) :
     wxLog::SetActiveTarget(textLog);
     wxLog::DisableTimestamp(); // do not show the time stamp
 
-    // TODO: Make this base folders configurable
-    wxString wx_base (wxT("E:\\code\\cb\\wx\\wxWidgets-2.8.12\\"));
-    wxString gcc_base(wxT("E:\\code\\gcc\\pcxmingw463\\" ));
-    wxString mingwver(wxT("i686-w64-mingw32"));
-    wxString gccver(wxT("4.6.3"));
-
-    m_IncludeCtrl->SetValue(wx_base  + wxT("include")                                                                 + wxT("\n") +
-                            wx_base  + wxT("lib\\gcc_dll\\mswu")                                                      + wxT("\n") +
-                            gcc_base + wxT("lib\\gcc\\")+mingwver+wxT("\\")+gccver+wxT("\\include\\c++")              + wxT("\n") +
-                            gcc_base + wxT("lib\\gcc\\")+mingwver+wxT("\\")+gccver+wxT("\\include\\c++\\") + mingwver + wxT("\n") +
-                            gcc_base + wxT("lib\\gcc\\")+mingwver+wxT("\\")+gccver+wxT("\\include\\c++\\backward")    + wxT("\n") +
-                            gcc_base + wxT("lib\\gcc\\")+mingwver+wxT("\\")+gccver+wxT("\\include")                   + wxT("\n") +
-                            gcc_base + wxT("include")                                                                 + wxT("\n") +
-                            gcc_base + wxT("lib\\gcc\\")+mingwver+wxT("\\")+gccver+wxT("\\include-fixed")             + wxT("\n") +
-                            gcc_base + mingwver + wxT("\\include")                                                    + wxT("\n"));
-
-
     CCLogger::Get()->Init(this, idCCLogger, idCCErrorLogger, idCCDebugLogger, idCCDebugErrorLogger, idCCAddToken);
     m_StatuBar->SetStatusText(_("Ready!"));
 
@@ -270,10 +253,6 @@ void CCTestFrame::Start()
         if (!include.IsEmpty())
             CCTestAppGlobal::s_includeDirs.Add(include);
     }
-
-    wxArrayString includePaths = m_ParseManager.GetCompilerIncludePaths();
-
-    wxString preDefines = m_ParseManager.AddCompilerPredefinedMacros();
 
     // set the macro replacement rule, and include search paths of the Parser object
     m_ParseManager.Init();

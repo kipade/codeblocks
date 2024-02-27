@@ -1,8 +1,8 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
- * $Revision: 13467 $
- * $Id: cctest_frame.cpp 13467 2024-02-20 02:38:14Z ollydbg $
+ * $Revision: 13482 $
+ * $Id: cctest_frame.cpp 13482 2024-02-24 01:52:53Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/cctest/cctest_frame.cpp $
  */
 
@@ -20,6 +20,8 @@
 
 #include "parsemanager_test.h"
 
+#include "personalitymanager.h"
+
 //(*InternalHeaders(CCTestFrame)
 #include <wx/intl.h>
 #include <wx/settings.h>
@@ -35,12 +37,12 @@
 #include <wx/tokenzr.h>
 
 //(*IdInit(CCTestFrame)
-const long CCTestFrame::ID_CHK_HIDE = wxNewId();
-const long CCTestFrame::wxID_TEST_SINGLE = wxNewId();
-const long CCTestFrame::wxID_PARSE = wxNewId();
-const long CCTestFrame::wxID_PRINT_TREE = wxNewId();
-const long CCTestFrame::wxID_SAVE_TEST_RESULT = wxNewId();
-const long CCTestFrame::wxID_TOKEN = wxNewId();
+const wxWindowID CCTestFrame::ID_CHK_HIDE = wxNewId();
+const wxWindowID CCTestFrame::wxID_TEST_SINGLE = wxNewId();
+const wxWindowID CCTestFrame::wxID_PARSE = wxNewId();
+const wxWindowID CCTestFrame::wxID_PRINT_TREE = wxNewId();
+const wxWindowID CCTestFrame::wxID_SAVE_TEST_RESULT = wxNewId();
+const wxWindowID CCTestFrame::wxID_TOKEN = wxNewId();
 //*)
 
 namespace CCTestAppGlobal
@@ -202,40 +204,25 @@ CCTestFrame::CCTestFrame(const wxString& main_file) :
     bsz_main->SetSizeHints(this);
     Center();
 
-    Connect(wxID_TEST_SINGLE,wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(CCTestFrame::OnTestSingle));
-    Connect(wxID_PARSE,wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(CCTestFrame::OnParse));
-    Connect(wxID_PRINT_TREE,wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(CCTestFrame::OnPrintTree));
-    Connect(wxID_SAVE_TEST_RESULT,wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(CCTestFrame::OnSaveTestResultClick));
-    Connect(wxID_OPEN,wxEVT_COMMAND_MENU_SELECTED,wxCommandEventHandler(CCTestFrame::OnMenuOpenSelected));
-    Connect(wxID_REFRESH,wxEVT_COMMAND_MENU_SELECTED,wxCommandEventHandler(CCTestFrame::OnMenuReparseSelected));
-    Connect(wxID_SAVE,wxEVT_COMMAND_MENU_SELECTED,wxCommandEventHandler(CCTestFrame::OnMenuSaveSelected));
-    Connect(wxID_EXIT,wxEVT_COMMAND_MENU_SELECTED,wxCommandEventHandler(CCTestFrame::OnMenuQuitSelected));
-    Connect(wxID_FIND,wxEVT_COMMAND_MENU_SELECTED,wxCommandEventHandler(CCTestFrame::OnMenuFindSelected));
-    Connect(wxID_TOKEN,wxEVT_COMMAND_MENU_SELECTED,wxCommandEventHandler(CCTestFrame::OnMenuTokenSelected));
-    Connect(wxID_ABOUT,wxEVT_COMMAND_MENU_SELECTED,wxCommandEventHandler(CCTestFrame::OnMenuAboutSelected));
+    Connect(wxID_TEST_SINGLE, wxEVT_COMMAND_BUTTON_CLICKED, (wxObjectEventFunction)&CCTestFrame::OnTestSingle);
+    Connect(wxID_PARSE, wxEVT_COMMAND_BUTTON_CLICKED, (wxObjectEventFunction)&CCTestFrame::OnParse);
+    Connect(wxID_PRINT_TREE, wxEVT_COMMAND_BUTTON_CLICKED, (wxObjectEventFunction)&CCTestFrame::OnPrintTree);
+    Connect(wxID_SAVE_TEST_RESULT, wxEVT_COMMAND_BUTTON_CLICKED, (wxObjectEventFunction)&CCTestFrame::OnSaveTestResultClick);
+    Connect(wxID_OPEN, wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&CCTestFrame::OnMenuOpenSelected);
+    Connect(wxID_REFRESH, wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&CCTestFrame::OnMenuReparseSelected);
+    Connect(wxID_SAVE, wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&CCTestFrame::OnMenuSaveSelected);
+    Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&CCTestFrame::OnMenuQuitSelected);
+    Connect(wxID_FIND, wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&CCTestFrame::OnMenuFindSelected);
+    Connect(wxID_TOKEN, wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&CCTestFrame::OnMenuTokenSelected);
+    Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, (wxObjectEventFunction)&CCTestFrame::OnMenuAboutSelected);
     //*)
+
+    Manager::Get()->GetPersonalityManager()->MarkAsReady();
 
     // redirect the wxLogMessage to the text ctrl of the frame
     wxLogTextCtrl* textLog = new wxLogTextCtrl(m_CompletionTestCtrl);
     wxLog::SetActiveTarget(textLog);
     wxLog::DisableTimestamp(); // do not show the time stamp
-
-    // TODO: Make this base folders configurable
-    wxString wx_base (wxT("E:\\code\\cb\\wx\\wxWidgets-2.8.12\\"));
-    wxString gcc_base(wxT("E:\\code\\gcc\\pcxmingw463\\" ));
-    wxString mingwver(wxT("i686-w64-mingw32"));
-    wxString gccver(wxT("4.6.3"));
-
-    m_IncludeCtrl->SetValue(wx_base  + wxT("include")                                                                 + wxT("\n") +
-                            wx_base  + wxT("lib\\gcc_dll\\mswu")                                                      + wxT("\n") +
-                            gcc_base + wxT("lib\\gcc\\")+mingwver+wxT("\\")+gccver+wxT("\\include\\c++")              + wxT("\n") +
-                            gcc_base + wxT("lib\\gcc\\")+mingwver+wxT("\\")+gccver+wxT("\\include\\c++\\") + mingwver + wxT("\n") +
-                            gcc_base + wxT("lib\\gcc\\")+mingwver+wxT("\\")+gccver+wxT("\\include\\c++\\backward")    + wxT("\n") +
-                            gcc_base + wxT("lib\\gcc\\")+mingwver+wxT("\\")+gccver+wxT("\\include")                   + wxT("\n") +
-                            gcc_base + wxT("include")                                                                 + wxT("\n") +
-                            gcc_base + wxT("lib\\gcc\\")+mingwver+wxT("\\")+gccver+wxT("\\include-fixed")             + wxT("\n") +
-                            gcc_base + mingwver + wxT("\\include")                                                    + wxT("\n"));
-
 
     CCLogger::Get()->Init(this, idCCLogger, idCCErrorLogger, idCCDebugLogger, idCCDebugErrorLogger, idCCAddToken);
     m_StatuBar->SetStatusText(_("Ready!"));
@@ -272,7 +259,7 @@ void CCTestFrame::Start()
     }
 
     // set the macro replacement rule, and include search paths of the Parser object
-    m_NativeParser.Init();
+    m_ParseManager.Init();
 
     if (m_DoHideCtrl && m_DoHideCtrl->IsChecked())
         Hide();
@@ -336,7 +323,7 @@ void CCTestFrame::Start()
         m_StatuBar->SetStatusText(m_CurrentFile);
 
         // parse the file and test the expression solving algorithm
-        m_NativeParser.ParseAndCodeCompletion(m_CurrentFile);
+        m_ParseManager.ParseAndCodeCompletion(m_CurrentFile);
 
         CCTestAppGlobal::s_filesParsed.Add(m_CurrentFile); // done
     }
@@ -530,8 +517,8 @@ void CCTestFrame::OnMenuFindSelected(wxCommandEvent& /*event*/)
 
 void CCTestFrame::OnMenuTokenSelected(wxCommandEvent& /*event*/)
 {
-    ParserBase* pb = &(m_NativeParser.m_Parser);
-    TokenTree*  tt = m_NativeParser.m_Parser.GetTokenTree();
+    ParserBase* pb = &(m_ParseManager.m_Parser);
+    TokenTree*  tt = m_ParseManager.m_Parser.GetTokenTree();
     if (!pb || !tt) return;
     wxTextEntryDialog dlg(this, _("Enter name of token to debug:"), _("CCTest"));
     PlaceWindow(&dlg);
@@ -707,18 +694,18 @@ void CCTestFrame::OnPrintTree(cb_unused wxCommandEvent& event)
 
     m_ProgDlg->Update(-1, _("Creating tree log..."));
     AppendToLog(_("--------------T-r-e-e--L-o-g--------------\n"));
-    m_NativeParser.PrintTree();
+    m_ParseManager.PrintTree();
 
     m_ProgDlg->Update(-1, _("Creating list log..."));
     AppendToLog(_("--------------L-i-s-t--L-o-g--------------\n"));
-    m_NativeParser.PrintList();
+    m_ParseManager.PrintList();
 
     if (m_DoTreeCtrl->IsChecked())
     {
         m_ProgDlg->Update(-1, _("Serializing tree..."));
 
         Freeze();
-        m_TreeCtrl->SetValue( m_NativeParser.SerializeTree() );
+        m_TreeCtrl->SetValue( m_ParseManager.SerializeTree() );
         Thaw();
     }
 
@@ -726,7 +713,7 @@ void CCTestFrame::OnPrintTree(cb_unused wxCommandEvent& event)
 
     if ( !IsShown() ) Show();
 
-    TokenTree* tt = m_NativeParser.m_Parser.GetTokenTree();
+    TokenTree* tt = m_ParseManager.m_Parser.GetTokenTree();
     if (tt)
     {
         AppendToLog((wxString::Format(_("The parser contains %zu tokens, found in %zu files."), tt->size(), tt->m_FileMap.size())));
@@ -741,7 +728,7 @@ void CCTestFrame::OnTestSingle(wxCommandEvent& WXUNUSED(event))
     // read the contents of the Control, and parse it.
     // no need to save the file to hard dist and after parsing, delete it.
     wxString content = m_Control->GetText();
-    m_NativeParser.ParseAndCodeCompletion(content, /* isLocalFile */ false);
+    m_ParseManager.ParseAndCodeCompletion(content, /* isLocalFile */ false);
 }
 
 void CCTestFrame::OnSaveTestResultClick(wxCommandEvent& event)

@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13466 $
- * $Id: cclogger.cpp 13466 2024-02-20 02:38:03Z ollydbg $
+ * $Revision: 13483 $
+ * $Id: cclogger.cpp 13483 2024-02-24 22:42:37Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parser/cclogger.cpp $
  */
 
@@ -16,6 +16,7 @@
 #include <logmanager.h> // F()
 #include <globals.h>    // cbC2U for cbAssert macro
 #include <configmanager.h>
+#include <pluginmanager.h>
 
 std::unique_ptr<CCLogger> CCLogger::s_Inst;
 
@@ -76,8 +77,16 @@ void CCLogger::Init(wxEvtHandler* parent, int logId, int logErrorId, int debugLo
     m_DebugLogErrorId = debugLogErrorId;
     m_AddTokenId = addTokenId;
     m_AddTokenId = addTokenId;
-    m_pCfgMgr    = Manager::Get()->GetConfigManager("clangd_client");
 
+    m_pCfgMgr = nullptr;
+    wxString configName;
+    #if defined (BUILDING_PLUGIN)
+        PluginInfo* pInfo = (PluginInfo*)(Manager::Get()->GetPluginManager()->GetPluginInfo((cbPlugin*)parent));
+        if (pInfo and (pInfo->name == "CodeCompletion" )) configName = "code_completion";
+        else if (pInfo and (pInfo->name == "clangd_client")) configName = "clangd_client";
+        if (pInfo and configName.Length())
+            m_pCfgMgr = Manager::Get()->GetConfigManager(configName);
+    #endif
 }
 
 // ----------------------------------------------------------------------------
@@ -124,8 +133,9 @@ void CCLogger::DebugLog(const wxString& msg, int id)
 
     if (!m_Parent || m_DebugLogId<1) return;
 
-    bool debugLogging = m_pCfgMgr->ReadBool("/logPluginDebug_check", false);
-    if (not debugLogging and (id==m_DebugLogId)) return;
+    bool debugLogging = false;
+    if (m_pCfgMgr) debugLogging = m_pCfgMgr->ReadBool("/logPluginDebug_check", false);
+    if ((not debugLogging) and (id == m_DebugLogId)) return;
 
     // Always allow debugError log messages
     CodeBlocksThreadEvent evt(wxEVT_COMMAND_MENU_SELECTED, id);

@@ -172,6 +172,19 @@ void ParseManagerTest::Init()
         wxString include_dir = CCTestAppGlobal::s_includeDirs.Item(i);
         m_Parser.AddIncludeDir(include_dir);
     }
+
+    wxArrayString includePaths = GetCompilerIncludePaths();
+
+    for (size_t i = 0; i < includePaths.GetCount(); i++)
+    {
+        wxString item = includePaths.Item(i);
+        m_Parser.AddIncludeDir(item);
+    }
+
+    wxString preDefines = AddCompilerPredefinedMacros();
+
+    Parse(preDefines, /*isLocalFile*/ false);
+
     // add the "testing" folder as include search path
     m_Parser.AddIncludeDir(wxGetCwd()+wxT("/testing"));
 }
@@ -364,4 +377,91 @@ bool ParseManagerTest::ParseAndCodeCompletion(wxString filename, bool isLocalFil
     wxLogMessage(wxT("--------------------------------------------------------\nTotal %d tests, %d PASS, %d FAIL\n--------------------------------------------------------"), passCount+failCount, passCount, failCount);
 
     return true;
+}
+
+
+wxArrayString ParseManagerTest::GetCompilerIncludePaths()
+{
+    // const wxString& cpp_path, const wxArrayString& extra_path, const wxString& cpp_executable
+
+    wxString cpp_path = "F:\\msys2\\mingw64";
+    wxArrayString extra_path; // empty
+    wxString cpp_executable = "g++.exe";
+
+    wxString sep = (platform::windows ? _T("\\") : _T("/"));
+    wxString cpp_compiler = cpp_path + sep + _T("bin") + sep + cpp_executable;
+
+    wxArrayString includePaths;
+
+    // Different command on Windows and other OSes
+#ifdef __WXMSW__
+    const wxString args(_T(" -v -E -x c++ nul"));
+#else
+    const wxString args(_T(" -v -E -x c++ /dev/null"));
+#endif
+
+
+    // wxExecute(cmd + args, output, error, wxEXEC_SYNC | wxEXEC_NODISABLE) == -1)
+    wxArrayString output, error;
+
+    if ( wxExecute(cpp_compiler + args, output, error, wxEXEC_SYNC | wxEXEC_NODISABLE) == -1)
+        return includePaths;
+
+    // start from "#include <...>", and the path followed
+    // let's hope this does not change too quickly, otherwise we need
+    // to adjust our search code (for several versions ...)
+    bool start = false;
+    for (size_t idxCount = 0; idxCount < error.GetCount(); ++idxCount)
+    {
+        wxString path = error[idxCount].Trim(true).Trim(false);
+        if (!start)
+        {
+            if (!path.StartsWith(_T("#include <...>")))
+                continue; // Next for-loop
+            path = error[++idxCount].Trim(true).Trim(false);
+            start = true;
+        }
+
+        wxFileName fname(path, wxEmptyString);
+        fname.Normalize(wxPATH_NORM_DOTS | wxPATH_NORM_TILDE | wxPATH_NORM_ABSOLUTE | wxPATH_NORM_LONG | wxPATH_NORM_SHORTCUT);
+        fname.SetVolume(fname.GetVolume().MakeUpper());
+        if (!fname.DirExists())
+            break;
+
+        includePaths.Add(fname.GetPath());
+
+    }
+    return includePaths;
+}
+
+wxString ParseManagerTest::AddCompilerPredefinedMacros()
+{
+    // const wxString& compilerId, cbProject* project, wxString& defs, ParserBase* parser
+
+    wxString cpp_path = "F:\\msys2\\mingw64";
+    wxArrayString extra_path; // empty
+    wxString cpp_executable = "g++.exe";
+
+    wxString sep = (platform::windows ? _T("\\") : _T("/"));
+    wxString cpp_compiler = cpp_path + sep + _T("bin") + sep + cpp_executable;
+    wxString gccDefs;
+
+    // Check if user set language standard version to use
+    wxString standard = "-std=c++11";
+
+        // Different command on Windows and other OSes
+#ifdef __WXMSW__
+        const wxString args(wxString::Format(_T(" -E -dM -x c++ %s nul"), standard.wx_str()) );
+#else
+        const wxString args(wxString::Format(_T(" -E -dM -x c++ %s /dev/null"), standard.wx_str()) );
+#endif
+
+    wxArrayString output, error;
+    if ( wxExecute(cpp_compiler + args, output, error, wxEXEC_SYNC | wxEXEC_NODISABLE) == -1)
+        return gccDefs;
+
+    for (size_t i = 0; i < output.Count(); ++i)
+        gccDefs += output[i] + _T("\n");
+
+    return gccDefs;
 }

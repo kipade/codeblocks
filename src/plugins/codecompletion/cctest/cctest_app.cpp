@@ -1,8 +1,8 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
- * $Revision: 13467 $
- * $Id: cctest_app.cpp 13467 2024-02-20 02:38:14Z ollydbg $
+ * $Revision: 13476 $
+ * $Id: cctest_app.cpp 13476 2024-02-24 01:52:10Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/cctest/cctest_app.cpp $
  */
 
@@ -20,7 +20,7 @@
  *      - Iterates over global file queue and calls ParseManagerTest::ParseAndCodeCompletion(file)
  *      - destroys "Busy" dialog
  *
- * -> ParseManagerTest(): contains a ParserBase instance, which mimic the NativeParser in C::B.
+ * -> ParseManagerTest(): contains a ParserBase instance, which mimics the ParseManager in C::B.
  *   -> ParseManagerTest()::ParseAndCodeCompletion(): parse the file, run tests contains in the file
  *      - Determine whether the file should be read from hard disk or wxScintilla control
  *      - parse it by calling ParserBase::ReParse() or ParserBase::ParseBuffer()

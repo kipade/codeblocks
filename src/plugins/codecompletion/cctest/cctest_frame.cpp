@@ -1,8 +1,8 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
- * $Revision: 13482 $
- * $Id: cctest_frame.cpp 13482 2024-02-24 01:52:53Z ollydbg $
+ * $Revision: 13489 $
+ * $Id: cctest_frame.cpp 13489 2024-03-07 12:12:12Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/cctest/cctest_frame.cpp $
  */
 
@@ -70,9 +70,7 @@ BEGIN_EVENT_TABLE(CCTestFrame, wxFrame)
     EVT_FIND_CLOSE      (wxID_ANY,     CCTestFrame::OnFindDialog)
 
     EVT_MENU(g_idCCLogger,           CCTestFrame::OnCCLogger)
-    EVT_MENU(g_idCCErrorLogger,      CCTestFrame::OnCCLogger)
     EVT_MENU(g_idCCDebugLogger,      CCTestFrame::OnCCLogger)
-    EVT_MENU(g_idCCDebugErrorLogger, CCTestFrame::OnCCLogger)
     EVT_MENU(g_idCCAddToken,         CCTestFrame::OnCCAddToken)
 END_EVENT_TABLE()
 
@@ -224,7 +222,7 @@ CCTestFrame::CCTestFrame(const wxString& main_file) :
     wxLog::SetActiveTarget(textLog);
     wxLog::DisableTimestamp(); // do not show the time stamp
 
-    CCLogger::Get()->Init(this, idCCLogger, idCCErrorLogger, idCCDebugLogger, idCCDebugErrorLogger, idCCAddToken);
+    CCLogger::Get()->Init(this, idCCLogger, idCCDebugLogger, idCCAddToken);
     m_StatuBar->SetStatusText(_("Ready!"));
 
     InitControl();

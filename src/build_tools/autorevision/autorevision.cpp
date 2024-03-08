@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13323 $
- * $Id: autorevision.cpp 13323 2023-08-03 16:04:01Z wh11204 $
+ * $Revision: 13488 $
+ * $Id: autorevision.cpp 13488 2024-03-07 10:27:37Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/build_tools/autorevision/autorevision.cpp $
  */
 
@@ -218,7 +218,7 @@ bool QueryVersionControl(const std::string& workingDir, std::string& vcsExecutab
         if (vcsExecutable.empty())
             vcsExecutable = "git";
 
-        if (GetProcessOutput(output, vcsExecutable + " log --grep=\"git-svn-id\" --max-count=1" + workingDir))
+        if (GetProcessOutput(output, vcsExecutable + " log --grep=\"git-svn-id\" --max-count=1 " + workingDir))
         {
             std::string::size_type lineStart = output.find("git-svn-id");
             if (lineStart != std::string::npos)

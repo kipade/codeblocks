@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13418 $
- * $Id: doxygen_parser.cpp 13418 2023-12-23 19:22:50Z pecanh $
+ * $Revision: 13490 $
+ * $Id: doxygen_parser.cpp 13490 2024-03-08 16:55:09Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/doxygen_parser.cpp $
  */
 
@@ -793,7 +793,7 @@ wxString DocumentationHelper::GenerateHTMLbyHover(const ClgdCCToken& cccToken, w
     int semCol    = pParser->GetSemanticTokenColumnNumAt(semTokenIdx);
     int semLine   = pParser->GetSemanticTokenLineNumAt(semTokenIdx);
     int semMods   = pParser->GetSemanticTokenModifierAt(semTokenIdx);
-    if (semLength or semType or semCol or semLength or semMods) {;}//don't show as unused
+    if (semLength or semType or semCol or semMods) {;}//don't show as unused
 
     if (semName.empty())
         return wxString();

@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13484 $
- * $Id: lspdiagresultslog.cpp 13484 2024-03-02 16:29:53Z pecanh $
+ * $Revision: 13493 $
+ * $Id: lspdiagresultslog.cpp 13493 2024-03-22 16:48:29Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/LSPclient/lspdiagresultslog.cpp $
  */
 
@@ -256,7 +256,7 @@ void LSPDiagnosticsResultsLog::OnApplyFixIfAvailable(wxCommandEvent& event) //(p
     {
         // Got the selected item index
         selectedLineText = GetItemAsText(itemIndex);
-        if (not selectedLineText.Contains(" (fix available) "))
+        if (not (selectedLineText.Contains(" (fix available) ") or (selectedLineText.Contains("(fixes available)"))))
         {
             wxString msg = wxString::Format(_("No Fix available for logLine(%d)"), int(itemIndex) );
             InfoWindow::Display(_("NO fix"), msg);

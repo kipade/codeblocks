@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
-+ * $Revision: 13484 $
-+ * $Id: codecompletion.cpp 13484 2024-03-02 16:29:53Z pecanh $
++ * $Revision: 13495 $
++ * $Id: codecompletion.cpp 13495 2024-03-29 21:56:54Z pecanh $
 + * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/codecompletion.cpp $
  */
 
@@ -5788,19 +5788,21 @@ wxString ClgdCompletion::VerifyEditorParsed(cbEditor* pEd)
     return msg;
 }//VerifyEditorParsed
 // ----------------------------------------------------------------------------
-void ClgdCompletion::OnRequestCodeActionApply(wxCommandEvent& event) //(ph 2023/08/16)
+void ClgdCompletion::OnRequestCodeActionApply(wxCommandEvent& event)
 // ----------------------------------------------------------------------------
 {
     wxString msg;
-    wxString filename = event.GetString().BeforeFirst('|');
-    wxString lineNumText = event.GetString().AfterFirst('|');
+    wxArrayString params = GetArrayFromString(event.GetString(),"|",true);
+    wxString filename = params[0];
+    wxString lineNumStr = params[1];
+    wxString logText = params[2];
     int lineNumInt = -1; //an impossible line number
-    try { lineNumInt = std::stoi(lineNumText.ToStdString()); }
+    try { lineNumInt = std::stoi(lineNumStr.ToStdString()); }
     catch(std::exception &e) { lineNumInt = -1;}
 
     if (filename.empty() or (not wxFileExists(filename)) or (lineNumInt == -1) )
     {
-        msg = wxString::Format(_("%s or line %s not found.\n"), filename, lineNumText );
+        msg = wxString::Format(_("%s or line %s not found.\n"), filename, lineNumStr );
     }
     cbEditor* pEd = Manager::Get()->GetEditorManager()->GetBuiltinEditor(filename);
     if (not pEd)

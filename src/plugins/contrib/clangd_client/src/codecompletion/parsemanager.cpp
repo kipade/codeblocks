@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13448 $
- * $Id: parsemanager.cpp 13448 2024-02-11 18:09:25Z pecanh $
+ * $Revision: 13497 $
+ * $Id: parsemanager.cpp 13497 2024-04-05 17:29:47Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parsemanager.cpp $
  */
 
@@ -61,10 +61,10 @@
 #include "parser/parser.h"
 
 #include "classbrowser.h"
-#include "parser/profiletimer.h"
+//#include "parser/profiletimer.h"
 #include "IdleCallbackHandler.h"
 #include "client.h"
-#include "infowindow.h"
+//#include "infowindow.h"
 
 
 
@@ -3473,4 +3473,71 @@ bool ParseManager::GetUseCCIconsOption()
     ConfigManager* cfg = Manager::Get()->GetConfigManager("clangd_client");
     bool useIcons = cfg->ReadBool("/useCompletionIcons_Check", false);
     return useIcons;
+}
+// ----------------------------------------------------------------------------
+bool ParseManager::DoShowDiagnostics(wxString filename, int line)  //(Christo 2024/03/30)
+// ----------------------------------------------------------------------------
+{
+    typedef std::vector<std::pair<int, wxString>> InnerMap_t;
+    bool ret = false;
+    wxString diagnostics;
+
+    { // <== codeblock == to contain mutex lock
+        std::lock_guard<std::mutex> lock(m_diagnosticsCacheMutex);
+        DiagnosticsCache_t::const_iterator itr = m_diagnosticsCache.find(filename);
+        if (itr != m_diagnosticsCache.end())
+        {
+            const InnerMap_t& innermap = itr->second;
+            for (InnerMap_t::const_iterator it = innermap.begin(); it != innermap.end(); ++it)
+            {
+                if (it->first == line)
+                {
+                    diagnostics = it->second;
+                    ret = true;
+                    break;
+                }
+            }
+        }
+    } // <== end codeblock == releases mutex lock
+
+    if (ret)
+    {
+        if (not (diagnostics.Contains("(fix available)") or (diagnostics.Contains("(fixes available)"))))
+        {
+            cbMessageBox(diagnostics, _("LSP Diagnostics"));
+        }
+        else
+        {
+            int answer = wxMessageBox( diagnostics + "\nApply Fix?", wxT("LSP Diagnostics"), wxYES_DEFAULT|wxYES_NO);
+            if (answer == wxYES)
+            {
+                const int idRequestCodeActionAppy = XRCID("idRequestCodeActionApply");
+                wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, idRequestCodeActionAppy);
+                evt.SetString(filename + "|" + wxString::Format(wxT("%i"),line +1) +"|"+ diagnostics);
+                Manager::Get()->GetAppFrame()->GetEventHandler()->AddPendingEvent(evt);
+            }
+        }
+    }
+    return ret;
+}
+
+// ----------------------------------------------------------------------------
+void ParseManager::InsertDiagnostics(wxString filename, std::vector<std::pair<int, wxString>> diagnostics)  //(Christo 2024/03/30)
+// ----------------------------------------------------------------------------
+{
+    std::lock_guard < std::mutex > lock(m_diagnosticsCacheMutex);
+    m_diagnosticsCache[filename] = diagnostics;
+}
+
+// ----------------------------------------------------------------------------
+void ParseManager::ClearDiagnostics(wxString filename)  //(Christo 2024/03/30)
+// ----------------------------------------------------------------------------
+{
+    std::lock_guard < std::mutex > lock(m_diagnosticsCacheMutex);
+    wxString ret;
+    const auto &itr = m_diagnosticsCache.find(filename);
+    if (itr != m_diagnosticsCache.end())
+    {
+        m_diagnosticsCache.erase(itr);
+    }
 }

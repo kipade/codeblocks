@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13497 $
- * $Id: parser.cpp 13497 2024-04-05 17:29:47Z pecanh $
+ * $Revision: 13498 $
+ * $Id: parser.cpp 13498 2024-04-19 02:25:06Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parser/parser.cpp $
  */
 
@@ -1487,7 +1487,7 @@ void Parser::OnLSP_DiagnosticsResponse(wxCommandEvent& event)
     json* pJson = (json*)event.GetClientData();
 
     wxString uri;
-    int version = -1;
+    int version = -1; //The version of this source file used by clangd (usually 0)
     try {
         uri = GetwxUTF8Str(pJson->at("params").at("uri").get<std::string>());
         if (pJson->at("params").contains("version"))

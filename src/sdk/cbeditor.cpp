@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13497 $
- * $Id: cbeditor.cpp 13497 2024-04-05 17:29:47Z pecanh $
+ * $Revision: 13509 $
+ * $Id: cbeditor.cpp 13509 2024-04-21 14:56:35Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/sdk/cbeditor.cpp $
  */
 
@@ -2232,10 +2232,10 @@ void cbEditor::DoFoldAll(FoldMode fold)
 
         struct FoldRange
         {
-            FoldRange(int start, int end, bool hasContracted) :
-                start(start),
-                end(end),
-                hasContracted(hasContracted)
+            FoldRange(int _start, int _end, bool _hasContracted) :
+                start(_start),
+                end(_end),
+                hasContracted(_hasContracted)
             {}
 
             int start, end;

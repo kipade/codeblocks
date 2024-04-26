@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13350 $
- * $Id: uservarmanager.cpp 13350 2023-09-09 22:11:18Z pecanh $
+ * $Revision: 13509 $
+ * $Id: uservarmanager.cpp 13509 2024-04-21 14:56:35Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/sdk/uservarmanager.cpp $
  */
 
@@ -53,13 +53,13 @@ class UserVarManagerNoGuiUI : public UserVarManagerUI
 public:
     ~UserVarManagerNoGuiUI()    {};
 
-    void DisplayInfoWindow(const wxString &title,const wxString &msg) override
+    void DisplayInfoWindow(cb_unused const wxString &title,const wxString &msg) override
     {
         Manager::Get()->GetLogManager()->LogWarning(msg);
     }
 
-    void OpenEditWindow(const std::set<wxString> &var) override { };
-    wxString GetVariable(wxWindow* parent, const wxString &old) override
+    void OpenEditWindow(cb_unused const std::set<wxString> &var) override { };
+    wxString GetVariable(cb_unused wxWindow* parent, cb_unused const wxString &old) override
     {
         return wxString();
     };

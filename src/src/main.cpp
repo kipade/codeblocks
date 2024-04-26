@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13399 $
- * $Id: main.cpp 13399 2023-11-25 12:46:43Z wh11204 $
+ * $Revision: 13504 $
+ * $Id: main.cpp 13504 2024-04-21 09:44:06Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/src/main.cpp $
  */
 
@@ -2078,14 +2078,13 @@ void MainFrame::DoFixToolbarsLayout()
     // 1. reset the best/min sizes loaded from the layout file.
     // 2. set new best size
     //
-    // The reset operation is needed because wxAUI does nothing when the values for min/best sizes
-    // aren't equal to wxDefaultSize.
-    // I'm not really sure why we need the second pass. :(
+    // The reset operation is needed because wxAUI does nothing when the values
+    // for min/best sizes aren't equal to wxDefaultSize.
 
-    wxAuiPaneInfoArray &panes = m_LayoutManager.GetAllPanes();
-    for (size_t ii = 0; ii < panes.GetCount(); ++ii)
+    wxAuiPaneInfoArray& panes = m_LayoutManager.GetAllPanes();
+    for (size_t i=0; i<panes.GetCount(); ++i)
     {
-        wxAuiPaneInfo &info = panes[ii];
+        wxAuiPaneInfo& info = panes[i];
         if (info.IsToolbar() && info.IsShown())
         {
             info.best_size = wxDefaultSize;
@@ -2093,14 +2092,14 @@ void MainFrame::DoFixToolbarsLayout()
         }
     }
 
-    // This is needed in order to auto shrink the toolbars to fit the icons with as little space as
-    // possible.
+    // This is needed in order to auto shrink the toolbars to fit the icons
+    // with as little space as possible.
     m_LayoutManager.Update();
 
-    for (size_t i = 0; i < panes.GetCount(); ++i)
+    for (size_t i=0; i<panes.GetCount(); ++i)
     {
         wxAuiPaneInfo& info = panes[i];
-        if (info.IsToolbar())
+        if (info.IsToolbar() && info.window)
         {
             info.best_size = info.window->GetBestSize();
             info.floating_size = wxDefaultSize;

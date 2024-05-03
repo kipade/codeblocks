@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13513 $
- * $Id: parser.cpp 13513 2024-04-26 15:49:14Z pecanh $
+ * $Revision: 13516 $
+ * $Id: parser.cpp 13516 2024-05-02 19:23:41Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parser/parser.cpp $
  */
 
@@ -42,19 +42,16 @@
 #include "unixprocess/fileutils.h"
 #endif
 
-//-deprecated- #include "parserthreadedtask.h"
+#include "annoyingdialog.h"
 
 #include "../classbrowser.h"
-//#include "../classbrowserbuilderthread.h"
 #include <encodingdetector.h>
 #include "client.h"
 #include "LSP_symbolsparser.h"
-//#include "debuggermanager.h"
 
 #include "../parsemanager.h"
 #include "parser.h"
 
-//#include "cbauibook.h"
 #include "../IdleCallbackHandler.h"
 #include "../gotofunctiondlg.h"
 #include "ccmanager.h"
@@ -64,7 +61,7 @@
 #endif
 
 #define CC_PARSER_DEBUG_OUTPUT 0
-//#define CC_PARSER_DEBUG_OUTPUT 1
+//#define CC_PARSER_DEBUG_OUTPUT 1 // **Debugging**
 
 #if defined(CC_GLOBAL_DEBUG_OUTPUT)
     #if CC_GLOBAL_DEBUG_OUTPUT == 1
@@ -1839,8 +1836,8 @@ void Parser::OnLSP_DiagnosticsResponse(wxCommandEvent& event)
                 lineWarningMap[diagLine] = false; //insert or replace as error takes precedence
             }
         }//endfor diagnosticsKnt
-
-        m_pParseManager->InsertDiagnostics(cbFilename, fileDiagnostics);  //(Christo 2024/03/30)
+        if (diagnosticsKnt)             //(ph 2024/05/02)
+            m_pParseManager->InsertDiagnostics(cbFilename, fileDiagnostics);  //(Christo 2024/03/30)
 
         // ------------------------------------------------------
         // Always put out a log message even if zero diagnostics
@@ -1939,7 +1936,20 @@ void Parser::OnLSP_DiagnosticsResponse(wxCommandEvent& event)
             Manager::Get()->ProcessEvent(evtShow);
             if (pFocusedWin) pFocusedWin->SetFocus();
         }
-    }
+
+        if ((not m_annoyingLogMsgShown) and diagnosticsKnt)
+        {
+            // If the current editor has warnings or errors,
+            // put out annoying msg re: right-mouse click LSP log line or
+            // alt-left-mouse click margin warning/error icon to show msg
+            m_annoyingLogMsgShown = true; //Don't show it again
+            wxString annoyingMsg = _("Error or warnings occured, see 'LSP messages' log.\n\n"
+                                     "Right-mouse click log line to apply fixes (if available)\n"
+                                     "or Alt-Left-mouse click on the margin warning/error icon");
+            AnnoyingDialog annoyingDlg(_("Appy fixes (if available)"), annoyingMsg, wxART_INFORMATION,  AnnoyingDialog::OK);
+            annoyingDlg.ShowModal();
+        }
+    }//endif diagnosticsKnt
     else if (pEditor == pActiveEditor)
     {
         // when no diagnostics for active editor clear error markers

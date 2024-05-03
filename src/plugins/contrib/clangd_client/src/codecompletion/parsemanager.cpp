@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13497 $
- * $Id: parsemanager.cpp 13497 2024-04-05 17:29:47Z pecanh $
+ * $Revision: 13516 $
+ * $Id: parsemanager.cpp 13516 2024-05-02 19:23:41Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parsemanager.cpp $
  */
 
@@ -3529,6 +3529,18 @@ void ParseManager::InsertDiagnostics(wxString filename, std::vector<std::pair<in
     m_diagnosticsCache[filename] = diagnostics;
 }
 
+// ----------------------------------------------------------------------------
+bool ParseManager::HasDiagnostics(wxString filename)  //(ph 2024/05/02)
+// ----------------------------------------------------------------------------
+{
+    std::lock_guard < std::mutex > lock(m_diagnosticsCacheMutex);
+    const auto &itr = m_diagnosticsCache.find(filename);
+    if (itr != m_diagnosticsCache.end())
+    {
+        return true;
+    }
+    return false;
+}
 // ----------------------------------------------------------------------------
 void ParseManager::ClearDiagnostics(wxString filename)  //(Christo 2024/03/30)
 // ----------------------------------------------------------------------------

@@ -25,7 +25,7 @@
 #endif
 
 //-----Release-Feature-Fix------------------
-#define VERSION wxT("1.2.114 24/03/2")
+#define VERSION wxT("1.2.124 24/05/02")
 //------------------------------------------
 // Release - Current development identifier
 // Feature - User interface level
@@ -50,6 +50,24 @@ class AppVersion
 // ----------------------------------------------------------------------------
 // Modifications
 // ----------------------------------------------------------------------------
+//1.2.124   2024/05/2 Show annoying msg re: shortcut keys for apply fix (if available)
+//1.2.123   2024/05/01 Fix DDE CB cold start not starting cland and parser.
+//          See codecompletion.cpp:5282
+//1.2.122   2024/04/26 Fix stall in "Show call tip" when using clangd Hover request
+//          Cf:, changes for m_HoverRequestIsActive
+//1.2.121   2024/04/21 Fix to avoid json throw 302 in ProcessLanguageClient::AddFileToCompileDBJson:3820
+//          using stmt "if (ccjCommand != newEntry["command"])" std::string comparison with json string
+//          which nlohmann json.hpp 3.11.2 does not correctly handle in C++20.
+//1.2.120   2024/04/18 Addition of and clarification of comments
+//1.2.119   2024/04/4 Apply christo warning/error diagnostic msgBox patch (with mods)
+//          Add diagnostic "fix availabe" item to margin popup menu.
+//          change left-mouse to alt-left-mouse on margin warning or error marker displays diagnostic msgBox directly.
+//1.2.118   2024/03/31 Apply christo colored warning msg icon tag://(christo 2024/03/23)
+//          watchesdlg: add sanity check to ValueTooltip::UpdateWatch()
+//1.2.117   2024/03/29 Cleanup and optimization of code for previous commit.
+//1.2.116   2024/03/25 Fix missing "fix available"(s) when error and fix line are different.
+//1.2.115   Apply Christo fix for "fixes available"; multi-line fixes.
+//          Avoid duplicate change responses from clangd.
 //1.2.114   Enable clangd "fix available" entries when user right-clicks log line and selects "Apply fix if available".
 //1.2.113   Remove instruction "int3" trap mistakenly left in code. Thanks SharkCZ.
 //          Update to nlohmann Json version 3.11.2
@@ -983,7 +1001,7 @@ class AppVersion
 //          Set query-driver agrument from master toolchain 2021/03/4
 //          Verify clang installation and clangd version >= 12.0.0 2021/03/4
 //  0.0.14  2021/02/27
-//          Implemented "Reparse active project" for clangd. Also used to kill/recreate
+//          Implemented "Reparse current project" for clangd. Also used to kill/recreate
 //              the client/server to force re-reading of compile_commands.json.
 //          CleanUpLSPLogs() to remove closed logs locked by windows.
 //          Use clangd12, remove envPath mangling, add log "Ignore Messages" context item

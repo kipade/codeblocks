@@ -33,7 +33,7 @@
 #include <map>
 #include <unordered_map>
 #include <vector>
-#include <set>
+//#include <set>
 
 class cbEditor;
 class wxScintillaEvent;
@@ -182,6 +182,8 @@ public:
     {
         return wxString(stdString.c_str(), wxConvUTF8);
     }
+
+    bool DoShowDiagnostics( cbEditor* ed, int line) override;  //(Christo 2024/03/30)
 
 private:
     void OnWindowActivated(wxActivateEvent& event); //on Window activated
@@ -559,7 +561,6 @@ private:
     int  m_MenuFleSaveFileID         = 0;
     bool m_PluginNeedsAppRestart     = false;
     int  m_HoverLastPosition         = 0;
-    bool m_HoverIsActive             = false;
     cbProject* m_PrevProject         = nullptr;
     cbProject* m_CurrProject         = nullptr;
     wxString m_PreviousCompletionPattern = "~~abuseme~~";

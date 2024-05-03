@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13238 $
- * $Id: ccmanager.cpp 13238 2023-03-19 14:03:37Z mortenmacfly $
+ * $Revision: 13497 $
+ * $Id: ccmanager.cpp 13497 2024-04-05 17:29:47Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/sdk/ccmanager.cpp $
  */
 
@@ -1554,3 +1554,11 @@ void CCManager::CallSmartIndentCCDone(cbEditor* ed)
     // post event in the host's event queue
     Manager::Get()->ProcessEvent(event);
 }
+
+// ----------------------------------------------------------------------------
+bool CCManager::DoShowDiagnostics( cbEditor* ed, int line)
+// ----------------------------------------------------------------------------
+{
+	return GetProviderFor(ed)->DoShowDiagnostics(ed, line);
+}
+

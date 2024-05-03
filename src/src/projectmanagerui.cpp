@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13310 $
- * $Id: projectmanagerui.cpp 13310 2023-06-04 13:07:17Z mortenmacfly $
+ * $Revision: 13507 $
+ * $Id: projectmanagerui.cpp 13507 2024-04-21 12:47:39Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/src/projectmanagerui.cpp $
  */
 
@@ -146,7 +146,6 @@ static bool ProjectVirtualFolderDragged(cbProject* project, wxTreeCtrl* tree, wx
 static bool ProjectShowOptions(cbProject* project);
 static wxString GetRelativeFolderPath(wxTreeCtrl* tree, wxTreeItemId parent);
 } // anonymous namespace
-
 
 ProjectTreeDropTarget::ProjectTreeDropTarget(cbTreeCtrl* ctrl, ProjectManagerUI* ui) : m_treeCtrl(ctrl), m_ui(ui)
 {
@@ -305,7 +304,6 @@ wxDragResult ProjectTreeDropTarget::OnDragOver(wxCoord x, wxCoord y, wxDragResul
     return defResult;
 }
 
-
 BEGIN_EVENT_TABLE(ProjectManagerUI, wxEvtHandler)
     EVT_TREE_BEGIN_DRAG(ID_ProjectManager,       ProjectManagerUI::OnTreeBeginDrag)
 
@@ -385,7 +383,6 @@ BEGIN_EVENT_TABLE(ProjectManagerUI, wxEvtHandler)
     EVT_UPDATE_UI(idMenuDeleteVirtualFolder, ProjectManagerUI::OnUpdateUI)
     EVT_UPDATE_UI(idMenuExecParams,          ProjectManagerUI::OnUpdateUI)
     EVT_UPDATE_UI(idMenuProjectNotes,        ProjectManagerUI::OnUpdateUI)
-
 END_EVENT_TABLE()
 
 ProjectManagerUI::ProjectManagerUI() :
@@ -537,6 +534,7 @@ void ProjectManagerUI::UnfreezeTree(cb_unused bool force)
 
 void ProjectManagerUI::ReloadFileSystemWatcher(cbProject* prj)
 {
+#if wxUSE_FSWATCHER
     auto oldPrjItr = m_FileSystemWatcherMap.find(prj);
     if (oldPrjItr != m_FileSystemWatcherMap.end())
     {
@@ -572,8 +570,8 @@ void ProjectManagerUI::ReloadFileSystemWatcher(cbProject* prj)
 
     if (refresh)
         RebuildTree();
+#endif //wxUSE_FSWATCHER
 }
-
 
 void ProjectManagerUI::UpdateActiveProject(cbProject* oldProject, cbProject* newProject, bool refresh)
 {
@@ -591,6 +589,7 @@ void ProjectManagerUI::UpdateActiveProject(cbProject* oldProject, cbProject* new
             m_pTree->SetItemBold(tid, true);
     }
 
+#if wxUSE_FSWATCHER
     auto oldPrjItr = m_FileSystemWatcherMap.find(oldProject);
     if (oldPrjItr != m_FileSystemWatcherMap.end())
     {
@@ -628,6 +627,7 @@ void ProjectManagerUI::UpdateActiveProject(cbProject* oldProject, cbProject* new
     }
 
     m_FileSystemWatcherMap[newProject] = std::move(projectWatches);
+#endif //wxUSE_FSWATCHER
 
     if (refresh)
         RebuildTree();
@@ -637,6 +637,7 @@ void ProjectManagerUI::UpdateActiveProject(cbProject* oldProject, cbProject* new
     m_pTree->Refresh();
 }
 
+#if wxUSE_FSWATCHER
 void ProjectManagerUI::OnFileSystemEvent(wxFileSystemWatcherEvent& evt)
 {
     if (Manager::IsAppShuttingDown())
@@ -652,6 +653,7 @@ void ProjectManagerUI::OnFileSystemEvent(wxFileSystemWatcherEvent& evt)
             m_fileSystemTimer.StartOnce(1000);
     }
 }
+#endif // wxUSE_FSWATCHER
 
 void ProjectManagerUI::OnFileSystemTimer(wxTimerEvent& evt)
 {
@@ -672,6 +674,10 @@ void ProjectManagerUI::OnFileSystemTimer(wxTimerEvent& evt)
 
 void ProjectManagerUI::RemoveProject(cbProject* project)
 {
+    if (!project)
+        return;
+
+#if wxUSE_FSWATCHER
     auto prjItr = m_FileSystemWatcherMap.find(project);
     if (prjItr != m_FileSystemWatcherMap.end())
     {
@@ -682,6 +688,7 @@ void ProjectManagerUI::RemoveProject(cbProject* project)
 
         m_FileSystemWatcherMap.erase(prjItr);
     }
+#endif // wxUSE_FSWATCHER
 
     m_pTree->Delete(project->GetProjectNode());
 }

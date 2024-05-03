@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13204 $
- * $Id: cbeditor.cpp 13204 2023-02-11 11:37:59Z wh11204 $
+ * $Revision: 13509 $
+ * $Id: cbeditor.cpp 13509 2024-04-21 14:56:35Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/sdk/cbeditor.cpp $
  */
 
@@ -39,6 +39,7 @@
 #endif
 #include "cbstyledtextctrl.h"
 #include "cbcolourmanager.h"
+#include "ccmanager.h"
 
 #include <stack>
 
@@ -60,6 +61,8 @@ const wxString g_EditorModified = _T("*");
 #define BREAKPOINT_STYLE wxSCI_MARK_CIRCLE
 #define DEBUG_STYLE      wxSCI_MARK_ARROW
 #define DEBUG_STYLE_HIGHLIGHT wxSCI_MARK_BACKGROUND
+#define WARNING_STYLE    wxSCI_MARK_SMALLRECT
+
 
 #define BREAKPOINT_OTHER_MARKER    1
 #define BREAKPOINT_DISABLED_MARKER 2
@@ -68,6 +71,8 @@ const wxString g_EditorModified = _T("*");
 #define ERROR_MARKER               5
 #define DEBUG_MARKER               6
 #define DEBUG_MARKER_HIGHLIGHT     7
+#define WARNING_MARKER             8
+
 
 #define C_LINE_MARGIN      0 // Line numbers
 #define C_MARKER_MARGIN    1 // Bookmarks, Breakpoints...
@@ -638,6 +643,8 @@ const int idBreakpointRemove = wxNewId();
 const long idBreakpointEnable = wxNewId();
 const long idBreakpointDisable = wxNewId();
 
+const long idFixAvailableAdd = wxNewId();
+
 BEGIN_EVENT_TABLE(cbEditor, EditorBase)
     EVT_CLOSE(cbEditor::OnClose)
     // we got dynamic events; look in ConnectEvents()
@@ -680,6 +687,7 @@ BEGIN_EVENT_TABLE(cbEditor, EditorBase)
     EVT_MENU(idSplitVert, cbEditor::OnContextMenuEntry)
     EVT_MENU(idUnsplit, cbEditor::OnContextMenuEntry)
     EVT_MENU(idOpenUrl, cbEditor::OnContextMenuEntry)
+    EVT_MENU(idFixAvailableAdd, cbEditor::OnContextMenuEntry)
 
     EVT_SCI_ZOOM(-1, cbEditor::OnZoom)
     EVT_SCI_ZOOM(-1, cbEditor::OnZoom)
@@ -891,17 +899,17 @@ public:
         return wxDragNone;
     }
 
-    wxDragResult OnEnter(wxCoord x, wxCoord y, wxDragResult def)
+    wxDragResult OnEnter(wxCoord x, wxCoord y, wxDragResult def) override
     {
         return editor->GetControl()->DoDragEnter(x, y, def);
     }
 
-    wxDragResult OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
+    wxDragResult OnDragOver(wxCoord x, wxCoord y, wxDragResult def) override
     {
         return editor->GetControl()->DoDragOver(x, y, def);
     }
 
-    void  OnLeave()
+    void  OnLeave() override
     {
         editor->GetControl()->DoDragLeave();
     }
@@ -1678,7 +1686,8 @@ void cbEditor::InternalSetEditorStyleBeforeFileOpen(cbStyledTextCtrl* control)
                            | (1 << BREAKPOINT_OTHER_MARKER)
                            | (1 << DEBUG_MARKER)
                            | (1 << DEBUG_MARKER_HIGHLIGHT)
-                           | (1 << ERROR_MARKER) );
+                           | (1 << ERROR_MARKER) //(cristo 2024/03/23)
+                           | (1 << WARNING_MARKER) );
 
     // 1.) Marker for Bookmarks etc...
     control->MarkerDefine(BOOKMARK_MARKER, BOOKMARK_STYLE);
@@ -1697,6 +1706,9 @@ void cbEditor::InternalSetEditorStyleBeforeFileOpen(cbStyledTextCtrl* control)
     // 4.) Marker for Errors...
     control->MarkerDefine(ERROR_MARKER, ERROR_STYLE);
     control->MarkerSetBackground(ERROR_MARKER, wxColour(0xFF, 0x00, 0x00));
+
+    control->MarkerDefine(WARNING_MARKER, WARNING_STYLE);
+    control->MarkerSetBackground(WARNING_MARKER, wxColour(0xCC, 0xCC, 0x00));
 
     // changebar margin
     if (mgr->ReadBool(_T("/margin/use_changebar"), true))
@@ -2220,10 +2232,10 @@ void cbEditor::DoFoldAll(FoldMode fold)
 
         struct FoldRange
         {
-            FoldRange(int start, int end, bool hasContracted) :
-                start(start),
-                end(end),
-                hasContracted(hasContracted)
+            FoldRange(int _start, int _end, bool _hasContracted) :
+                start(_start),
+                end(_end),
+                hasContracted(_hasContracted)
             {}
 
             int start, end;
@@ -2602,6 +2614,18 @@ void cbEditor::SetDebugLine(int line)
 void cbEditor::SetErrorLine(int line)
 {
     MarkLine(ERROR_MARKER, line);
+}
+
+void cbEditor::SetWarningLine(int line) const
+{
+    GetControl()->MarkerAdd(line, WARNING_MARKER);
+}
+
+void cbEditor::DeleteAllErrorAndWarningMarkers() const
+{
+    cbStyledTextCtrl* control = GetControl();
+    control->MarkerDeleteAll(ERROR_MARKER);
+    control->MarkerDeleteAll(WARNING_MARKER);
 }
 
 void cbEditor::Undo()
@@ -3124,6 +3148,15 @@ bool cbEditor::OnBeforeBuildContextMenu(const wxPoint& position, ModuleType type
 
             popup->Append(idBookmarkRemoveAll, _("Remove all bookmark"));
 
+
+            if (LineHasMarker(WARNING_MARKER, m_pData->m_LastMarginMenuLine)
+                or LineHasMarker(ERROR_MARKER, m_pData->m_LastMarginMenuLine) )
+            {
+                CCManager *ccManager = Manager::Get()->GetCCManager();
+                if (ccManager->GetProviderFor(this))
+                    popup->Append(idFixAvailableAdd, _("Show fix if available"));
+            }
+
             // display menu... wxWindows help says not to force the position
             PopupMenu(popup);
 
@@ -3354,6 +3387,13 @@ void cbEditor::OnContextMenuEntry(wxCommandEvent& event)
         cbBreakpointsDlg *dialog = Manager::Get()->GetDebuggerManager()->GetBreakpointDialog();
         dialog->EnableBreakpoint(m_Filename, m_pData->m_LastMarginMenuLine + 1, false);
     }
+    else if (id == idFixAvailableAdd)
+    {
+        // idFixAvailableAdd does not occur if no diagnostic is available
+        // See: OnBeforeBuildContexMenu()
+        CCManager* ccManager = Manager::Get()->GetCCManager();
+        ccManager->DoShowDiagnostics(this, m_pData->m_LastMarginMenuLine);
+    }
     else
         event.Skip();
     //Manager::Get()->GetLogManager()->DebugLog(_T("Leaving OnContextMenuEntry"));
@@ -3363,10 +3403,20 @@ void cbEditor::OnMarginClick(wxScintillaEvent& event)
 {
     switch (event.GetMargin())
     {
-        case C_MARKER_MARGIN: // bookmarks and breakpoints margin
+        case C_MARKER_MARGIN: // bookmarks, breakpoints, error and warning margin markers
         {
             int lineYpix = event.GetPosition();
             int line = GetControl()->LineFromPosition(lineYpix);
+
+            // if alt key is down, show fix available messageBox
+            if (wxGetKeyState(WXK_ALT)  )
+            {
+                CCManager *ccManager = Manager::Get()->GetCCManager();
+                if (true == ccManager->DoShowDiagnostics(this, line))
+                {
+                    break;
+                }
+            }
 
             ToggleBreakpoint(line);
             break;

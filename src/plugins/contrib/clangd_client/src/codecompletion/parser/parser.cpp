@@ -2,15 +2,15 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13484 $
- * $Id: parser.cpp 13484 2024-03-02 16:29:53Z pecanh $
+ * $Revision: 13516 $
+ * $Id: parser.cpp 13516 2024-05-02 19:23:41Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parser/parser.cpp $
  */
 
 #include <sdk.h>
 
 #ifndef CB_PRECOMP
-    #include <queue>
+    //#include <queue>
 
     #include <wx/app.h>
     #include <wx/dir.h>
@@ -29,6 +29,8 @@
 
 #endif
 
+#include <unordered_map> //(christo 2024/03/23)
+
 #include <wx/tokenzr.h>
 #include <cbstyledtextctrl.h>
 #include <wx/xrc/xmlres.h> //XRCID
@@ -40,19 +42,16 @@
 #include "unixprocess/fileutils.h"
 #endif
 
-//-deprecated- #include "parserthreadedtask.h"
+#include "annoyingdialog.h"
 
 #include "../classbrowser.h"
-#include "../classbrowserbuilderthread.h"
 #include <encodingdetector.h>
 #include "client.h"
 #include "LSP_symbolsparser.h"
-#include "debuggermanager.h"
 
 #include "../parsemanager.h"
 #include "parser.h"
 
-#include "cbauibook.h"
 #include "../IdleCallbackHandler.h"
 #include "../gotofunctiondlg.h"
 #include "ccmanager.h"
@@ -62,7 +61,7 @@
 #endif
 
 #define CC_PARSER_DEBUG_OUTPUT 0
-//#define CC_PARSER_DEBUG_OUTPUT 1
+//#define CC_PARSER_DEBUG_OUTPUT 1 // **Debugging**
 
 #if defined(CC_GLOBAL_DEBUG_OUTPUT)
     #if CC_GLOBAL_DEBUG_OUTPUT == 1
@@ -1485,7 +1484,7 @@ void Parser::OnLSP_DiagnosticsResponse(wxCommandEvent& event)
     json* pJson = (json*)event.GetClientData();
 
     wxString uri;
-    int version = -1;
+    int version = -1; //The version of this source file used by clangd (usually 0)
     try {
         uri = GetwxUTF8Str(pJson->at("params").at("uri").get<std::string>());
         if (pJson->at("params").contains("version"))
@@ -1680,6 +1679,11 @@ void Parser::OnLSP_DiagnosticsResponse(wxCommandEvent& event)
     wxArrayString  aLogLinesToWrite;
     const char STX = '\u0002'; //start-of-text char used as string separator
 
+    std::unordered_map<int, bool> lineWarningMap; //(christo 2024/03/23) 3lines
+    lineWarningMap.reserve(diagnosticsKnt);
+    std::vector<std::pair<int, wxString>> fileDiagnostics;  //(Christo 2024/03/30)
+    fileDiagnostics.reserve(diagnosticsKnt);
+
     try {
         for (int ii=0; ii<diagnosticsKnt; ++ii)
         {
@@ -1732,29 +1736,70 @@ void Parser::OnLSP_DiagnosticsResponse(wxCommandEvent& event)
             json jCodeActions = diagnostics[ii]["codeActions"];
             int codeActionsKnt = jCodeActions.size();
             //-unused- int codeActionLine = -1;
-            wxString codeActionMsg = wxString();
+            wxString codeActionTitle = wxString();    // text that goes to log
             wxString codeActionFilename = wxString();
-            wxString codeActionNewText =  wxString();
+            wxString codeActionNewText  =  wxString(); //text to change
 
             for (int jj = 0; jj < codeActionsKnt; ++jj)
             {
-                std::string jdumpStr = jCodeActions.dump();
-                //CCLogger::Get()->DebugLog(jdumpStr); // **Debugging**
+                std::string jdumpStr = jCodeActions[jj].dump();
+
+                // start **Debugging**
+                //    wxString dbgStr(wxString::Format("%d: %s", jj, jdumpStr));
+                //    CCLogger::Get()->DebugLog(dbgStr);
+                //    // Separate each member into a separate JSON string //(ph 2024/03/21)
+                //    json data = json::parse(jdumpStr);
+                //    std::vector<std::string> separate_json_strings;
+                //    for (const auto& item : data)
+                //    {
+                //        separate_json_strings.push_back(item.dump());
+                //        CCLogger::Get()->DebugLog("---> " + separate_json_strings.back());
+                //    }
+                //    separate_json_strings.clear();
+                // end **Debugging**
 
                 codeActionFilename = jCodeActions[jj]["edit"]["changes"].begin().key();
-               //-unused- codeActionLine =jCodeActions[jj]["edit"]["changes"][codeActionFilename.ToStdString()][0]["range"]["start"]["line"].get<int>();
-                codeActionMsg = jCodeActions[jj]["title"].get<std::string>();
+                codeActionTitle = jCodeActions[jj]["title"].get<std::string>();
                 codeActionFilename = fileUtils.FilePathFromURI(codeActionFilename);
 
+                // I tried 4 hours to access these vars the nlohmann json way and failed.
+                // So I'm going to do it the sane way.
                 size_t newTextEnd = std::string::npos;
                 size_t newTextBegin = jdumpStr.find("{\"newText\"");
                 if (newTextBegin != std::string::npos)
                     newTextEnd = jdumpStr.find("}}}", newTextBegin);
                 if (newTextEnd != std::string::npos)
                     codeActionNewText = jdumpStr.substr(newTextBegin, (newTextEnd-newTextBegin)+3);
-                if (codeActionNewText.Length())             //(ph 2023/08/15)
-                    FixesAvailable[codeActionFilename].push_back(codeActionNewText); //remember the fix
-            }
+                if (codeActionNewText.Length())
+                {
+                    bool duplicateFound = false;
+                    // Check for duplicates before adding fix changes
+                    // Clangd is responding with duplicate fixes.
+                    // It can cause errant changes and deletions of lines.
+                    if (FixesAvailable.find(codeActionFilename) != FixesAvailable.end())
+                    {
+                        // Iterate over the vector associated with the filename
+                        for (const auto& text : FixesAvailable[codeActionFilename])
+                        {
+                            // Check if the fix already exists in the vector of fixes
+                            if (text == codeActionNewText)
+                            {
+                                duplicateFound = true;
+                                break;
+                            }
+                        }
+                    }//endIf FixesAvailable find duplicates
+                    if(not duplicateFound)
+                    {
+                        // append error line number so we can use it as a search key
+                        //  because codeActions may not have it when the fix is to a
+                        //  different line.
+                        wxString errorLoc = wxString::Format("%d",diagLine);
+                        wxString stowit = codeActionNewText+STX+errorLoc+STX+codeActionTitle;
+                        FixesAvailable[codeActionFilename].push_back(stowit); //remember the fix
+                    }
+                }//endif CodeActionNewText length
+            }//endFor jj
 
             wxString logMsg(wxString::Format("LSP:diagnostic:%s %d:%d  %s: %s", cbFilename, diagLine+1, diagColstrt+1, severity, diagMsg));
            // CCLogger::Get()->Log(logMsg); // **Debugging**
@@ -1774,13 +1819,25 @@ void Parser::OnLSP_DiagnosticsResponse(wxCommandEvent& event)
             if (codeActionsKnt) //(ph 2024/02/12)
             {
                 if (lspDiagTxt.EndsWith("(fix available)") )
-                    lspDiagTxt.Append(" " + codeActionMsg);
+                    lspDiagTxt.Append(" " + codeActionTitle);
             }
             LSPdiagnostic.Add(lspDiagTxt);
             // hold msg in array
             aLogLinesToWrite.Add(STX+ LSPdiagnostic[0] +STX+ LSPdiagnostic[1] +STX+ LSPdiagnostic[2]);
+            wxString diagMsgAndTitle = diagMsg +":\n"+ codeActionTitle;
+            fileDiagnostics.emplace_back(diagLine, diagMsgAndTitle);  //(Christo 2024/03/30)
 
+            if (diagSeverity >= 2) //(christo 2024/03/23) 8lines
+            {
+                lineWarningMap.insert({ diagLine, true }); //insert if not present
+            }
+            else
+            {
+                lineWarningMap[diagLine] = false; //insert or replace as error takes precedence
+            }
         }//endfor diagnosticsKnt
+        if (diagnosticsKnt)             //(ph 2024/05/02)
+            m_pParseManager->InsertDiagnostics(cbFilename, fileDiagnostics);  //(Christo 2024/03/30)
 
         // ------------------------------------------------------
         // Always put out a log message even if zero diagnostics
@@ -1811,15 +1868,35 @@ void Parser::OnLSP_DiagnosticsResponse(wxCommandEvent& event)
             LSPdiagnostic = GetArrayFromString(aLogLinesToWrite[ii], wxString(STX));
             //write msg to log
             GetLSPClient()->LSP_GetLog()->Append(LSPdiagnostic);
+        }//endfor //(christo 2024/03/23) 1line
 
-            // Mark the line if in error ('notes' reads like an error to me)
-            int diagLine = std::stoi(LSPdiagnostic[1].ToStdString());
-            EditorBase* pEb = Manager::Get()->GetEditorManager()->GetEditor(cbFilename);
-            cbEditor* pEd = nullptr;
-            if (pEb) pEd = Manager::Get()->GetEditorManager()->GetBuiltinEditor(pEb);
-            if (pEd) pEd->SetErrorLine(diagLine-1);
-        }//endfor
-    }
+        EditorBase *pEb = Manager::Get()->GetEditorManager()->GetEditor(cbFilename); //(christo 2024/03/23) 26 lines
+        if (pEb)
+        {
+            cbEditor *pEd = Manager::Get()->GetEditorManager()->GetBuiltinEditor(pEb);
+            if (pEd)
+            {
+                //-for (const auto& [diagLine, warning] : lineWarningMap) //(christo 2024/03/23) is C++17
+                for (const auto& pair : lineWarningMap) //(ph 2024/03/23) C++11 of the above
+                {
+                    const auto& diagLine = pair.first;
+                    const auto& warning = pair.second;
+                    if (warning)
+                    {
+                        //-fprintf(stderr, "Parser::%s:%d [%p] set warning. diagLine  %d\n", __FUNCTION__, __LINE__, this,
+                        //-        diagLine);
+                        pEd->SetWarningLine(diagLine);
+                    }
+                    else
+                    {
+                        //-fprintf(stderr, "Parser::%s:%d [%p] set error. diagLine  %d\n", __FUNCTION__, __LINE__, this,
+                        //-        diagLine);
+                        pEd->SetErrorLine(diagLine);
+                    }
+                }
+            }
+        }//(christo 2024/03/23) end
+    }//endTry
     catch ( std::exception &e) {
         wxString errmsg(wxString::Format("LSP OnLSP_DiagnosticsResponse() error:\n%s", e.what()) );
         CCLogger::Get()->DebugLog(errmsg);
@@ -1859,11 +1936,24 @@ void Parser::OnLSP_DiagnosticsResponse(wxCommandEvent& event)
             Manager::Get()->ProcessEvent(evtShow);
             if (pFocusedWin) pFocusedWin->SetFocus();
         }
-    }
+
+        if ((not m_annoyingLogMsgShown) and diagnosticsKnt)
+        {
+            // If the current editor has warnings or errors,
+            // put out annoying msg re: right-mouse click LSP log line or
+            // alt-left-mouse click margin warning/error icon to show msg
+            m_annoyingLogMsgShown = true; //Don't show it again
+            wxString annoyingMsg = _("Error or warnings occured, see 'LSP messages' log.\n\n"
+                                     "Right-mouse click log line to apply fixes (if available)\n"
+                                     "or Alt-Left-mouse click on the margin warning/error icon");
+            AnnoyingDialog annoyingDlg(_("Appy fixes (if available)"), annoyingMsg, wxART_INFORMATION,  AnnoyingDialog::OK);
+            annoyingDlg.ShowModal();
+        }
+    }//endif diagnosticsKnt
     else if (pEditor == pActiveEditor)
     {
         // when no diagnostics for active editor clear error markers
-        pEditor->SetErrorLine(-1);
+        pEditor->DeleteAllErrorAndWarningMarkers(); //(christo 2024/03/23)
     }
 
     // ----------------------------------------------------------------------------
@@ -2574,7 +2664,7 @@ void Parser::OnLSP_CompletionResponse(wxCommandEvent& event, std::vector<ClgdCCT
     bool useDocumentationPopup = Manager::Get()->GetConfigManager("ccmanager")->ReadBool("/documentation_popup", false);
 
     // keep a persistent completion array for other routines to use
-    // v_CompletinTokens is a reference to clgdCompletin::m_CompletionTokens vector
+    // v_CompletinTokens is a reference to clgdCompletion::m_CompletionTokens vector
     if (v_CompletionTokens.size())
             v_CompletionTokens.clear();
 
@@ -2830,6 +2920,9 @@ void Parser::OnLSP_CompletionPopupHoverResponse(wxCommandEvent& event)
 void Parser::OnLSP_HoverResponse(wxCommandEvent& event, std::vector<ClgdCCToken>& v_HoverTokens, int n_HoverLastPosition)
 // ----------------------------------------------------------------------------
 {
+
+    GetParseManager()->SetHoverRequestIsActive(false); //Hover is now done
+
     if (GetIsShuttingDown()) return;
 
     // ----------------------------------------------------
@@ -3590,25 +3683,28 @@ void Parser::OnRequestCodeActionApply(wxCommandEvent& event) //(ph 2024/02/12)
     // obtained from the LSP textDocument/Diagnostics response.
 
     wxString msg;
-    wxString filename = event.GetString().BeforeFirst('|');
-    wxString lineNumText = event.GetString().AfterFirst('|');
+    wxArrayString params = GetArrayFromString(event.GetString(),"|", true);
+    wxString logFilename   = params[0];
+    wxString logLineNumStr = params[1];
+    wxString logText       = params[2];
+
     int lineNumInt = -1; //an impossible line number
-    try { lineNumInt = std::stoi(lineNumText.ToStdString()); }
+    try { lineNumInt = std::stoi(logLineNumStr.ToStdString()); }
     catch(std::exception &e) { lineNumInt = -1;}
 
-    if (filename.empty() or (not wxFileExists(filename)) or (lineNumInt == -1) )
+    if (logFilename.empty() or (not wxFileExists(logFilename)) or (lineNumInt == -1) )
     {
-        msg = wxString::Format(_("%s or line %s not found.\n"), filename, lineNumText );
+        msg = wxString::Format(_("%s or line %s not found.\n"), logFilename, logLineNumStr );
     }
-    cbEditor* pEd = Manager::Get()->GetEditorManager()->GetBuiltinEditor(filename);
+    cbEditor* pEd = Manager::Get()->GetEditorManager()->GetBuiltinEditor(logFilename);
     if (not pEd)
-    {   msg << wxString::Format(_("No open editor for filename:%s\n"), filename);
+    {   msg << wxString::Format(_("No open editor for filename:%s\n"), logFilename);
     }
-    cbProject* pProject = pEd->GetProjectFile() ? pEd->GetProjectFile()->GetParentProject() : nullptr;
 
+    cbProject* pProject = pEd->GetProjectFile() ? pEd->GetProjectFile()->GetParentProject() : nullptr;
     if (not pProject)
     {
-        msg << wxString::Format(_("No project found containing filename:\n %s."), filename);
+        msg << wxString::Format(_("No project found containing filename:\n %s."), logFilename);
     }
 
         // Example of a textDocument/Diagnostics CodeActive entry
@@ -3619,7 +3715,7 @@ void Parser::OnRequestCodeActionApply(wxCommandEvent& event) //(ph 2024/02/12)
         //        }}} //end edit object changes,
 
     // Verify filename and line number have an entry in available fixes map "FixesAvailable"
-    FixMap_t::iterator it_find = FixesAvailable.find(filename);
+    FixMap_t::iterator it_find = FixesAvailable.find(logFilename);
     if (it_find == FixesAvailable.end())
     {
         //There are no entries for this file
@@ -3633,41 +3729,38 @@ void Parser::OnRequestCodeActionApply(wxCommandEvent& event) //(ph 2024/02/12)
         return;
     }
 
-    wxString searchKey = filename;
-    // Line numbers in codeActions are zero origin, lineNum is from the log; so it's 1 origin.
-    // Find the fix entries in the map array that match this lineNum.
-    wxString searchElement = "\"line\":" + wxString::Format("%d", int(lineNumInt - 1));
+    // Line numbers in codeActions are zero origin, lineNumInt is from the log; so it's 1 origin.
+    // Find the fix entries in the map array that match this log filename, lineNum and title.
+    wxString logLine = wxString::Format("%d", int(lineNumInt-1)); //clangd needs zero origin lines
     //wxString searchResult; // **Debugging**
-    wxString codeActionStr; // starts with "{"newText":
+    wxString codeActionReplaceStr; // starts with "{"newText":
+    wxString codeActionErrLineStr;  // <int string>
+
     std::vector<wxString>FixesFound;
 
-    // Find the fixes
-    FixMap_t::iterator it = FixesAvailable.find(searchKey);
+    // FixesAvailable map contains key:FullFilename element: "<fixText>" STX "line #" STX "<fixTitleText>
+    // Find the fix
+    FixMap_t::iterator it = FixesAvailable.find(logFilename);
     if (it != FixesAvailable.end())
     {
         std::vector<wxString>& mapVector = it->second;
 
         for (std::vector<wxString>::iterator elementIt = mapVector.begin(); elementIt != mapVector.end(); ++elementIt)
         {
-            wxString& codeActionStr = *elementIt; // Pull the vector element string
-            //searchResult << "Checking element: " << codeActionStr ; // **Debugging**
+            wxString& elementFixStr = *elementIt; // Pull the vector element string
+            wxArrayString fixDataStrings = GetArrayFromString(elementFixStr, STX, true);
+            wxString fixCodeActionStr = fixDataStrings[0]; //clangd new text replacement
+            wxString fixErrorLineNum  = fixDataStrings[1]; //clangd error line number
+            wxString fixTitleText     = fixDataStrings[2]; //clangd tix title
 
-            if (codeActionStr.find(searchElement) != wxString::npos)
+            // selected log line info and fix info must match
+            if ( (fixErrorLineNum == logLine)
+               and (logText.find(fixTitleText) != wxString::npos) )
             {
-                //searchResult << "Found: " << searchElement << " in vector associated with key: " << searchKey ; // **Debugging**
-                FixesFound.push_back(codeActionStr);
-                // Modify the element so it can't be used again
-                *elementIt = "removed";
-            }
-            else
-            {
-                codeActionStr.clear(); // Didn't find any entries
+                FixesFound.push_back(fixCodeActionStr);
+                break; //apply one at a time.
             }
         }
-    }
-    else
-    {
-        //searchResult << "Key not found in map." ; // **Debugging**
     }
 
     if (not FixesFound.size())
@@ -3684,19 +3777,20 @@ void Parser::OnRequestCodeActionApply(wxCommandEvent& event) //(ph 2024/02/12)
     // ----------------------------------------------------
     for (size_t ii=FixesFound.size(); ii-- > 0;) //bounds test is made first, then ii is decremented
     {
+        const char STX = '\u0002';
+        codeActionReplaceStr  = FixesFound[ii].BeforeFirst(STX);
+        codeActionErrLineStr = FixesFound[ii].AfterFirst(STX);
         wxString newText;
-        int startLine; // 1 origin; needs to be changed to zero origin
-        int lineStartCol;
-        int lineEndCol;
+        int newStartLine; int newStartLineCol; int newEndLine; int newEndLineCol;
 
-        codeActionStr  = FixesFound[ii];
         try {
             // std::string testData = "{\"newText\":\"int\",\"range\":{\"end\":{\"character\":8,\"line\":275},\"start\":{\"character\":4,\"line\":275}}}"; // **Debugging**
-            nlohmann::json jCodeAction = nlohmann::json::parse(codeActionStr.ToStdString());
-            newText      = jCodeAction["newText"].get<std::string>();
-            startLine    = lineNumInt; // it's already 1 origin
-            lineStartCol = jCodeAction["range"]["start"]["character"] ;
-            lineEndCol   = jCodeAction["range"]["end"]["character"] ;
+            nlohmann::json jCodeAction = nlohmann::json::parse(codeActionReplaceStr.ToStdString());
+            newText    = jCodeAction["newText"].get<std::string>();
+            newStartLine    = jCodeAction["range"]["start"]["line"] ;
+            newStartLineCol = jCodeAction["range"]["start"]["character"] ;
+            newEndLine      = jCodeAction["range"]["end"]["line"] ;
+            newEndLineCol   = jCodeAction["range"]["end"]["character"] ;
         }
         catch(std::exception &err)
         {
@@ -3708,9 +3802,12 @@ void Parser::OnRequestCodeActionApply(wxCommandEvent& event) //(ph 2024/02/12)
         // pEd contains the cbEditor ptr from above
         cbStyledTextCtrl* pControl = pEd->GetControl();
          // Replace text; note that the startLine is from the log msg line, so it's 1 origin
-        int linePosn = pControl->PositionFromLine(startLine-1); // use zero origin for line
-        pControl->SetTargetStart(linePosn + lineStartCol);
-        pControl->SetTargetEnd(linePosn + lineEndCol );
+        int linePosn = pControl->PositionFromLine(newStartLine); // use zero origin for line
+        int targetStart = linePosn + newStartLineCol;
+        pControl->SetTargetStart(targetStart);
+        int lineEndPosn = pControl->PositionFromLine(newEndLine);
+        int targetEnd = lineEndPosn + newEndLineCol;
+        pControl->SetTargetEnd(targetEnd);
         pControl->ReplaceTarget(newText);
     }//endfor FixesFound
 
@@ -3720,7 +3817,7 @@ void Parser::OnRequestCodeActionApply(wxCommandEvent& event) //(ph 2024/02/12)
         // Invokes OnSpecifiedFileReparse()
         cbPlugin* pPlgn = Manager::Get()->GetPluginManager()->FindPluginByName("clangd_client");
         wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, XRCID("idSpecifiedFileReparse"));
-        evt.SetString(filename);
+        evt.SetString(logFilename);
         pPlgn->AddPendingEvent(evt);
     }
 

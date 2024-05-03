@@ -2,13 +2,13 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13484 $
- * $Id: lspdiagresultslog.cpp 13484 2024-03-02 16:29:53Z pecanh $
+ * $Revision: 13517 $
+ * $Id: lspdiagresultslog.cpp 13517 2024-05-03 05:00:13Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/LSPclient/lspdiagresultslog.cpp $
  */
 
 //#include "sdk_precomp.h" gets not used because `EXPORT_LIB' not defined [-Winvalid-pch] error
-#include "sdk.h"
+#include "sdk.h" // needed for wxTextCtr/listLoggerCtrll
 
 #ifndef CB_PRECOMP
     #include <wx/arrstr.h>
@@ -256,7 +256,7 @@ void LSPDiagnosticsResultsLog::OnApplyFixIfAvailable(wxCommandEvent& event) //(p
     {
         // Got the selected item index
         selectedLineText = GetItemAsText(itemIndex);
-        if (not selectedLineText.Contains(" (fix available) "))
+        if (not (selectedLineText.Contains(" (fix available) ") or (selectedLineText.Contains("(fixes available)"))))
         {
             wxString msg = wxString::Format(_("No Fix available for logLine(%d)"), int(itemIndex) );
             InfoWindow::Display(_("NO fix"), msg);
@@ -278,6 +278,7 @@ void LSPDiagnosticsResultsLog::OnApplyFixIfAvailable(wxCommandEvent& event) //(p
     // index 0:filename 1:lineNumber 2:Error text
     wxString filename = lineItems[0];
     wxString lineNumStr = lineItems[1];
+    wxString logText = lineItems[2];
 
     // Obtain cbEditor for this file
     cbEditor* pEd = Manager::Get()->GetEditorManager()->GetBuiltinEditor(filename);
@@ -286,7 +287,7 @@ void LSPDiagnosticsResultsLog::OnApplyFixIfAvailable(wxCommandEvent& event) //(p
     // Issue a  "textDocument/codeAction" request to ClgdCompletion.
     // This class does not have addressability to what we need (parser and FixesAvailable).
     wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, idRequestCodeActionAppy);
-    evt.SetString(filename +"|"+lineNumStr);
+    evt.SetString(filename +"|"+lineNumStr+"|"+logText);
     Manager::Get()->GetAppFrame()->GetEventHandler()->AddPendingEvent(evt);
 
     return;

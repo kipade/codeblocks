@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13003 $
- * $Id: watchesdlg.cpp 13003 2022-11-08 08:50:45Z wh11204 $
+ * $Revision: 13496 $
+ * $Id: watchesdlg.cpp 13496 2024-04-01 00:03:34Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/src/watchesdlg.cpp $
  */
 
@@ -1389,6 +1389,9 @@ ValueTooltip::~ValueTooltip()
 
 void ValueTooltip::UpdateWatch()
 {
+    // Sanity check
+    if (not m_watch)
+        return;
     m_watch->MarkAsChangedRecursive(false);
     ::UpdateWatch(m_grid, GetRealRoot(m_grid), m_watch, true);
     m_grid->Refresh();

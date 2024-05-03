@@ -54,6 +54,7 @@
 			<Add option="-D_WIN64" />
 			<Add option="-DCC_NO_COLLAPSE_ITEM" />
 			<Add option="-DcbDEBUG" />
+			<Add option="-DDOLOGSNIP" />
 			<Add directory="../../../include" />
 			<Add directory="../../../sdk/wxscintilla/include" />
 			<Add directory="../../../include/tinyxml" />

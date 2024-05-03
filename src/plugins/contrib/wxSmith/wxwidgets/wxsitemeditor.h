@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13453 $
-* $Id: wxsitemeditor.h 13453 2024-02-17 03:11:41Z ollydbg $
+* $Revision: 13503 $
+* $Id: wxsitemeditor.h 13503 2024-04-21 09:43:24Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxsitemeditor.h $
 */
 
@@ -57,13 +57,13 @@ class wxsItemEditor : public wxsEditor
         static void ConfigChanged();
 
         /** \brief PasteBefore from context menu */
-        void PasteBefore()             { SetInsertionType(itBefore); Paste(); }
+        void PasteBefore() { SetInsertionType(itBefore); Paste(); }
 
         /** \brief PasteInto from context menu */
-        void PasteInto()               { SetInsertionType(itInto); Paste(); }
+        void PasteInto()   { SetInsertionType(itInto);   Paste(); }
 
         /** \brief PasteAfter from context menu */
-        void PasteAfter()              { SetInsertionType(itAfter); Paste(); }
+        void PasteAfter()  { SetInsertionType(itAfter);  Paste(); }
 
         /** \brief Copying from main menu or context menu*/
         virtual void Copy();

@@ -2,13 +2,13 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13516 $
- * $Id: lspdiagresultslog.cpp 13516 2024-05-02 19:23:41Z pecanh $
+ * $Revision: 13517 $
+ * $Id: lspdiagresultslog.cpp 13517 2024-05-03 05:00:13Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/LSPclient/lspdiagresultslog.cpp $
  */
 
 //#include "sdk_precomp.h" gets not used because `EXPORT_LIB' not defined [-Winvalid-pch] error
-//#include "sdk.h"
+#include "sdk.h" // needed for wxTextCtr/listLoggerCtrll
 
 #ifndef CB_PRECOMP
     #include <wx/arrstr.h>

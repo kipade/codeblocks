@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13516 $
- * $Id: parser.cpp 13516 2024-05-02 19:23:41Z pecanh $
+ * $Revision: 13520 $
+ * $Id: parser.cpp 13520 2024-05-13 18:55:12Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parser/parser.cpp $
  */
 
@@ -220,6 +220,25 @@ void Parser::OnDebuggerStarting(CodeBlocksEvent& event)
         wxString msg = wxString::Format("LSP background parsing PAUSED while debugging project(%s)", pProject->GetTitle());
         CCLogger::Get()->DebugLog(msg);
     }
+    // Remove all cland_client error and warning margin markers so that they don't
+    // hide the debugger active line marker. //(ph 2024/05/13)
+    EditorManager* pEdMgr = Manager::Get()->GetEditorManager();
+    for (int ii=0; ii< pEdMgr->GetEditorsCount(); ++ii)
+    {
+        cbProject* pActiveProject = Manager::Get()->GetProjectManager()->GetActiveProject();
+        if (not pActiveProject) break;
+        // Find the project and ProjectFile this editor is holding.
+        cbEditor* pcbEd = pEdMgr->GetBuiltinEditor(ii);
+        if (pcbEd)
+        {
+            ProjectFile* pProjectFile = pcbEd->GetProjectFile();
+            if (not pProjectFile) continue;
+            cbProject* pEdProject = pProjectFile->GetParentProject();
+            if (not pEdProject) continue;
+            if (pEdProject != pActiveProject) continue;
+            pcbEd->DeleteAllErrorAndWarningMarkers();
+        }
+    }//endFor
 }
 // ----------------------------------------------------------------------------
 void Parser::OnDebuggerFinished(CodeBlocksEvent& event)

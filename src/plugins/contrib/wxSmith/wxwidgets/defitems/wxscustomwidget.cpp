@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12575 $
-* $Id: wxscustomwidget.cpp 12575 2021-12-12 09:48:33Z wh11204 $
+* $Revision: 13522 $
+* $Id: wxscustomwidget.cpp 13522 2024-05-21 18:54:24Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxscustomwidget.cpp $
 */
 
@@ -69,11 +69,14 @@ void wxsCustomWidget::OnBuildCreatingCode()
     wxString Style = m_Style;
     if (Style.empty())
         Style = "0";
+    wxString IdName = GetIdName();
+    if (IdName.empty())
+        IdName = _T("wxID_ANY");
 
     Result.Replace("$(POS)",       Codef(GetCoderContext(), _T("%P")));
     Result.Replace("$(SIZE)",      Codef(GetCoderContext(), _T("%S")));
     Result.Replace("$(STYLE)",     Style);
-    Result.Replace("$(ID)",        GetIdName());
+    Result.Replace("$(ID)",        IdName);
     Result.Replace("$(THIS)",      GetVarName());
     Result.Replace("$(PARENT)",    GetCoderContext()->m_WindowParent);
     Result.Replace("$(NAME)",      Codef(GetCoderContext(), _T("%N")));

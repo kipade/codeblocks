@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13520 $
- * $Id: parser.cpp 13520 2024-05-13 18:55:12Z pecanh $
+ * $Revision: 13523 $
+ * $Id: parser.cpp 13523 2024-05-23 07:53:52Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parser/parser.cpp $
  */
 
@@ -1965,7 +1965,7 @@ void Parser::OnLSP_DiagnosticsResponse(wxCommandEvent& event)
             wxString annoyingMsg = _("Error or warnings occured, see 'LSP messages' log.\n\n"
                                      "Right-mouse click log line to apply fixes (if available)\n"
                                      "or Alt-Left-mouse click on the margin warning/error icon");
-            AnnoyingDialog annoyingDlg(_("Appy fixes (if available)"), annoyingMsg, wxART_INFORMATION,  AnnoyingDialog::OK);
+            AnnoyingDialog annoyingDlg(_("Apply fixes (if available)"), annoyingMsg, wxART_INFORMATION,  AnnoyingDialog::OK);
             annoyingDlg.ShowModal();
         }
     }//endif diagnosticsKnt

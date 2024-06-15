@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13418 $
- * $Id: LSP_symbolsparser.cpp 13418 2023-12-23 19:22:50Z pecanh $
+ * $Revision: 13529 $
+ * $Id: LSP_symbolsparser.cpp 13529 2024-06-12 17:43:55Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parser/LSP_symbolsparser.cpp $
  */
 
@@ -213,7 +213,7 @@ LSP_SymbolsParser::LSP_SymbolsParser(ParserBase*          parent,
                            bool                 isLocal,
                            LSP_SymbolsParserOptions& LSP_SymbolsParserOptions,
                            TokenTree*           tokenTree,
-                           cbStyledTextCtrl*    pHiddenEditor) //(ph 2023/12/17)
+                           cbStyledTextCtrl*    pHiddenEditor)
 // ----------------------------------------------------------------------------
   : m_Tokenizer(tokenTree, pHiddenEditor), //This creates LSP_Tokenizer class/object
     m_Parent(parent),
@@ -235,7 +235,7 @@ LSP_SymbolsParser::LSP_SymbolsParser(ParserBase*          parent,
         //cbThrow(_T("m_TokenTree is a nullptr?!")); //cbThrow does not work from within a ctor
         cbAssert(m_TokenTree && "m_TokenTree is a nullptr?!");
 
-    m_pHiddenEditor = pHiddenEditor; //(ph 2023/12/17)
+    m_pHiddenEditor = pHiddenEditor;
 }
 
 // ----------------------------------------------------------------------------
@@ -541,7 +541,7 @@ bool LSP_SymbolsParser::InitTokenizer(json* pJson)
         else
         {
             #if defined(MEASURE_wxIDs) //Get a count of all wxIDs used until a return
-            //CCLogger::ShowLocalUsedwxIDs_t showLocalUsedwxIDs(__FUNCTION__, __LINE__) ;  //(ph 2023/12/14)
+            //CCLogger::ShowLocalUsedwxIDs_t showLocalUsedwxIDs(__FUNCTION__, __LINE__) ;
             #endif
 
         // most ParserThreadOptions were copied from m_Options
@@ -575,7 +575,7 @@ bool LSP_SymbolsParser::Parse(json* pJson, cbProject* pProject)
 // ----------------------------------------------------------------------------
 {
     #if defined(MEASURE_wxIDs) //Get a count of all wxIDs used by this function
-    //CCLogger::ShowLocalUsedwxIDs_t showLocalUsedwxIDs(__FUNCTION__, __LINE__) ;  //(ph 2023/12/14)
+    //CCLogger::ShowLocalUsedwxIDs_t showLocalUsedwxIDs(__FUNCTION__, __LINE__) ;
     #endif
 
         // most ParserThreadOptions were copied from m_Options

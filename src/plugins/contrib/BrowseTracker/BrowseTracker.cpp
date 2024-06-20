@@ -16,7 +16,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-// RCS-ID: $Id: BrowseTracker.cpp 13526 2024-06-10 03:37:14Z pecanh $
+// RCS-ID: $Id: BrowseTracker.cpp 13530 2024-06-19 16:13:54Z pecanh $
 
 // Notes:
 //
@@ -726,7 +726,7 @@ wxString BrowseTracker::GetPageFilename(EditorBase* eb)
 int BrowseTracker::GetEditor(EditorBase* eb)
 // ----------------------------------------------------------------------------
 {
-    // return the editor index from our array of user activated editos
+    // return the editor index from our array of user activated edits
     int numEntries = Helpers::GetMaxEntries();
     for (int i=0; i<numEntries; ++i )
     	if ( m_apEditors[i] == eb ) return i;

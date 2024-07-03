@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13529 $
- * $Id: parser.cpp 13529 2024-06-12 17:43:55Z pecanh $
+ * $Revision: 13534 $
+ * $Id: parser.cpp 13534 2024-07-01 19:34:27Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parser/parser.cpp $
  */
 
@@ -1344,6 +1344,7 @@ void Parser::OnLSP_BatchTimer(cb_unused wxTimerEvent& event)
     }
     else
     {
+        pClient->SetCompileCommandsPopulated(); //(christo 2024/06/26)
         wxString msg = "Background file parsing queue now empty.";
         CCLogger::Get()->DebugLog(msg);
         msg = wxString::Format("LSP Server is processing %zu remaining files.", pClient->LSP_GetServerFilesParsingCount() );

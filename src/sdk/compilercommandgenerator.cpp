@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 12999 $
- * $Id: compilercommandgenerator.cpp 12999 2022-11-01 13:12:28Z wh11204 $
+ * $Revision: 13537 $
+ * $Id: compilercommandgenerator.cpp 13537 2024-07-12 08:04:16Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/sdk/compilercommandgenerator.cpp $
  */
 
@@ -405,7 +405,7 @@ void CompilerCommandGenerator::GenerateCommandLine(Result &result, const Params 
 
 #ifdef command_line_generation
     Manager::Get()->GetLogManager()->DebugLog(wxString::Format("GenerateCommandLine[1]: tmpIncludes='%s', tmpResIncludes='%s'."),
-                                                               tmpIncludes, tmpResIncludes));
+                                                               tmpIncludes, tmpResIncludes);
 #endif
 
     wxString   tmp;

@@ -626,7 +626,7 @@ ProcessLanguageClient::~ProcessLanguageClient()
 
     m_terminateLSP = true; //tell the json read thread to terminate
     m_MapMsgHndlr.SetLSP_TerminateFlag(1);
-    m_CondInputBuf.Signal(); //(ph 2024/02/04) post jsonRead wait
+    m_CondInputBuf.Signal();  // post jsonRead wait
 
     if (m_pServerProcess and platform::windows)
         m_pServerProcess->Detach(); //ignore any further messages
@@ -696,7 +696,7 @@ ProcessLanguageClient::~ProcessLanguageClient()
         m_pJsonReadThread->join();
         // return should have been 2 //0=running; 1=terminateRequested; 2=Terminated
         // The join() could have changed the return code.
-        if (jsonTerminationThreadRC < 2)  //(ph 2023/10/16) //(Christo ticket 1423 2023/10/16)
+        if (jsonTerminationThreadRC < 2)   //(Christo ticket 1423 2023/10/16)
         {
             wxString msg = wxString::Format("%s() Json read thread termination error rc:%d\n", __FUNCTION__, int(jsonTerminationThreadRC) );
             if (not Manager::IsAppShuttingDown()) { //skip logging when shutting down, else we hang in linux
@@ -894,7 +894,7 @@ cbStyledTextCtrl* ProcessLanguageClient::GetStaticHiddenEditor(const wxString& f
         wxWindow* parent = Manager::Get()->GetAppWindow();
         // Use a static reusable hidden editor so we don't eat up wxIDs
         if (pHiddenEditor.get() == nullptr)
-            pHiddenEditor.reset( new cbStyledTextCtrl(parent, XRCID("HiddenEditor"), wxDefaultPosition, wxSize(0, 0))); //(ph 2023/12/11)
+            pHiddenEditor.reset( new cbStyledTextCtrl(parent, XRCID("HiddenEditor"), wxDefaultPosition, wxSize(0, 0)));
         pControl = pHiddenEditor.get();
         pControl->SetText("");
         pControl->Show(false);
@@ -993,8 +993,8 @@ void ProcessLanguageClient::OnLSP_PipedProcessTerminated(wxThreadEvent& event_pi
     if (GetLSP_Initialized()) processExitCode = -1; //terminated while initialized and running.
     if (m_pServerProcess){
         m_terminateLSP = true;   //tell json read thread to exit.
-        m_MapMsgHndlr.SetLSP_TerminateFlag(1); //(ph 2024/02/04)
-        m_CondInputBuf.Signal(); //(ph 2024/02/04) post jsonRead wait
+        m_MapMsgHndlr.SetLSP_TerminateFlag(1);
+        m_CondInputBuf.Signal();  // post jsonRead wait
     }
 
     #if defined(_WIN32)
@@ -1578,7 +1578,7 @@ void ProcessLanguageClient::OnIDMethod(wxCommandEvent& event)
 {
     //- unused- json* pJson = (json*)event.GetClientData();
     #if defined(MEASURE_wxIDs) //Get a count of all wxIDs used until a return
-    //CCLogger::ShowLocalUsedwxIDs_t showLocalUsedwxIDs(__FUNCTION__, __LINE__) ;  //(ph 2023/12/14)
+    //CCLogger::ShowLocalUsedwxIDs_t showLocalUsedwxIDs(__FUNCTION__, __LINE__) ;
     #endif
 }
 // ----------------------------------------------------------------------------
@@ -1586,7 +1586,7 @@ void ProcessLanguageClient::OnIDResult(wxCommandEvent& event)
 // ----------------------------------------------------------------------------
 {
     #if defined(MEASURE_wxIDs) //Get a count of all wxIDs used until a return
-    //CCLogger::ShowLocalUsedwxIDs_t showLocalUsedwxIDs(__FUNCTION__, __LINE__) ;  //(ph 2023/12/14)
+    //CCLogger::ShowLocalUsedwxIDs_t showLocalUsedwxIDs(__FUNCTION__, __LINE__) ;
     #endif
 
     json* pJson = (json*)event.GetClientData();
@@ -1623,7 +1623,7 @@ void ProcessLanguageClient::OnIDResult(wxCommandEvent& event)
             m_terminateLSP = true; //tell the read thread to terminate
             m_MapMsgHndlr.SetLSP_TerminateFlag(1);
             lspevt.SetString("LSP_Initialized:false");
-            m_CondInputBuf.Signal(); //(ph 2024/02/04) post jsonRead wait|
+            m_CondInputBuf.Signal();  // post jsonRead wait
         }
 
         else if(idValue.StartsWith("textDocument/declaration")
@@ -1696,7 +1696,7 @@ void ProcessLanguageClient::OnIDError(wxCommandEvent& event)
 // ----------------------------------------------------------------------------
 {
     #if defined(MEASURE_wxIDs) //Get a count of all wxIDs used until a return
-    //CCLogger::ShowLocalUsedwxIDs_t showLocalUsedwxIDs(__FUNCTION__, __LINE__) ;  //(ph 2023/12/14)
+    //CCLogger::ShowLocalUsedwxIDs_t showLocalUsedwxIDs(__FUNCTION__, __LINE__) ;
     #endif
 
     wxCommandEvent lspevt(wxEVT_COMMAND_MENU_SELECTED, GetLSP_UserEventID());
@@ -1744,7 +1744,7 @@ void ProcessLanguageClient::OnMethodParams(wxCommandEvent& event)
 // ----------------------------------------------------------------------------
 {
     #if defined(MEASURE_wxIDs) //Get a count of all wxIDs used until a return
-    //CCLogger::ShowLocalUsedwxIDs_t showLocalUsedwxIDs(__FUNCTION__, __LINE__) ;  //(ph 2023/12/14)
+    //CCLogger::ShowLocalUsedwxIDs_t showLocalUsedwxIDs(__FUNCTION__, __LINE__) ;
     #endif
 
     wxString methodValue;
@@ -2748,7 +2748,7 @@ void ProcessLanguageClient::LSP_RequestSymbols(wxString filename, cbProject* pPr
     fileURI.Replace("\\", "/");
     //-fileURI.MakeLower().Replace("f:", "");
 
-    cbStyledTextCtrl* pCtrl = GetStaticHiddenEditor(filename); //(ph 2023/12/11)
+    cbStyledTextCtrl* pCtrl = GetStaticHiddenEditor(filename);
     if (not pCtrl) return;
 
     //-DocumentUri docuri = DocumentUri(fileURI.c_str());
@@ -2885,7 +2885,7 @@ void ProcessLanguageClient::LSP_RequestSemanticTokens(wxString filename, cbProje
     fileURI.Replace("\\", "/");
     //-fileURI.MakeLower().Replace("f:", "");
 
-    cbStyledTextCtrl* pCtrl = GetStaticHiddenEditor(filename); //(ph 2023/12/11)
+    cbStyledTextCtrl* pCtrl = GetStaticHiddenEditor(filename);
     if (not pCtrl) return;
 
     //-DocumentUri docuri = DocumentUri(fileURI.c_str());
@@ -3888,6 +3888,16 @@ void ProcessLanguageClient::UpdateCompilationDatabase(cbProject* pProject, wxStr
         // There's likely no such database there; just wasting time.
         return;
     }
+    //(christo 2024/06/26)
+    if(m_compileCommandsPopulated)
+    {
+        if ( m_CompileCommandsFiles.end() != std::find(m_CompileCommandsFiles.begin(), m_CompileCommandsFiles.end(), filename))
+        {
+            return;
+        }
+        jdb = json::array();
+    }
+    //(christo 2024/06/26)end
 
     // create compilation database 'compile_commands.json' from project files.
     // If compile_commands.json already exists, use it to insert project file data.
@@ -3906,15 +3916,19 @@ void ProcessLanguageClient::UpdateCompilationDatabase(cbProject* pProject, wxStr
     // If the file does not belong to a project, add it to proxy project
     // compile_commands.json file so Clangd can find  and parse it.
 
-    std::fstream jsonFile;           //("out.json", std::ofstream::in | std::ofstream::out);
-    json jdb = json::array();        //create the main array
+    //(christo 2024/06/26)
+    //-std::fstream jsonFile;           //("out.json", std::ofstream::in | std::ofstream::out);
+    //-json jdb = json::array();        //create the main array
+    //(christo 2024/06/26)end
 
     wxString editorProjectDotCBP = pProject->GetFilename();
     wxString compileCommandsFullPath = wxPathOnly(editorProjectDotCBP) + "\\compile_commands.json";
     if (not platform::windows) compileCommandsFullPath.Replace("\\","/");
-    if (wxFileExists(compileCommandsFullPath)) switch(1)
+    //-if (wxFileExists(compileCommandsFullPath)) switch(1) //(christo 2024/06/26)
+    if ((jdb.size() == 0) && wxFileExists(compileCommandsFullPath)) switch(1)   //(christo 2024/06/26)
     {
         default:
+        std::fstream jsonFile;           //("out.json", std::ofstream::in | std::ofstream::out); //(christo 2024/06/26)
         jsonFile.open (compileCommandsFullPath.ToStdString(), std::ofstream::in);
         if (not jsonFile.is_open())
         {
@@ -3994,6 +4008,7 @@ void ProcessLanguageClient::UpdateCompilationDatabase(cbProject* pProject, wxStr
 
     if (fileCount)
     {
+        std::fstream jsonFile; //(christo 2024/06/26)
         jsonFile.open (compileCommandsFullPath.ToStdString(), std::ofstream::out | std::ofstream::trunc);
         if (not jsonFile.is_open())
         {
@@ -4006,16 +4021,23 @@ void ProcessLanguageClient::UpdateCompilationDatabase(cbProject* pProject, wxStr
             jsonFile << jdb; //write file json object
             jsonFile.close();
 
-            // This code un-needed after clangd version 12
-////        // updates before LSP is initialized should not set the LSP restart timer.
-////        // File opens after initialization have compile_commands already set
-////        // so filecount will be zero.
-////        // Ergo, the restart timer is set only when a new file is opened that
-////        // was not previously added to compile_commands.json
-////            if (GetLSP_Initialized())
-////                SetCompileCommandsChangedTime(true);
+            /// This code un-needed after clangd version 12
+            ////        // updates before LSP is initialized should not set the LSP restart timer.
+            ////        // File opens after initialization have compile_commands already set
+            ////        // so filecount will be zero.
+            ////        // Ergo, the restart timer is set only when a new file is opened that
+            ////        // was not previously added to compile_commands.json
+            ////            if (GetLSP_Initialized())
+            ////                SetCompileCommandsChangedTime(true);
         }
-    }
+        //(christo 2024/06/26)
+        if(m_compileCommandsPopulated)
+        {
+            jdb.clear();
+            m_CompileCommandsFiles.emplace_back(std::move(filename));
+        }
+        //(christo 2024/06/26)end
+    }//endif filecount
 
 }//end UpdateCompilationDatabase()
 // ----------------------------------------------------------------------------

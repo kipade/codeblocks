@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13190 $
-* $Id: wxscodinglang.cpp 13190 2023-02-03 08:28:08Z wh11204 $
+* $Revision: 13522 $
+* $Id: wxscodinglang.cpp 13522 2024-05-21 18:54:24Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxscodinglang.cpp $
 */
 
@@ -195,8 +195,14 @@ namespace wxsCodeMarks
                     // Check if translation is really needed. For now, just check if it contains alphabetic chars
                     if (std::any_of(Source.begin(), Source.end(), [] (wxUniChar c) {return wxIsalpha(c);}))
                     {
-                        Prefix = "_(";
-                        Postfix = ")";
+                        wxString CustomI18N = cfg->Read("/customI18N", _T(""));
+                        if (CustomI18N.IsEmpty())
+                            CustomI18N = _T("_(");
+                        else
+                            CustomI18N += _T("(");
+
+                        Prefix = CustomI18N;
+                        Postfix = _T(")");
                     }
                 }
 

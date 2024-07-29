@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 7109 $
-* $Id: wxschoice.h 7109 2011-04-15 11:53:16Z mortenmacfly $
+* $Revision: 13522 $
+* $Id: wxschoice.h 13522 2024-05-21 18:54:24Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxschoice.h $
 */
 
@@ -40,6 +40,7 @@ class wxsChoice: public wxsWidget
 
         wxArrayString ArrayChoices;
         long DefaultSelection;
+        bool UseItemsArray;
 };
 
 #endif

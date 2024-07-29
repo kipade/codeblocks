@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 12839 $
- * $Id: defaultmimehandler.cpp 12839 2022-06-17 12:18:29Z wh11204 $
+ * $Revision: 13535 $
+ * $Id: defaultmimehandler.cpp 13535 2024-07-03 11:38:12Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/defaultmimehandler/defaultmimehandler.cpp $
  */
 
@@ -217,18 +217,13 @@ int DefaultMimeHandler::OpenFile(const wxString& filename)
                     mt->useAssoc = true;
                     m_MimeTypes.Add(mt);
                     return DoOpenFile(mt, filename);
-                    break;
                 case 2: // open in editor
-                {
                     mt = new cbMimeType;
                     mt->wildcard = wild;
                     mt->useEditor = true;
                     mt->useAssoc = false;
                     m_MimeTypes.Add(mt);
                     return DoOpenFile(mt, filename);
-                    break;
-                }
-                default: break;
             }
         }
         else if (answer == wxID_CANCEL)

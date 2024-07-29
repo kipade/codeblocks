@@ -16,8 +16,8 @@
 * along with wxSmith; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 *
-* $Revision: 12304 $
-* $Id: processingdlg.cpp 12304 2021-03-16 23:28:31Z fuscated $
+* $Revision: 13532 $
+* $Id: processingdlg.cpp 13532 2024-06-26 17:48:07Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/lib_finder/processingdlg.cpp $
 */
 
@@ -27,7 +27,6 @@
 #include <wx/dir.h>
 #include <wx/filename.h>
 #include <wx/tokenzr.h>
-#include <wx/filename.h>
 #include <prep.h>
 
 //(*InternalHeaders(ProcessingDlg)

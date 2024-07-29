@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13400 $
- * $Id: coderefactoring.cpp 13400 2023-12-07 23:55:36Z pecanh $
+ * $Revision: 13529 $
+ * $Id: coderefactoring.cpp 13529 2024-06-12 17:43:55Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/coderefactoring.cpp $
  */
 
@@ -25,7 +25,7 @@
 #endif
 
 #include <wx/progdlg.h>
-#include <wx/xrc/xmlres.h> //(ph 2023/12/07)
+#include <wx/xrc/xmlres.h>
 
 #include <cbstyledtextctrl.h>
 #include <encodingdetector.h>
@@ -72,7 +72,7 @@ class ScopeDialog : public wxDialog
 // ----------------------------------------------------------------------------
 {
 public:
-    ScopeDialog(wxWindow* parent, const wxString& title)  //(ph 2023/12/07)
+    ScopeDialog(wxWindow* parent, const wxString& title)
         // : wxDialog(parent, wxID_ANY, title)
         : wxDialog(parent, XRCID("ScopeDialog"), title)
     {
@@ -322,7 +322,7 @@ size_t CodeRefactoring::VerifyResult(const TokenIdxSet& targetResult, const wxSt
 //    }
 //
 //    // now that list is filled, we'll search
-//    //cbStyledTextCtrl* control = new cbStyledTextCtrl(editor->GetParent(), wxID_ANY, wxDefaultPosition ,wxSize(0, 0)); dont eat up IDs //(ph 2023/12/07)
+//    //cbStyledTextCtrl* control = new cbStyledTextCtrl(editor->GetParent(), wxID_ANY, wxDefaultPosition ,wxSize(0, 0)); dont eat up IDs
 //    cbStyledTextCtrl* control = new cbStyledTextCtrl(editor->GetParent(), XRCID("CodeRefactoring::VerifyResult"), wxDefaultPosition ,wxSize(0, 0));
 //    control->Show(false);
 //

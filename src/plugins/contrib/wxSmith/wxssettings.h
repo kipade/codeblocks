@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13276 $
-* $Id: wxssettings.h 13276 2023-05-25 08:34:48Z wh11204 $
+* $Revision: 13522 $
+* $Id: wxssettings.h 13522 2024-05-21 18:54:24Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxssettings.h $
 */
 
@@ -36,6 +36,7 @@
 #include <wx/sizer.h>
 #include <wx/spinctrl.h>
 #include <wx/stattext.h>
+#include <wx/textctrl.h>
 //*)
 
 class wxsSettings: public cbConfigurationPanel
@@ -86,6 +87,7 @@ private:
     static const long ID_RADIOBUTTON6;
     static const long ID_RADIOBUTTON7;
     static const long ID_RADIOBUTTON8;
+    static const long ID_TEXTCTRL1;
     //*)
 
     //(*Declarations(wxsSettings)
@@ -96,6 +98,7 @@ private:
     wxCheckBox* m_BorderRight;
     wxCheckBox* m_BorderTop;
     wxCheckBox* m_Continous;
+    wxCheckBox* m_EmptyIDs;
     wxCheckBox* m_RemovePrefix;
     wxCheckBox* m_SizeExpand;
     wxCheckBox* m_SizeShaped;
@@ -120,6 +123,8 @@ private:
     wxSpinCtrl* m_Border;
     wxSpinCtrl* m_GridSize;
     wxSpinCtrl* m_Proportion;
+    wxStaticText* StaticText16;
+    wxTextCtrl* m_CustomI18N;
     //*)
 
     int m_InitialPlacement;

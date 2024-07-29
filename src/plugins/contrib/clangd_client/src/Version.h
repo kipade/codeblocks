@@ -25,7 +25,7 @@
 #endif
 
 //-----Release-Feature-Fix------------------
-#define VERSION wxT("1.2.124 24/05/02")
+#define VERSION wxT("1.2.129 24/7/03")
 //------------------------------------------
 // Release - Current development identifier
 // Feature - User interface level
@@ -50,6 +50,14 @@ class AppVersion
 // ----------------------------------------------------------------------------
 // Modifications
 // ----------------------------------------------------------------------------
+//1.2.129   2024/7/03 Apply Strunz patch 1489
+//1.2.128   2024/06/27 Apply Christo patch "compile_commands.json optimization"
+//          Avoid unneccesary parsing of the compile_commands.json file when editing and saving a file.
+//          https://forums.codeblocks.org/index.php/topic,24357.msg175756.html#msg175756
+//1.2.127   2024/06/12 Remove all debugging tags for //(ph <date>)
+//1.2.126   2024/05/13 Remove warning/error markers when debugging to avoid hiding
+//          debugger active line marker.
+//1.2.125   2024/05/10 Added DisplayPausedStatusOfAllProjects() for debugging
 //1.2.124   2024/05/2 Show annoying msg re: shortcut keys for apply fix (if available)
 //1.2.123   2024/05/01 Fix DDE CB cold start not starting cland and parser.
 //          See codecompletion.cpp:5282
@@ -135,7 +143,7 @@ class AppVersion
 //                     to guarantee small projects (with no open editors) can update the Symbols tab.
 //          2023/10/23 Apply Christo ticket 1426 error serverity id mismatches.
 //1.2.90    2023/10/18 Fix crash caused by null pActiveProject in classbrowser.cpp 315
-//1.2.89    2023/10/14 Temporary "fixme" to prevent crash @ ClassBrowserBuilderThread::AddMembersOf(} tagged://(ph 2023/10/14)
+//1.2.89    2023/10/14 Temporary "fixme" to prevent crash @ ClassBrowserBuilderThread::AddMembersOf(}
 //          Fix crash candidate: UpdateClassBrowserView was returning before clearing Symbols tree.
 //1.2.88    2023/10/12 Fix stall when user set option Environment/OpenDefaultWorkspace
 //          OnProjectActivaded being called before internal init was finished.
@@ -144,7 +152,7 @@ class AppVersion
 //1.2.87    2023/10/11 Ticket 1393 from legacy CodeComplete CBfreeze.
 //          Remove misunderstood active project checks that keep Symbols window cleanup after wksp close.
 //1.2.86    2023/10/9 Hack to fix crash when Tokens.end() < Tokens.begin()
-//          See ClassBrowserBuilderThread 1005 (Tagged //(ph 2023/10/07))
+//          See ClassBrowserBuilderThread 1005 (Tagged
 //1.2.85    2023/10/4 Sanity check for ClassBrowserBilderThread:902 crash
 //1.2.84    2023/09/28 Clarified stmt "return success = false;" means assigment
 //1.2.83    2023/09/27 Apply fixes 1412 and 1414 unreachable code
@@ -288,7 +296,7 @@ class AppVersion
 //          2022/10/21
 //          OnLSP_BatchTimer(): skip parsing a queued file if not owned by a target.
 //0.2.48    Commit 2022/10/20
-//          //(ph 2022/10/19) Thanks ollydbg
+//          Thanks ollydbg
 //          Applied ollydbg fix for ticket #75. The default location for compile_commands.json
 //              is assumed to be in the files parent folder. It needs to be set to the .cbp folder.
 //          2022/10/17
@@ -844,7 +852,7 @@ class AppVersion
 //          Hang issueing 'reparse project'. Fix: use find/remove event hander, not popEventHandler
 //          Re-instated code for dialog ccdebug info (key: Alt-Shift double click tree item)
 //          2021/09/28
-//          Added parser.h/cpp m_nternalParsingPaused to allow code to pause file parsing //(ph 2021/07/31)
+//          Added parser.h/cpp m_nternalParsingPaused to allow code to pause file parsing
 //              Especially where the code invokes a dialog that holds the TokenTree mutex lock. This
 //              can cause the clangd jason responses to backup up and eat memory. Cf: OnLSP_ParseDocumentSymbols()
 //          2021/09/27
@@ -916,7 +924,7 @@ class AppVersion
 //          Removed showerr parameter from GetLSPclient(pProject|peditor). Just too confusing.   2021/07/27
 //          Updated Goto[Decl|Impl] to verify file belongs to active project    2021/07/27
 //          Deprecated/Removed parserthread.h/cpp 2021/07/27
-//          Added parser.h/cpp m_UserParsingPaused to allow user to manually pause file parsing //(ph 2021/07/31)
+//          Added parser.h/cpp m_UserParsingPaused to allow user to manually pause file parsing
 //0.0.20(h) 2021/07/16
 //          Support CanDetach() missing call from sdk\pluginsconfigurationdlg.cpp
 //          Use CanDetach() to ask user to close workspace before uninstalling clangd_client
@@ -925,10 +933,10 @@ class AppVersion
 //0.0.20(h) 2021/06/29
 //          Added "LSP clangd", "LSP Clangd is not active for this project." to codecompletion::GetLSPclient(cbProject*)
 // 0.0.19(h) 2021/06/14    moved to wx3.1.5
-//          Fixed Re-parse now Symbols context event by invoking idParseCurrentProject event        //(ph 2021/06/14)
-//          Added "Editor not yet parsed" and "...parsing delay" msg to find refs, goto decl/impls funcs. //(ph 2021/06/14)
-//          changed wxCheck_msg2 to cbAssertNonFatal. wxCheck did not work in release mode. //(ph 2021/06/15)
-//          For FindReferences and GotoDeclImpl, Output InfoWindow::Display() for files not contained in a project. //(ph 2021/06/15)
+//          Fixed Re-parse now Symbols context event by invoking idParseCurrentProject event
+//          Added "Editor not yet parsed" and "...parsing delay" msg to find refs, goto decl/impls funcs.
+//          changed wxCheck_msg2 to cbAssertNonFatal. wxCheck did not work in release mode.
+//          For FindReferences and GotoDeclImpl, Output InfoWindow::Display() for files not contained in a project.
 //          Turned on #define CC_ENABLE_LOCKER_ASSERT   2021/06/16
 //          Added IsServerFilesParsing() to client.h 2021/06/16
 // 0.0.18
@@ -938,7 +946,7 @@ class AppVersion
 //          Fixed: Stopped EncodingDector conversion msgs when file is loaded into hidden editors 2021/04/13
 //          Modified CC GotoFunction dialog to use TokenTree when using LSP client 2021/04/13
 //          Focus LSP messages log on didSave   2021/04/14
-//          Fixed: Dont call for symbols on dumb diagnostics sent on a didclose //(ph 2021/04/15
+//          Fixed: Dont call for symbols on dumb diagnostics sent on a didclose
 //          Dont parse system headers, clangd already does that.    2021/04/16
 //          On reparse project, call CC parse first in so it's ptr is available for LSP reparseing 2021/04/15
 //          Fixed: invalid utf8 text handed to clangd in didOpen for background 2021/04/16
@@ -965,18 +973,18 @@ class AppVersion
 //          Verify pParser for pProject exists before creating client
 //          Switch from DoLockClangd_CacheAccess() to OnDebuggerStarting() to shutdown clangd when debugging clangd. 2021/05/11
 //          Stopped didOpen() of .h files during LSP initialization. But it causes goto defs/decls from .h files to fail. 2021/05/11
-//          ^^^ Reverted: symbols are not requested in OnLSP_DiagnosticsResponse() for .h files. But .h files needs didOpen() for clangd. //(ph 2021/05/12)
-//          Implemented Reparse single file for LSP clangd //(ph 2021/05/13)
+//          ^^^ Reverted: symbols are not requested in OnLSP_DiagnosticsResponse() for .h files. But .h files needs didOpen() for clangd.
+//          Implemented Reparse single file for LSP clangd
 //          Fixed GoToFunction() for both headers and implementations. 2021/05/22
-//          ParseManager::DoFullParsing() Parse headers only if 'ShowInheritance" is set //(ph 2021/05/24)
+//          ParseManager::DoFullParsing() Parse headers only if 'ShowInheritance" is set
 //              Note: cfg setting and symbols context setting is out of sync.
 //          Removed all WriteOptions() except for OnApply(). They were causing previous parsers options
-//              to be applied to the next created parser after a parser delete. //(ph 2021/05/25)
+//              to be applied to the next created parser after a parser delete.
 //              and Modifying the config while a project was loaded was impossible. Config items wouldn't stick.
 //          Removed Parser->RemoveFile() before parsing json data. Was causing crashes. 2021/06/4
 //              Still don't understand how stale data is removed from Token tree.
 //          Parsing headers in both foreground and background when "Show inheritance members" 2021/06/11
-//          Fixed: parsing children in LSP_symbolsparser.cpp //(ph 2021/06/11)
+//          Fixed: parsing children in LSP_symbolsparser.cpp
 //          Fixed some crashes because not handling typedef and class forward declaration correctly. 2021/06/12
 // 0.0.17   2021/04/2
 //          Support for TokenTree (symbols browser & toolbar)

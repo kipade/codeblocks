@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13529 $
- * $Id: parsemanager.cpp 13529 2024-06-12 17:43:55Z pecanh $
+ * $Revision: 13539 $
+ * $Id: parsemanager.cpp 13539 2024-08-07 17:30:24Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parsemanager.cpp $
  */
 
@@ -740,8 +740,8 @@ wxString ParseManager::GetHeaderForSourceFile(cbProject* pProject, wxString& fil
     for (FilesList::const_iterator flist_it = pProject->GetFilesList().begin(); flist_it != pProject->GetFilesList().end(); ++flist_it)
     {
         ProjectFile* pf = *flist_it;
-        if ( (ParserCommon::FileType(pf->relativeFilename) == ParserCommon::ftSource) //look for hdrs only
-            or (FileTypeOf(pf->relativeFilename) == ftTemplateSource) )
+        if ( pf and ((ParserCommon::FileType(pf->relativeFilename) == ParserCommon::ftSource) //look for hdrs only  //(ticket #1496 check pf 2024/08/7)
+            or (FileTypeOf(pf->relativeFilename) == ftTemplateSource)) )
             continue;
         if ( pf and (pf->file.GetName() == fnFilename.GetName()) )
         {

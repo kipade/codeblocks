@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13541 $
-* $Id: wxssimplefonteditordlg.cpp 13541 2024-08-11 18:01:17Z mortenmacfly $
+* $Revision: 13542 $
+* $Id: wxssimplefonteditordlg.cpp 13542 2024-08-13 13:51:31Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/properties/wxssimplefonteditordlg.cpp $
 */
 
@@ -150,16 +150,18 @@ void wxsSimpleFontEditorDlg::UpdateFontDescription()
             Description << _("Weight: ");
             switch ( m_WorkingCopy.Weight )
             {
+                case wxFONTWEIGHT_LIGHT:      Description << _("Light\n");      break;
+                case wxFONTWEIGHT_BOLD:       Description << _("Bold\n");       break;
+#if wxCHECK_VERSION(3, 1, 2)
                 case wxFONTWEIGHT_THIN:       Description << _("Thin\n");       break;
                 case wxFONTWEIGHT_EXTRALIGHT: Description << _("ExtraLight\n"); break;
-                case wxFONTWEIGHT_LIGHT:      Description << _("Light\n");      break;
                 case wxFONTWEIGHT_MEDIUM:     Description << _("Medium\n");     break;
                 case wxFONTWEIGHT_SEMIBOLD:   Description << _("SemiBold\n");   break;
-                case wxFONTWEIGHT_BOLD:       Description << _("Bold\n");       break;
                 case wxFONTWEIGHT_EXTRABOLD:  Description << _("ExtraBold\n");  break;
                 case wxFONTWEIGHT_HEAVY:      Description << _("Heavy\n");      break;
                 case wxFONTWEIGHT_EXTRAHEAVY: Description << _("ExtraHeavy\n"); break;
                 case wxFONTWEIGHT_INVALID:    // fall-through
+#endif
                 case wxFONTWEIGHT_NORMAL:     // fall-through
                 default:                      Description << _("Normal\n");
             }

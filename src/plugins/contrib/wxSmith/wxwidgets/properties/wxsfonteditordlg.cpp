@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12304 $
-* $Id: wxsfonteditordlg.cpp 12304 2021-03-16 23:28:31Z fuscated $
+* $Revision: 13541 $
+* $Id: wxsfonteditordlg.cpp 13541 2024-08-11 18:01:17Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/properties/wxsfonteditordlg.cpp $
 */
 
@@ -548,6 +548,8 @@ void wxsFontEditorDlg::OnButton1Click1(cb_unused wxCommandEvent& event)
         case wxFONTFAMILY_SWISS:      FamVal->SetSelection(FFAM_SWISS); break;
         case wxFONTFAMILY_MODERN:     FamVal->SetSelection(FFAM_MODERN); break;
         case wxFONTFAMILY_TELETYPE:   FamVal->SetSelection(FFAM_TELETYPE); break;
+        case wxFONTFAMILY_UNKNOWN:
+        case wxFONTFAMILY_DEFAULT:
         default:                      FamUse->SetValue(false);
     }
 

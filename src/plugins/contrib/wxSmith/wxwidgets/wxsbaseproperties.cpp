@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12298 $
-* $Id: wxsbaseproperties.cpp 12298 2021-03-06 15:47:09Z fuscated $
+* $Revision: 13541 $
+* $Id: wxsbaseproperties.cpp 13541 2024-08-11 18:01:17Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxsbaseproperties.cpp $
 */
 
@@ -63,12 +63,7 @@ void wxsBaseProperties::OnEnumProperties(long Flags)
     if ( Flags & flId         && PSFilter           ) WXS_BOOL_P         (wxsBaseProperties,m_IdFromArg,      _("Use ID from argument"),                                                          _T("id_arg"),        true,         Priority2);
     if ( Flags & flPosition   && PSFilter           ) WXS_BOOL_P         (wxsBaseProperties,m_PositionFromArg,_("Use pos from argument"),                                                         _T("pos_arg"),       false,        Priority2);
     if ( Flags & flSize       && PSFilter           ) WXS_BOOL_P         (wxsBaseProperties,m_SizeFromArg,    _("Use size from argument"),                                                        _T("size_arg"),      false,        Priority2);
-    if ((Flags & flTopLevel) && PSFilter)
-    {
-        WXS_BOOL_PT(wxsBaseProperties, m_UseLayout, _("Lay out the window"), _T("layout_window"),
-                    true, Priority2,
-                    _("Automatically lay out the window. If disabled you must call Layout(), Fit() or SetSizeHints() in your code."));
-    }
+    if ( Flags & flTopLevel   && PSFilter           ) WXS_BOOL_PT        (wxsBaseProperties, m_UseLayout,     _("Lay out the window"),                                                            _T("layout_window"), true,         Priority2, _("Automatically lay out the window. If disabled you must call Layout(), Fit() or SetSizeHints() in your code."));
     if ( m_StyleSet                                 ) WXS_STYLE_P        (wxsBaseProperties,m_StyleBits,      _("Style"),                                                                         _T("style"),         m_StyleSet,   Priority2);
     if ( m_StyleSet                                 ) WXS_EXSTYLE_P      (wxsBaseProperties,m_ExStyleBits,    _("Extra style"),                                                                   _T("exstyle"),       m_StyleSet,   Priority2);
 }

@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12304 $
-* $Id: wxsfontproperty.cpp 12304 2021-03-16 23:28:31Z fuscated $
+* $Revision: 13541 $
+* $Id: wxsfontproperty.cpp 13541 2024-08-11 18:01:17Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/properties/wxsfontproperty.cpp $
 */
 
@@ -86,26 +86,26 @@ wxFont wxsFontData::BuildFont()
 
         if ( !Base.Ok() )                                      Base = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
 
-        if ( HasSize ) Base.SetPointSize(Size);
+        if ( HasSize )              Base.SetPointSize(Size);
         else if ( HasRelativeSize ) Base.SetPointSize((int)(Base.GetPointSize() * RelativeSize));
-        if ( HasStyle ) Base.SetStyle(Style);
-        if ( HasWeight ) Base.SetWeight(Weight);
-        if ( HasUnderlined ) Base.SetUnderlined(Underlined);
-        if ( HasFamily ) Base.SetFamily(Family);
-        if ( !Faces.empty() ) Base.SetFaceName(Face);
-        if ( HasEncoding ) Base.SetEncoding(Enc);
+        if ( HasStyle )             Base.SetStyle(Style);
+        if ( HasWeight )            Base.SetWeight(Weight);
+        if ( HasUnderlined )        Base.SetUnderlined(Underlined);
+        if ( HasFamily )            Base.SetFamily(Family);
+        if ( !Faces.empty() )       Base.SetFaceName(Face);
+        if ( HasEncoding )          Base.SetEncoding(Enc);
+
         return Base;
     }
 
     return wxFont(
-        // TODO (mortenmacfly#1#): wxDEFAULT looks like a bug to me: wxDEFAULT is 70, Size should be e.g. 8..12
-        HasSize ? Size : wxDEFAULT,
-        HasFamily ? Family : wxFONTFAMILY_DEFAULT,
-        HasStyle ? Style : wxFONTSTYLE_NORMAL,
-        HasWeight ? Weight : wxFONTWEIGHT_NORMAL,
+        HasSize       ? Size       : wxDEFAULT,            // PointSize, not FontSize!
+        HasFamily     ? Family     : wxFONTFAMILY_DEFAULT,
+        HasStyle      ? Style      : wxFONTSTYLE_NORMAL,
+        HasWeight     ? Weight     : wxFONTWEIGHT_NORMAL,
         HasUnderlined ? Underlined : false,
         Face,
-        HasEncoding ? Enc : wxFONTENCODING_DEFAULT);
+        HasEncoding   ? Enc        : wxFONTENCODING_DEFAULT);
 }
 
 wxString wxsFontData::BuildFontCode(const wxString& FontName,wxsCoderContext* Context)

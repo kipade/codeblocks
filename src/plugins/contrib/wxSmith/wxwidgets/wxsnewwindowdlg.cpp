@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13381 $
-* $Id: wxsnewwindowdlg.cpp 13381 2023-10-27 12:55:51Z wh11204 $
+* $Revision: 13541 $
+* $Id: wxsnewwindowdlg.cpp 13541 2024-08-11 18:01:17Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxsnewwindowdlg.cpp $
 */
 
@@ -811,11 +811,13 @@ void wxsNewWindowDlg::OnAdvOpsClick(cb_unused wxCommandEvent& event)
 bool wxsNewWindowDlg::PrepareResource(cb_unused wxsItemRes* Res,wxsItemResData* Data)
 {
     wxsBaseProperties* Props = Data->GetRootItem()->GetBaseProps();
-
-    Props->m_ParentFromArg   = m_CtorParent->GetValue();
-    Props->m_IdFromArg       = m_CtorId->GetValue();
-    Props->m_PositionFromArg = m_CtorPos->GetValue();
-    Props->m_SizeFromArg     = m_CtorSize->GetValue();
+    if ( Props )
+    {
+        Props->m_ParentFromArg   = m_CtorParent->GetValue();
+        Props->m_IdFromArg       = m_CtorId->GetValue();
+        Props->m_PositionFromArg = m_CtorPos->GetValue();
+        Props->m_SizeFromArg     = m_CtorSize->GetValue();
+    }
 
     return true;
 }

@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13139 $
-* $Id: wxsresource.h 13139 2023-01-02 16:41:37Z wh11204 $
+* $Revision: 13541 $
+* $Id: wxsresource.h 13541 2024-08-11 18:01:17Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxsresource.h $
 */
 
@@ -120,7 +120,7 @@ class wxsResource: public wxObject
          *  \retval true If something has been renamed
          *  \retval false Nothing has changed
          */
-        virtual bool Rename(const wxString &oldName, const wxString &newName) { return false; }
+        virtual bool Rename(cb_unused const wxString &oldName, cb_unused const wxString &newName) { return false; }
 
     protected:
 

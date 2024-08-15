@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13456 $
-* $Id: wxsitemeditor.cpp 13456 2024-02-17 09:22:48Z wh11204 $
+* $Revision: 13541 $
+* $Id: wxsitemeditor.cpp 13541 2024-08-11 18:01:17Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxsitemeditor.cpp $
 */
 
@@ -421,7 +421,7 @@ void wxsItemEditor::InsertRequest(const wxString& Name)
 
     switch ( m_InsType )
     {
-        case itAfter:
+        case itAfter: // fall-through
             RefIndex++;
             // We don't break here - continuing on itBefore code
 

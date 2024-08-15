@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13522 $
-* $Id: wxssettings.cpp 13522 2024-05-21 18:54:24Z mortenmacfly $
+* $Revision: 13541 $
+* $Id: wxssettings.cpp 13541 2024-08-11 18:01:17Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxssettings.cpp $
 */
 
@@ -433,12 +433,12 @@ void wxsSettings::OnApply()
         cfg->Write("/noneI18N", 3);
     cfg->Write("/customI18N", m_CustomI18N->GetValue());
 
-    int Flags =  (m_BorderLeft->IsChecked()   ? wxsSizerFlagsProperty::BorderLeft   : 0) |
-                 (m_BorderRight->IsChecked()  ? wxsSizerFlagsProperty::BorderRight  : 0) |
-                 (m_BorderTop->IsChecked()    ? wxsSizerFlagsProperty::BorderTop    : 0) |
-                 (m_BorderBottom->IsChecked() ? wxsSizerFlagsProperty::BorderBottom : 0) |
-                 (m_SizeExpand->IsChecked()   ? wxsSizerFlagsProperty::Expand       : 0) |
-                 (m_SizeShaped->IsChecked()   ? wxsSizerFlagsProperty::Shaped       : 0);
+    int Flags = (m_BorderLeft->IsChecked()   ? wxsSizerFlagsProperty::BorderLeft   : 0) |
+                (m_BorderRight->IsChecked()  ? wxsSizerFlagsProperty::BorderRight  : 0) |
+                (m_BorderTop->IsChecked()    ? wxsSizerFlagsProperty::BorderTop    : 0) |
+                (m_BorderBottom->IsChecked() ? wxsSizerFlagsProperty::BorderBottom : 0) |
+                (m_SizeExpand->IsChecked()   ? wxsSizerFlagsProperty::Expand       : 0) |
+                (m_SizeShaped->IsChecked()   ? wxsSizerFlagsProperty::Shaped       : 0);
 
     switch ( m_Placement->GetSelection() )
     {

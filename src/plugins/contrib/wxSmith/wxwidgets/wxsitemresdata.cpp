@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13381 $
-* $Id: wxsitemresdata.cpp 13381 2023-10-27 12:55:51Z wh11204 $
+* $Revision: 13541 $
+* $Id: wxsitemresdata.cpp 13541 2024-08-11 18:01:17Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxsitemresdata.cpp $
 */
 
@@ -724,6 +724,7 @@ void wxsItemResData::RebuildSourceCode()
 /// Turn a string set into a sorted list and then generate a string from it in the form of prefix+item+suffix.
 /// The sorting is needed to prevent reshuffling of items when the hash function of the set changes, thus the generated
 /// code is always the same.
+wxString GenerateCodeFromSet(const wxsCoderContext::wxStringSet &,    const wxString &,       const wxString &      );
 wxString GenerateCodeFromSet(const wxsCoderContext::wxStringSet &set, const wxString &prefix, const wxString &suffix)
 {
     std::vector<wxString> array;

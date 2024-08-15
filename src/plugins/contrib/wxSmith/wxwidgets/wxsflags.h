@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12296 $
-* $Id: wxsflags.h 12296 2021-03-06 15:47:00Z fuscated $
+* $Revision: 13541 $
+* $Id: wxsflags.h 13541 2024-08-11 18:01:17Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxsflags.h $
 */
 
@@ -42,7 +42,7 @@ namespace wxsFlags
     const long flMinMaxSize= 0x0001000;  ///< \brief Item is using SetMinSize / SetMaxSize functions
     const long flExtraCode = 0x0002000;  ///< \brief Item is using extra item initialization code
     const long flValidator = 0x0004000;  ///< \brief Item is using specific validator (not wxDefaultValidator)
-    const long flTopLevel  = 0x0008000;  ///< \brief Item is a top level window (wxFrame or wxDialog)
+    const long flTopLevel  = 0x0008000;  ///< \brief Item is a top level window (e.g. wxFrame or wxDialog or wxScrollingDialog or wxPanel)
 
     const long flFile      = 0x8000000;  ///< \brief Edition in file mode
     const long flSource    = 0x4000000;  ///< \brief Edition in source mode

@@ -16,8 +16,8 @@
 * along with wxSmith; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 *
-* $Revision: 12462 $
-* $Id: libselectdlg.cpp 12462 2021-06-19 19:44:46Z fuscated $
+* $Revision: 13551 $
+* $Id: libselectdlg.cpp 13551 2024-09-14 04:37:24Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/lib_finder/libselectdlg.cpp $
 */
 
@@ -38,12 +38,12 @@
 #include <configmanager.h>
 
 //(*IdInit(LibSelectDlg)
-const long LibSelectDlg::ID_STATICTEXT1 = wxNewId();
-const long LibSelectDlg::ID_CHECKLISTBOX1 = wxNewId();
-const long LibSelectDlg::ID_RADIOBUTTON1 = wxNewId();
-const long LibSelectDlg::ID_RADIOBUTTON2 = wxNewId();
-const long LibSelectDlg::ID_RADIOBUTTON3 = wxNewId();
-const long LibSelectDlg::ID_CHECKBOX1 = wxNewId();
+const wxWindowID LibSelectDlg::ID_STATICTEXT1 = wxNewId();
+const wxWindowID LibSelectDlg::ID_CHECKLISTBOX1 = wxNewId();
+const wxWindowID LibSelectDlg::ID_RADIOBUTTON1 = wxNewId();
+const wxWindowID LibSelectDlg::ID_RADIOBUTTON2 = wxNewId();
+const wxWindowID LibSelectDlg::ID_RADIOBUTTON3 = wxNewId();
+const wxWindowID LibSelectDlg::ID_CHECKBOX1 = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(LibSelectDlg,wxScrollingDialog)

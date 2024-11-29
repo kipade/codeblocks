@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13441 $
- * $Id: configmanager.cpp 13441 2024-02-01 07:44:57Z wh11204 $
+ * $Revision: 13575 $
+ * $Id: configmanager.cpp 13575 2024-09-30 06:50:24Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/sdk/configmanager.cpp $
  */
 
@@ -1497,7 +1497,7 @@ void ConfigManager::InitPaths()
     if (plugin_path_global.IsEmpty())
     {
         if (platform::windows)
-            ConfigManager::plugin_path_global = app_path + _T("/../lib/codeblocks/plugins");
+            ConfigManager::plugin_path_global = app_path + _T("\\..\\lib\\codeblocks\\plugins");
         else if (platform::macosx)
             ConfigManager::plugin_path_global = data_path_global + _T("/plugins");
         else

@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13547 $
-* $Id: wxsnewwindowdlg.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
+* $Revision: 13571 $
+* $Id: wxsnewwindowdlg.cpp 13571 2024-09-16 18:51:27Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxsnewwindowdlg.cpp $
 */
 
@@ -136,7 +136,7 @@ wxsNewWindowDlg::wxsNewWindowDlg(wxWindow* parent,const wxString& ResType,wxsPro
     wxStaticText* StaticText9;
     wxStdDialogButtonSizer* StdDialogButtonSizer1;
 
-    Create(parent, wxID_ANY, _("Create new cwindow"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
+    Create(parent, wxID_ANY, _("Create new window"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
     m_RootSizer = new wxBoxSizer(wxVERTICAL);
     StaticBoxSizer3 = new wxStaticBoxSizer(wxHORIZONTAL, this, _("Options"));
     FlexGridSizer1 = new wxFlexGridSizer(0, 2, 5, 5);

@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13445 $
- * $Id: compilergcc.cpp 13445 2024-02-09 08:18:30Z wh11204 $
+ * $Revision: 13545 $
+ * $Id: compilergcc.cpp 13545 2024-09-09 20:46:20Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/compilergcc/compilergcc.cpp $
  */
 
@@ -1915,9 +1915,13 @@ int CompilerGCC::RunSingleFile(const wxString& filename)
 
 bool CompilerGCC::ExecutableExists(cbProject* prj)
 {
-    // A project is not mandatory to execute the file in the editor
+    // A project is not mandatory to execute the file in the editor, but
+    // then at least one editor (not the "Start here" one) must exist
     if (!prj)
-        return true;
+    {
+        EditorManager *manager = Manager::Get()->GetEditorManager();
+        return (manager->GetActiveEditor() != manager->GetEditor(_("Start here")));
+    }
 
     // Get target name
     const wxString activeTarget(prj->GetActiveBuildTarget());

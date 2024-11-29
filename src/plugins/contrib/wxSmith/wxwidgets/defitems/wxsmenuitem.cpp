@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13225 $
-* $Id: wxsmenuitem.cpp 13225 2023-02-27 10:41:31Z wh11204 $
+* $Revision: 13547 $
+* $Id: wxsmenuitem.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxsmenuitem.cpp $
 */
 
@@ -176,7 +176,7 @@ void wxsMenuItem::OnBuildCreatingCode()
     }
 }
 
-void wxsMenuItem::OnEnumToolProperties(cb_unused long Flags)
+void wxsMenuItem::OnEnumToolProperties(cb_unused long _Flags)
 {
 
     switch ( m_Type )
@@ -393,8 +393,8 @@ void wxsMenuItem::OnBuildXRCFetchingCode()
 {
     // Menu items can not be found through FindWindow stuff, we need to
     // fetch them using wxMenuBar::FindItem.
-    long Flags = GetPropertiesFlags();
-    if ( (Flags&flVariable) && (Flags&flId) )
+    long PropsFlags = GetPropertiesFlags();
+    if ( (PropsFlags&flVariable) && (PropsFlags&flId) )
     {
         AddXRCFetchingCode(
             GetVarName() + _T(" = GetMenuBar() ? ")

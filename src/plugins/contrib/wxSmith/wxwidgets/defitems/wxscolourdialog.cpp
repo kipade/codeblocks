@@ -16,8 +16,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12328 $
-* $Id: wxscolourdialog.cpp 12328 2021-05-08 12:17:19Z fuscated $
+* $Revision: 13547 $
+* $Id: wxscolourdialog.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxscolourdialog.cpp $
 */
 
@@ -83,7 +83,7 @@ void wxsColourDialog::OnBuildCreatingCode()
     }
 }
 
-void wxsColourDialog::OnEnumToolProperties(cb_unused long Flags)
+void wxsColourDialog::OnEnumToolProperties(cb_unused long _Flags)
 {
     WXS_BOOL(wxsColourDialog,m_ChooseFull,_("Full dialog"),_T("choosefull"),true);
     WXS_COLOUR(wxsColourDialog,m_Colour,_("Colour"),_T("colour"));

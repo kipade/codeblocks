@@ -16,8 +16,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 7109 $
-* $Id: wxscolourdialog.h 7109 2011-04-15 11:53:16Z mortenmacfly $
+* $Revision: 13547 $
+* $Id: wxscolourdialog.h 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxscolourdialog.h $
 */
 
@@ -35,7 +35,7 @@ class wxsColourDialog: public wxsTool
     private:
 
         virtual void OnBuildCreatingCode();
-        virtual void OnEnumToolProperties(long Flags);
+        virtual void OnEnumToolProperties(long _Flags);
 
         bool m_ChooseFull;
         wxsColourData m_Colour;

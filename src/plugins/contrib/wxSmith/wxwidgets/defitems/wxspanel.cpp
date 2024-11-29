@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13381 $
-* $Id: wxspanel.cpp 13381 2023-10-27 12:55:51Z wh11204 $
+* $Revision: 13547 $
+* $Id: wxspanel.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxspanel.cpp $
 */
 
@@ -86,10 +86,10 @@ void wxsPanel::OnBuildCreatingCode()
     }
 }
 
-wxObject* wxsPanel::OnBuildPreview(wxWindow* Parent,long Flags)
+wxObject* wxsPanel::OnBuildPreview(wxWindow* Parent,long _Flags)
 {
     wxWindow* NewItem = nullptr;
-    if ( Flags & pfExact )
+    if ( _Flags & pfExact )
     {
         NewItem = new wxPanel(Parent,GetId(),Pos(Parent),Size(Parent),Style());
     }
@@ -98,11 +98,11 @@ wxObject* wxsPanel::OnBuildPreview(wxWindow* Parent,long Flags)
         NewItem = new PanelPreview(Parent,GetId(),Pos(Parent),Size(Parent),Style(),IsRootItem());
     }
     NewItem->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
-    SetupWindow(NewItem,Flags);
-    AddChildrenPreview(NewItem,Flags);
+    SetupWindow(NewItem,_Flags);
+    AddChildrenPreview(NewItem,_Flags);
     return NewItem;
 }
 
-void wxsPanel::OnEnumContainerProperties(cb_unused long Flags)
+void wxsPanel::OnEnumContainerProperties(cb_unused long _Flags)
 {
 }

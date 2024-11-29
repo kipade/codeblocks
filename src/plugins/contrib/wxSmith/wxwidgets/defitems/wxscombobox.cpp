@@ -16,8 +16,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13235 $
-* $Id: wxscombobox.cpp 13235 2023-03-15 14:00:15Z wh11204 $
+* $Revision: 13547 $
+* $Id: wxscombobox.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxscombobox.cpp $
 */
 
@@ -94,7 +94,7 @@ void wxsComboBox::OnBuildCreatingCode()
     }
 }
 
-wxObject* wxsComboBox::OnBuildPreview(wxWindow* Parent,long Flags)
+wxObject* wxsComboBox::OnBuildPreview(wxWindow* Parent,long _Flags)
 {
     wxComboBox* Preview = new wxComboBox(Parent,GetId(),_T(""),Pos(Parent),Size(Parent),ArrayChoices, Style());
 
@@ -107,10 +107,10 @@ wxObject* wxsComboBox::OnBuildPreview(wxWindow* Parent,long Flags)
         }
     }
 
-    return SetupWindow(Preview,Flags);
+    return SetupWindow(Preview,_Flags);
 }
 
-void wxsComboBox::OnEnumWidgetProperties(cb_unused long Flags)
+void wxsComboBox::OnEnumWidgetProperties(cb_unused long _Flags)
 {
     WXS_ARRAYSTRING(wxsComboBox,ArrayChoices, _("Choices"), "content", "item")
     WXS_LONG(wxsComboBox,DefaultSelection, _("Selection"), "selection", -1)

@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13381 $
-* $Id: wxsframe.cpp 13381 2023-10-27 12:55:51Z wh11204 $
+* $Revision: 13547 $
+* $Id: wxsframe.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxsframe.cpp $
 */
 
@@ -118,14 +118,14 @@ void wxsFrame::OnBuildCreatingCode()
     }
 }
 
-wxObject* wxsFrame::OnBuildPreview(wxWindow* Parent,long Flags)
+wxObject* wxsFrame::OnBuildPreview(wxWindow* Parent,long _Flags)
 {
     wxWindow* NewItem = nullptr;
     wxFrame* Frm = nullptr;
 
     // In case of frame and dialog when in "Exact" mode, we do not create
     // new object, but use Parent and call Create for it.
-    if ( Flags & pfExact )
+    if ( _Flags & pfExact )
     {
         Frm = wxDynamicCast(Parent,wxFrame);
         if ( Frm )
@@ -135,7 +135,7 @@ wxObject* wxsFrame::OnBuildPreview(wxWindow* Parent,long Flags)
             Frm->Move(Pos(wxTheApp->GetTopWindow()));
         }
         NewItem = Frm;
-        SetupWindow(NewItem,Flags);
+        SetupWindow(NewItem,_Flags);
         if ( !Icon.IsEmpty() )
         {
             wxIcon FrameIcon;
@@ -143,7 +143,7 @@ wxObject* wxsFrame::OnBuildPreview(wxWindow* Parent,long Flags)
             Frm->SetIcon(FrameIcon);
         }
 
-        AddChildrenPreview(NewItem,Flags);
+        AddChildrenPreview(NewItem,_Flags);
         if ( Centered )
         {
             Frm->Centre();
@@ -154,8 +154,8 @@ wxObject* wxsFrame::OnBuildPreview(wxWindow* Parent,long Flags)
     {
         NewItem = new wxsGridPanel(Parent,GetId(),wxDefaultPosition,Size(Parent),0);
         NewItem->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_APPWORKSPACE));
-        SetupWindow(NewItem,Flags);
-        AddChildrenPreview(NewItem,Flags);
+        SetupWindow(NewItem,_Flags);
+        AddChildrenPreview(NewItem,_Flags);
 
         // wxPanel tends to behave very strange when it has children and no sizer,
         // we have to manually resize it's content
@@ -183,7 +183,7 @@ wxObject* wxsFrame::OnBuildPreview(wxWindow* Parent,long Flags)
     return NewItem;
 }
 
-void wxsFrame::OnEnumContainerProperties(cb_unused long Flags)
+void wxsFrame::OnEnumContainerProperties(cb_unused long _Flags)
 {
     WXS_SHORT_STRING(wxsFrame,Title,_("Title"),_T("title"),_T(""),false)
     WXS_BOOL(wxsFrame,Centered,_("Centered"),_T("centered"),false);

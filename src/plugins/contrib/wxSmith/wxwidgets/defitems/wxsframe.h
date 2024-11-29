@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12297 $
-* $Id: wxsframe.h 12297 2021-03-06 15:47:05Z fuscated $
+* $Revision: 13547 $
+* $Id: wxsframe.h 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxsframe.h $
 */
 
@@ -36,9 +36,9 @@ class wxsFrame : public wxsContainer
         {
             return wxsContainer::OnGetPropertiesFlags() | flTopLevel;
         }
-        virtual wxObject* OnBuildPreview(wxWindow* Parent,long Flags);
+        virtual wxObject* OnBuildPreview(wxWindow* Parent,long _Flags);
         virtual void OnBuildCreatingCode();
-        virtual void OnEnumContainerProperties(long Flags);
+        virtual void OnEnumContainerProperties(long _Flags);
 
         wxString Title;
         bool Centered;

@@ -16,8 +16,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13235 $
-* $Id: wxssinglechoicedialog.cpp 13235 2023-03-15 14:00:15Z wh11204 $
+* $Revision: 13547 $
+* $Id: wxssinglechoicedialog.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxssinglechoicedialog.cpp $
 */
 
@@ -84,7 +84,7 @@ void wxsSingleChoiceDialog::OnBuildCreatingCode()
     }
 }
 
-void wxsSingleChoiceDialog::OnEnumToolProperties(cb_unused long Flags)
+void wxsSingleChoiceDialog::OnEnumToolProperties(cb_unused long _Flags)
 {
     WXS_SHORT_STRING(wxsSingleChoiceDialog, m_Message, _("Message"), "message", "", false);
     WXS_SHORT_STRING(wxsSingleChoiceDialog, m_Caption, _("Caption"), "caption", "", false);

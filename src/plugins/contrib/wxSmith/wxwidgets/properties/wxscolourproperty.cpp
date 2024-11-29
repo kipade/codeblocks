@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12649 $
-* $Id: wxscolourproperty.cpp 12649 2022-01-14 08:40:00Z wh11204 $
+* $Revision: 13547 $
+* $Id: wxscolourproperty.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/properties/wxscolourproperty.cpp $
 */
 
@@ -829,7 +829,7 @@ void wxsColourProperty::PGCreate(wxsPropertyContainer* Object,wxPropertyGridMana
     PGRegister(Object,Grid,Grid->AppendIn(Parent,new wxsMyColourPropertyClass(GetPGName(),wxPG_LABEL,VALUE)));
 }
 
-bool wxsColourProperty::PGRead(wxsPropertyContainer* Object,wxPropertyGridManager* Grid,wxPGId Id,cb_unused long Index)
+bool wxsColourProperty::PGRead(wxsPropertyContainer* Object,cb_unused wxPropertyGridManager* Grid,wxPGId Id,cb_unused long Index)
 {
     VALUE.m_type = wxsColourValues[Id->GetChoiceSelection()];
 

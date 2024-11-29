@@ -19,8 +19,8 @@
 * This code is based in part on wxsimagecombobox from the wxSmithImage plug-in,
 * copyright Ron Collins and released under the GPL.
 *
-* $Revision: 13274 $
-* $Id: wxstreectrl.cpp 13274 2023-05-18 15:27:28Z wh11204 $
+* $Revision: 13547 $
+* $Id: wxstreectrl.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxstreectrl.cpp $
 */
 
@@ -236,11 +236,11 @@ void wxsTreeCtrl::OnBuildCreatingCode()
 /*! \brief    Build the control preview.
  *
  * \param parent wxWindow*    The parent window.
- * \param flags long                    The control flags.
+ * \param _Flags long                    The control flags.
  * \return wxObject*                     The constructed control.
  *
  */
-wxObject *wxsTreeCtrl::OnBuildPreview(wxWindow *Parent, long Flags)
+wxObject *wxsTreeCtrl::OnBuildPreview(wxWindow *Parent, long _Flags)
 {
     int             i, n;
     wxsImageList   *ilist;
@@ -314,16 +314,16 @@ wxObject *wxsTreeCtrl::OnBuildPreview(wxWindow *Parent, long Flags)
     // save the hide-root flag
     top.Unset();
 
-    return SetupWindow(preview, Flags);
+    return SetupWindow(preview, _Flags);
 }
 
 /*! \brief Enumerate the control's properties.
  *
- * \param flags long    The control flags.
+ * \param _Flags long    The control flags.
  * \return void
  *
  */
-void wxsTreeCtrl::OnEnumWidgetProperties(cb_unused long Flags)
+void wxsTreeCtrl::OnEnumWidgetProperties(cb_unused long _Flags)
 {
     static wxString      sImageNames[128];
     static const wxChar *pImageNames[128];

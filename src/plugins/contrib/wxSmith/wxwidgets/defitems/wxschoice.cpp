@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13522 $
-* $Id: wxschoice.cpp 13522 2024-05-21 18:54:24Z mortenmacfly $
+* $Revision: 13547 $
+* $Id: wxschoice.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxschoice.cpp $
 */
 
@@ -112,7 +112,7 @@ void wxsChoice::OnBuildCreatingCode()
     }
 }
 
-wxObject* wxsChoice::OnBuildPreview(wxWindow* Parent,long Flags)
+wxObject* wxsChoice::OnBuildPreview(wxWindow* Parent,long _Flags)
 {
     wxChoice* Preview = new wxChoice(Parent,GetId(),Pos(Parent),Size(Parent),0,0,Style());
 
@@ -124,10 +124,10 @@ wxObject* wxsChoice::OnBuildPreview(wxWindow* Parent,long Flags)
             Preview->SetSelection(Val);
         }
     }
-    return SetupWindow(Preview,Flags);
+    return SetupWindow(Preview,_Flags);
 }
 
-void wxsChoice::OnEnumWidgetProperties(cb_unused long Flags)
+void wxsChoice::OnEnumWidgetProperties(cb_unused long _Flags)
 {
     WXS_ARRAYSTRING(wxsChoice,ArrayChoices, _("Choices"), "content", "item")
     WXS_BOOL(wxsChoice,UseItemsArray, _("Use Items Array"), "use_items_array", false)

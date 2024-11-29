@@ -17,8 +17,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13235 $
-* $Id: wxsgrid.cpp 13235 2023-03-15 14:00:15Z wh11204 $
+* $Revision: 13547 $
+* $Id: wxsgrid.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxsgrid.cpp $
 */
 
@@ -155,7 +155,7 @@ void wxsGrid::OnBuildCreatingCode()
 
 //------------------------------------------------------------------------------
 
-wxObject* wxsGrid::OnBuildPreview( wxWindow* parent, long flags )
+wxObject* wxsGrid::OnBuildPreview( wxWindow* parent, long _Flags)
 {
     wxGrid* preview = new wxGrid( parent, GetId(), Pos(parent), Size(parent), Style() );
 
@@ -164,7 +164,7 @@ wxObject* wxsGrid::OnBuildPreview( wxWindow* parent, long flags )
         if ( m_ColsCount>=0 && m_RowsCount>=0 && (m_ColsCount>0 || m_RowsCount>0) )
         {
             preview->CreateGrid( m_RowsCount, m_ColsCount );
-            SetupWindow( preview, flags );
+            SetupWindow( preview, _Flags );
 
             preview->EnableEditing( !m_ReadOnly);
             preview->EnableGridLines( m_GridLines );
@@ -226,9 +226,9 @@ wxObject* wxsGrid::OnBuildPreview( wxWindow* parent, long flags )
 
 //------------------------------------------------------------------------------
 
-void wxsGrid::OnEnumWidgetProperties(long Flags)
+void wxsGrid::OnEnumWidgetProperties(long _Flags)
 {
-    if ( Flags & flSource )
+    if ( _Flags & flSource )
     {
         WXS_LONG       ( wxsGrid, m_ColsCount,       _("Number of columns"),    _T("cols"),            0);
         WXS_LONG       ( wxsGrid, m_RowsCount,       _("Number of rows"),       _T("rows"),            0);

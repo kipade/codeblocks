@@ -16,8 +16,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13146 $
-* $Id: wxsflexgridsizer.cpp 13146 2023-01-11 09:04:24Z wh11204 $
+* $Revision: 13547 $
+* $Id: wxsflexgridsizer.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxsflexgridsizer.cpp $
 */
 
@@ -144,7 +144,7 @@ void wxsFlexGridSizer::OnBuildSizerCreatingCode()
     }
 }
 
-void wxsFlexGridSizer::OnEnumSizerProperties(cb_unused long Flags)
+void wxsFlexGridSizer::OnEnumSizerProperties(cb_unused long _Flags)
 {
     FixupList(GrowableCols);
     FixupList(GrowableRows);

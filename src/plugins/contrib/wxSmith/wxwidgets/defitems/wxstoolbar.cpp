@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13003 $
-* $Id: wxstoolbar.cpp 13003 2022-11-08 08:50:45Z wh11204 $
+* $Revision: 13547 $
+* $Id: wxstoolbar.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxstoolbar.cpp $
 */
 
@@ -164,7 +164,7 @@ void wxsToolBar::OnBuildCreatingCode()
     }
 }
 
-void wxsToolBar::OnEnumToolProperties(cb_unused long Flags)
+void wxsToolBar::OnEnumToolProperties(cb_unused long _Flags)
 {
     WXS_SIZE(wxsToolBar,m_BitmapSize,_("Use Bitmap size"),_("  Bitmapwidth"),_("  Bitmapheight"),_("  Bmp in Dialog Units"),_T("bitmapsize"));
     WXS_SIZE(wxsToolBar,m_Margins,_("Use Margins"),_("  Marginwidth"),_("  Marginheight"),_("  Margin in Dialog Units "),_T("margins"));

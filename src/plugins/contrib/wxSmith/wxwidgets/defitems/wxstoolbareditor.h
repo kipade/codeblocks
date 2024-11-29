@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12248 $
-* $Id: wxstoolbareditor.h 12248 2020-12-22 14:00:22Z fuscated $
+* $Revision: 13547 $
+* $Id: wxstoolbareditor.h 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxstoolbareditor.h $
 */
 
@@ -52,20 +52,20 @@ class wxsToolBarEditor: public wxPanel
     private:
 
         //(*Identifiers(wxsToolBarEditor)
-        static const long ID_LISTBOX1;
-        static const long ID_STATICTEXT1;
-        static const long ID_CHOICE1;
-        static const long ID_TEXTCTRL4;
-        static const long ID_TEXTCTRL1;
-        static const long ID_BITMAPBUTTON1;
-        static const long ID_BITMAPBUTTON2;
-        static const long ID_TEXTCTRL2;
-        static const long ID_TEXTCTRL3;
-        static const long ID_STATICLINE2;
-        static const long ID_BUTTON3;
-        static const long ID_BUTTON4;
-        static const long ID_BUTTON1;
-        static const long ID_BUTTON2;
+        static const wxWindowID ID_LISTBOX1;
+        static const wxWindowID ID_STATICTEXT1;
+        static const wxWindowID ID_CHOICE1;
+        static const wxWindowID ID_TEXTCTRL4;
+        static const wxWindowID ID_TEXTCTRL1;
+        static const wxWindowID ID_BITMAPBUTTON1;
+        static const wxWindowID ID_BITMAPBUTTON2;
+        static const wxWindowID ID_TEXTCTRL2;
+        static const wxWindowID ID_TEXTCTRL3;
+        static const wxWindowID ID_STATICLINE2;
+        static const wxWindowID ID_BUTTON3;
+        static const wxWindowID ID_BUTTON4;
+        static const wxWindowID ID_BUTTON1;
+        static const wxWindowID ID_BUTTON2;
         //*)
 
         //(*Handlers(wxsToolBarEditor)

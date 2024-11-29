@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12296 $
-* $Id: wxsbaseproperties.h 12296 2021-03-06 15:47:00Z fuscated $
+* $Revision: 13547 $
+* $Id: wxsbaseproperties.h 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxsbaseproperties.h $
 */
 
@@ -93,17 +93,17 @@ class wxsBaseProperties: public wxsPropertyContainer
         /** \brief Function generating QPPChild Panel for most frequently used
          *         properties.
          */
-        void AddQPPChild(wxsAdvQPP* QPP,long Flags);
+        void AddQPPChild(wxsAdvQPP* QPP,long _Flags);
 
         /** \brief Adding some special xml read of data */
         void SpecialXmlRead(TiXmlElement* Elem,bool IsXRC,bool IsExtra);
 
         /** \brief Adding some special xml write of data */
-        void SpecialXmlWrite(TiXmlElement* Elem,bool IsXRC,bool IsExtra,long Flags,const wxString& ClassName);
+        void SpecialXmlWrite(TiXmlElement* Elem,bool IsXRC,bool IsExtra,long _Flags,const wxString& ClassName);
 
     protected:
 
-        virtual void OnEnumProperties(long Flags);
+        virtual void OnEnumProperties(long _Flags);
 };
 
 #endif

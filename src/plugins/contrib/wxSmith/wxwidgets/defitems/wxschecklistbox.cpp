@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13235 $
-* $Id: wxschecklistbox.cpp 13235 2023-03-15 14:00:15Z wh11204 $
+* $Revision: 13547 $
+* $Id: wxschecklistbox.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxschecklistbox.cpp $
 */
 
@@ -93,7 +93,7 @@ void wxsCheckListBox::OnBuildCreatingCode()
 }
 
 
-wxObject* wxsCheckListBox::OnBuildPreview(wxWindow* Parent,long Flags)
+wxObject* wxsCheckListBox::OnBuildPreview(wxWindow* Parent,long _Flags)
 {
     wxCheckListBox* Preview = new wxCheckListBox(Parent,GetId(),Pos(Parent),Size(Parent),0,0,Style());
     for ( size_t i = 0; i < ArrayChoices.GetCount(); ++i )
@@ -104,10 +104,10 @@ wxObject* wxsCheckListBox::OnBuildPreview(wxWindow* Parent,long Flags)
             Preview->Check(Val);
         }
     }
-    return SetupWindow(Preview,Flags);
+    return SetupWindow(Preview,_Flags);
 }
 
-void wxsCheckListBox::OnEnumWidgetProperties(cb_unused long Flags)
+void wxsCheckListBox::OnEnumWidgetProperties(cb_unused long _Flags)
 {
     WXS_ARRAYSTRINGCHECK(wxsCheckListBox,ArrayChoices,ArrayChecks, _("Choices"), "content", "item");
 }

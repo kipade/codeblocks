@@ -16,8 +16,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12328 $
-* $Id: wxsdirdialog.cpp 12328 2021-05-08 12:17:19Z fuscated $
+* $Revision: 13547 $
+* $Id: wxsdirdialog.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxsdirdialog.cpp $
 */
 
@@ -65,7 +65,7 @@ void wxsDirDialog::OnBuildCreatingCode()
     }
 }
 
-void wxsDirDialog::OnEnumToolProperties(cb_unused long Flags)
+void wxsDirDialog::OnEnumToolProperties(cb_unused long _Flags)
 {
     WXS_SHORT_STRING(wxsDirDialog,m_Message,_("Message"),_T("message"),_T(""),false);
     WXS_SHORT_STRING(wxsDirDialog,m_DefaultPath,_("Default path"),_T("default_path"),_T(""),false);

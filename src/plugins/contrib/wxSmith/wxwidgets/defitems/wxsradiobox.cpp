@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13235 $
-* $Id: wxsradiobox.cpp 13235 2023-03-15 14:00:15Z wh11204 $
+* $Revision: 13547 $
+* $Id: wxsradiobox.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxsradiobox.cpp $
 */
 
@@ -102,17 +102,17 @@ void wxsRadioBox::OnBuildCreatingCode()
 }
 
 
-wxObject* wxsRadioBox::OnBuildPreview(wxWindow* Parent,long Flags)
+wxObject* wxsRadioBox::OnBuildPreview(wxWindow* Parent,long _Flags)
 {
     wxRadioBox* Preview = new wxRadioBox(Parent,GetId(),Label,Pos(Parent),Size(Parent),ArrayChoices, Dimension, Style());
     if ( DefaultSelection >= 0 && DefaultSelection < (int)ArrayChoices.GetCount() )
     {
         Preview->SetSelection(DefaultSelection);
     }
-    return SetupWindow(Preview,Flags);
+    return SetupWindow(Preview,_Flags);
 }
 
-void wxsRadioBox::OnEnumWidgetProperties(cb_unused long Flags)
+void wxsRadioBox::OnEnumWidgetProperties(cb_unused long _Flags)
 {
     WXS_SHORT_STRING(wxsRadioBox,Label, _("Label"), "label", "",true)
     WXS_ARRAYSTRING(wxsRadioBox,ArrayChoices, _("Choices"), "content", "item")

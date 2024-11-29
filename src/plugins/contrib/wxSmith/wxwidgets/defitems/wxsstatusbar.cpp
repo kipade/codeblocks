@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12197 $
-* $Id: wxsstatusbar.cpp 12197 2020-08-11 08:14:14Z fuscated $
+* $Revision: 13547 $
+* $Id: wxsstatusbar.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxsstatusbar.cpp $
 */
 
@@ -88,7 +88,7 @@ void wxsStatusBar::OnBuildCreatingCode()
     }
 }
 
-void wxsStatusBar::OnEnumToolProperties(cb_unused long Flags)
+void wxsStatusBar::OnEnumToolProperties(cb_unused long _Flags)
 {
 }
 

@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12248 $
-* $Id: wxstoolbaritem.h 12248 2020-12-22 14:00:22Z fuscated $
+* $Revision: 13547 $
+* $Id: wxstoolbaritem.h 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxstoolbaritem.h $
 */
 
@@ -46,7 +46,7 @@ class wxsToolBarItem : public wxsTool
     private:
 
         virtual void OnBuildCreatingCode();
-        virtual void OnEnumToolProperties(long Flags);
+        virtual void OnEnumToolProperties(long _Flags);
         virtual bool OnIsPointer() { return true; }
         virtual bool OnCanAddToResource(cb_unused wxsItemResData* Data,cb_unused bool ShowMessage) { return false; }
         virtual bool OnXmlWrite(TiXmlElement* Element,bool IsXRC,bool IsExtra);

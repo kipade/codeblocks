@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13381 $
-* $Id: wxspropertycontainer.h 13381 2023-10-27 12:55:51Z wh11204 $
+* $Revision: 13547 $
+* $Id: wxspropertycontainer.h 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/properties/wxspropertycontainer.h $
 */
 
@@ -135,10 +135,10 @@ class PLUGIN_EXPORT wxsPropertyContainer
          *
          * Example of registering function:
          *  \code
-         *  void SomeClass::OnEnumProperties(long Flags)
+         *  void SomeClass::OnEnumProperties(long _Flags)
          *  {
          *      static wxsLongProperty Prop1(_("Long value"),_T("value"),wxsOFFSET(SomeClass,VariableName));
-         *      if ( Flags & flXrc )
+         *      if ( _Flags & flXrc )
          *      {
          *          Property(Prop1);
          *      }
@@ -147,7 +147,7 @@ class PLUGIN_EXPORT wxsPropertyContainer
          *  }
          *  \endcode
          */
-        virtual void OnEnumProperties(long Flags) = 0;
+        virtual void OnEnumProperties(long _Flags) = 0;
 
         /** \brief Function registering property
          *

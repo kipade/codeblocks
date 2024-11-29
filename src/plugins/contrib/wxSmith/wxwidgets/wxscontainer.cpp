@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13541 $
-* $Id: wxscontainer.cpp 13541 2024-08-11 18:01:17Z mortenmacfly $
+* $Revision: 13547 $
+* $Id: wxscontainer.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxscontainer.cpp $
 */
 
@@ -86,12 +86,12 @@ bool wxsContainer::OnCanAddChild(wxsItem* Item,bool ShowMessage)
     return true;
 }
 
-void wxsContainer::AddChildrenPreview(wxWindow* This,long Flags)
+void wxsContainer::AddChildrenPreview(wxWindow* This,long _Flags)
 {
     for ( int i=0; i<GetChildCount(); i++ )
     {
         wxsItem* Child = GetChild(i);
-        wxObject* ChildPreviewAsObject = Child->BuildPreview(This,Flags);
+        wxObject* ChildPreviewAsObject = Child->BuildPreview(This,_Flags);
         if ( Child->GetType() == wxsTSizer )
         {
             wxSizer* ChildPreviewAsSizer = wxDynamicCast(ChildPreviewAsObject,wxSizer);
@@ -111,7 +111,7 @@ void wxsContainer::AddChildrenPreview(wxWindow* This,long Flags)
         {
             for ( int i=0; i<Data->GetToolsCount(); i++ )
             {
-                Data->GetTool(i)->BuildPreview(This,Flags);
+                Data->GetTool(i)->BuildPreview(This,_Flags);
             }
         }
 
@@ -234,9 +234,9 @@ void wxsContainer::AddChildrenCode()
     }
 }
 
-void wxsContainer::OnEnumItemProperties(long Flags)
+void wxsContainer::OnEnumItemProperties(long _Flags)
 {
-    OnEnumContainerProperties(Flags);
+    OnEnumContainerProperties(_Flags);
 }
 
 void wxsContainer::OnAddItemQPP(wxsAdvQPP* QPP)

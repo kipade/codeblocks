@@ -16,8 +16,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13381 $
-* $Id: wxsgenericdirctrl.cpp 13381 2023-10-27 12:55:51Z wh11204 $
+* $Revision: 13547 $
+* $Id: wxsgenericdirctrl.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxsgenericdirctrl.cpp $
 */
 
@@ -74,13 +74,13 @@ void wxsGenericDirCtrl::OnBuildCreatingCode()
     }
 }
 
-wxObject* wxsGenericDirCtrl::OnBuildPreview(wxWindow* Parent,long Flags)
+wxObject* wxsGenericDirCtrl::OnBuildPreview(wxWindow* Parent,long _Flags)
 {
     wxGenericDirCtrl* Preview = new wxGenericDirCtrl(Parent,GetId(),DefaultFolder,Pos(Parent),Size(Parent),Style(),Filter,DefaultFilter);
-    return SetupWindow(Preview,Flags);
+    return SetupWindow(Preview,_Flags);
 }
 
-void wxsGenericDirCtrl::OnEnumWidgetProperties(cb_unused long Flags)
+void wxsGenericDirCtrl::OnEnumWidgetProperties(cb_unused long _Flags)
 {
     WXS_SHORT_STRING(wxsGenericDirCtrl,DefaultFolder,_("Default Folder"),_T("defaultfolder"),_T(""),true)
     WXS_SHORT_STRING(wxsGenericDirCtrl,Filter,_("Filter"),_T("filter"),_T(""),true)

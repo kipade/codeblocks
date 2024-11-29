@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12197 $
-* $Id: wxstextctrl.cpp 12197 2020-08-11 08:14:14Z fuscated $
+* $Revision: 13547 $
+* $Id: wxstextctrl.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxstextctrl.cpp $
 */
 
@@ -86,13 +86,13 @@ void wxsTextCtrl::OnBuildCreatingCode()
     }
 }
 
-wxObject* wxsTextCtrl::OnBuildPreview(wxWindow* Parent,long Flags)
+wxObject* wxsTextCtrl::OnBuildPreview(wxWindow* Parent,long _Flags)
 {
     wxTextCtrl* Preview = new wxTextCtrl(Parent,GetId(),Text,Pos(Parent),Size(Parent),Style());
-    return SetupWindow(Preview,Flags);
+    return SetupWindow(Preview,_Flags);
 }
 
-void wxsTextCtrl::OnEnumWidgetProperties(cb_unused long Flags)
+void wxsTextCtrl::OnEnumWidgetProperties(cb_unused long _Flags)
 {
     WXS_STRING(wxsTextCtrl,Text,_("Text"),_T("value"),_T(""),false)
     WXS_LONG(wxsTextCtrl,MaxLength,_("Max Length"),_T("maxlength"),0)

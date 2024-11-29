@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13381 $
-* $Id: wxsparent.cpp 13381 2023-10-27 12:55:51Z wh11204 $
+* $Revision: 13547 $
+* $Id: wxsparent.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxsparent.cpp $
 */
 
@@ -176,20 +176,20 @@ void wxsParent::RestoreExtraData(int Index,TiXmlElement* Element)
     Extra[Index]->XmlRead(Element);
 }
 
-void wxsParent::OnEnumChildProperties(wxsItem* Child,long Flags)
+void wxsParent::OnEnumChildProperties(wxsItem* Child,long _Flags)
 {
     // Enumerating properties of child item
-    Child->EnumItemProperties(Flags);
+    Child->EnumItemProperties(_Flags);
 
     // Adding properties from extra data container when there's extra data
     // associated. It will be disabled in xml operations since
     // it's done on parent's level
-    if ( !(Flags&flXml) )
+    if ( !(_Flags&flXml) )
     {
         int Index = GetChildIndex(Child);
         if ( (Index >= 0) && (Index < (int)Extra.Count()) && Extra[Index] )
         {
-            SubContainer(Extra[Index],Flags);
+            SubContainer(Extra[Index],_Flags);
         }
     }
 }

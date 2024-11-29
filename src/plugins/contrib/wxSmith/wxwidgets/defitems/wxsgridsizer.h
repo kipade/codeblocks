@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 7109 $
-* $Id: wxsgridsizer.h 7109 2011-04-15 11:53:16Z mortenmacfly $
+* $Revision: 13547 $
+* $Id: wxsgridsizer.h 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxsgridsizer.h $
 */
 
@@ -35,7 +35,7 @@ class wxsGridSizer: public wxsSizer
 
         virtual wxSizer* OnBuildSizerPreview(wxWindow* Parent);
         virtual void OnBuildSizerCreatingCode();
-        virtual void OnEnumSizerProperties(long Flags);
+        virtual void OnEnumSizerProperties(long _Flags);
         virtual bool OnIsPointer() { return true; }
 
         long Cols;

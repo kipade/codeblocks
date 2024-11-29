@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12685 $
-* $Id: wxssplitterwindow.cpp 12685 2022-01-31 10:58:46Z wh11204 $
+* $Revision: 13547 $
+* $Id: wxssplitterwindow.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxssplitterwindow.cpp $
 */
 
@@ -58,15 +58,15 @@ wxsSplitterWindow::wxsSplitterWindow(wxsItemResData* Data):
 {
 }
 
-wxObject* wxsSplitterWindow::OnBuildPreview(wxWindow* Parent,long Flags)
+wxObject* wxsSplitterWindow::OnBuildPreview(wxWindow* Parent,long _Flags)
 {
     wxSplitterWindow* Splitter = new wxSplitterWindow(Parent,GetId(),Pos(Parent),Size(Parent),Style());
-    SetupWindow(Splitter,Flags);
+    SetupWindow(Splitter,_Flags);
     if ( MinPaneSize != -1 )
     {
         Splitter->SetMinimumPaneSize(MinPaneSize);
     }
-    AddChildrenPreview(Splitter,Flags);
+    AddChildrenPreview(Splitter,_Flags);
     if ( GetChildCount() == 0 )
     {
     }
@@ -135,7 +135,7 @@ void wxsSplitterWindow::OnBuildCreatingCode()
     }
 }
 
-void wxsSplitterWindow::OnEnumContainerProperties(cb_unused long Flags)
+void wxsSplitterWindow::OnEnumContainerProperties(cb_unused long _Flags)
 {
     static const long    OrientValues[] = { wxHORIZONTAL, wxVERTICAL, 0 };
     static const wxChar* OrientNames[]  = { _T("horizontal"), _T("vertical"), 0 };

@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 8704 $
-* $Id: wxsbutton.cpp 8704 2012-12-23 20:32:03Z mortenmacfly $
+* $Revision: 13547 $
+* $Id: wxsbutton.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxsbutton.cpp $
 */
 
@@ -74,14 +74,14 @@ void wxsButton::OnBuildCreatingCode()
     }
 }
 
-wxObject* wxsButton::OnBuildPreview(wxWindow* Parent,long Flags)
+wxObject* wxsButton::OnBuildPreview(wxWindow* Parent,long _Flags)
 {
     wxButton* Preview = new wxButton(Parent,GetId(),Label,Pos(Parent),Size(Parent),Style());
     if ( IsDefault ) Preview->SetDefault();
-    return SetupWindow(Preview,Flags);
+    return SetupWindow(Preview,_Flags);
 }
 
-void wxsButton::OnEnumWidgetProperties(cb_unused long Flags)
+void wxsButton::OnEnumWidgetProperties(cb_unused long _Flags)
 {
     WXS_STRING(wxsButton,Label,_("Label"),_T("label"),_T(""),false)
     WXS_BOOL(wxsButton,IsDefault,_("Is default"),_T("default"),false)

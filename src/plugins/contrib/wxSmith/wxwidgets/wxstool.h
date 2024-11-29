@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13381 $
-* $Id: wxstool.h 13381 2023-10-27 12:55:51Z wh11204 $
+* $Revision: 13547 $
+* $Id: wxstool.h 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxstool.h $
 */
 
@@ -60,7 +60,7 @@ class wxsTool: public wxsParent
          * there will be Variable name and identifier and at the end, all
          * required base properties.
          */
-        virtual void OnEnumToolProperties(long Flags) = 0;
+        virtual void OnEnumToolProperties(long _Flags) = 0;
 
         /** \brief Function which adding new items to QPP
          *
@@ -91,7 +91,7 @@ class wxsTool: public wxsParent
          * Function enumerating item properties. The implementation
          * does call EnumContainerProperties() and adds all default properties.
          */
-        virtual void OnEnumItemProperties(long Flags);
+        virtual void OnEnumItemProperties(long _Flags);
 
         /** \brief Function Adding QPPChild panels for base properties of this
          *         container.
@@ -105,7 +105,7 @@ class wxsTool: public wxsParent
         virtual wxsTool* ConvertToTool() { return this; }
 
         /** \brief Tools don't generate preview */
-        virtual wxObject* OnBuildPreview(wxWindow* /*Parent*/, long /*Flags*/) { return nullptr; }
+        virtual wxObject* OnBuildPreview(wxWindow* /*Parent*/, long /*_Flags*/) { return nullptr; }
 };
 
 

@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12304 $
-* $Id: wxstoolbareditor.cpp 12304 2021-03-16 23:28:31Z fuscated $
+* $Revision: 13547 $
+* $Id: wxstoolbareditor.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxstoolbareditor.cpp $
 */
 
@@ -34,20 +34,20 @@
 //*)
 
 //(*IdInit(wxsToolBarEditor)
-const long wxsToolBarEditor::ID_LISTBOX1 = wxNewId();
-const long wxsToolBarEditor::ID_STATICTEXT1 = wxNewId();
-const long wxsToolBarEditor::ID_CHOICE1 = wxNewId();
-const long wxsToolBarEditor::ID_TEXTCTRL4 = wxNewId();
-const long wxsToolBarEditor::ID_TEXTCTRL1 = wxNewId();
-const long wxsToolBarEditor::ID_BITMAPBUTTON1 = wxNewId();
-const long wxsToolBarEditor::ID_BITMAPBUTTON2 = wxNewId();
-const long wxsToolBarEditor::ID_TEXTCTRL2 = wxNewId();
-const long wxsToolBarEditor::ID_TEXTCTRL3 = wxNewId();
-const long wxsToolBarEditor::ID_STATICLINE2 = wxNewId();
-const long wxsToolBarEditor::ID_BUTTON3 = wxNewId();
-const long wxsToolBarEditor::ID_BUTTON4 = wxNewId();
-const long wxsToolBarEditor::ID_BUTTON1 = wxNewId();
-const long wxsToolBarEditor::ID_BUTTON2 = wxNewId();
+const wxWindowID wxsToolBarEditor::ID_LISTBOX1 = wxNewId();
+const wxWindowID wxsToolBarEditor::ID_STATICTEXT1 = wxNewId();
+const wxWindowID wxsToolBarEditor::ID_CHOICE1 = wxNewId();
+const wxWindowID wxsToolBarEditor::ID_TEXTCTRL4 = wxNewId();
+const wxWindowID wxsToolBarEditor::ID_TEXTCTRL1 = wxNewId();
+const wxWindowID wxsToolBarEditor::ID_BITMAPBUTTON1 = wxNewId();
+const wxWindowID wxsToolBarEditor::ID_BITMAPBUTTON2 = wxNewId();
+const wxWindowID wxsToolBarEditor::ID_TEXTCTRL2 = wxNewId();
+const wxWindowID wxsToolBarEditor::ID_TEXTCTRL3 = wxNewId();
+const wxWindowID wxsToolBarEditor::ID_STATICLINE2 = wxNewId();
+const wxWindowID wxsToolBarEditor::ID_BUTTON3 = wxNewId();
+const wxWindowID wxsToolBarEditor::ID_BUTTON4 = wxNewId();
+const wxWindowID wxsToolBarEditor::ID_BUTTON1 = wxNewId();
+const wxWindowID wxsToolBarEditor::ID_BUTTON2 = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(wxsToolBarEditor,wxPanel)
@@ -140,18 +140,17 @@ wxsToolBarEditor::wxsToolBarEditor(wxWindow* parent,wxsToolBar* ToolBar):
     StaticBoxSizer2->Add(BoxSizer2, 0, wxTOP|wxBOTTOM|wxALIGN_CENTER_HORIZONTAL, 5);
     BoxSizer1->Add(StaticBoxSizer2, 2, wxLEFT|wxRIGHT|wxEXPAND, 5);
     SetSizer(BoxSizer1);
-    BoxSizer1->Fit(this);
     BoxSizer1->SetSizeHints(this);
 
-    Connect(ID_LISTBOX1,wxEVT_COMMAND_LISTBOX_SELECTED,(wxObjectEventFunction)&wxsToolBarEditor::Onm_ContentSelect);
-    Connect(ID_CHOICE1,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&wxsToolBarEditor::OnTypeChanged);
-    Connect(ID_TEXTCTRL1,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&wxsToolBarEditor::Onm_LabelText);
-    Connect(ID_BITMAPBUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&wxsToolBarEditor::OnBitmapClick);
-    Connect(ID_BITMAPBUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&wxsToolBarEditor::OnBitmap2Click);
-    Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&wxsToolBarEditor::OnUpClick);
-    Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&wxsToolBarEditor::OnDownClick);
-    Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&wxsToolBarEditor::OnNewClick);
-    Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&wxsToolBarEditor::OnDelClick);
+    Connect(ID_LISTBOX1,wxEVT_COMMAND_LISTBOX_SELECTED,wxCommandEventHandler(wxsToolBarEditor::Onm_ContentSelect));
+    Connect(ID_CHOICE1,wxEVT_COMMAND_CHOICE_SELECTED,wxCommandEventHandler(wxsToolBarEditor::OnTypeChanged));
+    Connect(ID_TEXTCTRL1,wxEVT_COMMAND_TEXT_UPDATED,wxCommandEventHandler(wxsToolBarEditor::Onm_LabelText));
+    Connect(ID_BITMAPBUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(wxsToolBarEditor::OnBitmapClick));
+    Connect(ID_BITMAPBUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(wxsToolBarEditor::OnBitmap2Click));
+    Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(wxsToolBarEditor::OnUpClick));
+    Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(wxsToolBarEditor::OnDownClick));
+    Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(wxsToolBarEditor::OnNewClick));
+    Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(wxsToolBarEditor::OnDelClick));
     //*)
 
     for ( int i=0; i<m_ToolBar->GetChildCount(); i++ )

@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13433 $
- * $Id: ccdebuginfo.cpp 13433 2024-01-27 18:19:10Z mortenmacfly $
+ * $Revision: 13561 $
+ * $Id: ccdebuginfo.cpp 13561 2024-09-14 04:43:37Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parser/ccdebuginfo.cpp $
  */
 
@@ -91,45 +91,45 @@ namespace CCDebugInfoHelper
 }// namespace CCDebugInfoHelper
 
 //(*IdInit(CCDebugInfo)
-const long CCDebugInfo::ID_TEXTCTRL1 = wxNewId();
-const long CCDebugInfo::ID_BUTTON1 = wxNewId();
-const long CCDebugInfo::ID_STATICTEXT18 = wxNewId();
-const long CCDebugInfo::ID_STATICTEXT2 = wxNewId();
-const long CCDebugInfo::ID_STATICTEXT10 = wxNewId();
-const long CCDebugInfo::ID_STATICTEXT12 = wxNewId();
-const long CCDebugInfo::ID_STATICTEXT4 = wxNewId();
-const long CCDebugInfo::ID_STATICTEXT6 = wxNewId();
-const long CCDebugInfo::ID_STATICTEXT8 = wxNewId();
-const long CCDebugInfo::ID_STATICTEXT37 = wxNewId();
-const long CCDebugInfo::ID_STATICTEXT41 = wxNewId();
-const long CCDebugInfo::ID_STATICTEXT14 = wxNewId();
-const long CCDebugInfo::ID_STATICTEXT16 = wxNewId();
-const long CCDebugInfo::ID_STATICTEXT33 = wxNewId();
-const long CCDebugInfo::ID_STATICTEXT39 = wxNewId();
-const long CCDebugInfo::ID_STATICTEXT1 = wxNewId();
-const long CCDebugInfo::ID_STATICTEXT20 = wxNewId();
-const long CCDebugInfo::ID_STATICTEXT24 = wxNewId();
-const long CCDebugInfo::ID_BUTTON4 = wxNewId();
-const long CCDebugInfo::ID_COMBOBOX3 = wxNewId();
-const long CCDebugInfo::ID_BUTTON5 = wxNewId();
-const long CCDebugInfo::ID_COMBOBOX2 = wxNewId();
-const long CCDebugInfo::ID_BUTTON3 = wxNewId();
-const long CCDebugInfo::ID_COMBOBOX1 = wxNewId();
-const long CCDebugInfo::ID_BUTTON2 = wxNewId();
-const long CCDebugInfo::ID_STATICTEXT26 = wxNewId();
-const long CCDebugInfo::ID_BUTTON7 = wxNewId();
-const long CCDebugInfo::ID_STATICTEXT28 = wxNewId();
-const long CCDebugInfo::ID_BUTTON8 = wxNewId();
-const long CCDebugInfo::ID_STATICTEXT35 = wxNewId();
-const long CCDebugInfo::ID_PANEL1 = wxNewId();
-const long CCDebugInfo::ID_LISTBOX1 = wxNewId();
-const long CCDebugInfo::ID_PANEL2 = wxNewId();
-const long CCDebugInfo::ID_LISTBOX2 = wxNewId();
-const long CCDebugInfo::ID_PANEL3 = wxNewId();
-const long CCDebugInfo::ID_LISTBOX3 = wxNewId();
-const long CCDebugInfo::ID_PANEL4 = wxNewId();
-const long CCDebugInfo::ID_NOTEBOOK1 = wxNewId();
-const long CCDebugInfo::ID_BUTTON6 = wxNewId();
+const wxWindowID CCDebugInfo::ID_TEXTCTRL1 = wxNewId();
+const wxWindowID CCDebugInfo::ID_BUTTON1 = wxNewId();
+const wxWindowID CCDebugInfo::ID_STATICTEXT18 = wxNewId();
+const wxWindowID CCDebugInfo::ID_STATICTEXT2 = wxNewId();
+const wxWindowID CCDebugInfo::ID_STATICTEXT10 = wxNewId();
+const wxWindowID CCDebugInfo::ID_STATICTEXT12 = wxNewId();
+const wxWindowID CCDebugInfo::ID_STATICTEXT4 = wxNewId();
+const wxWindowID CCDebugInfo::ID_STATICTEXT6 = wxNewId();
+const wxWindowID CCDebugInfo::ID_STATICTEXT8 = wxNewId();
+const wxWindowID CCDebugInfo::ID_STATICTEXT37 = wxNewId();
+const wxWindowID CCDebugInfo::ID_STATICTEXT41 = wxNewId();
+const wxWindowID CCDebugInfo::ID_STATICTEXT14 = wxNewId();
+const wxWindowID CCDebugInfo::ID_STATICTEXT16 = wxNewId();
+const wxWindowID CCDebugInfo::ID_STATICTEXT33 = wxNewId();
+const wxWindowID CCDebugInfo::ID_STATICTEXT39 = wxNewId();
+const wxWindowID CCDebugInfo::ID_STATICTEXT1 = wxNewId();
+const wxWindowID CCDebugInfo::ID_STATICTEXT20 = wxNewId();
+const wxWindowID CCDebugInfo::ID_STATICTEXT24 = wxNewId();
+const wxWindowID CCDebugInfo::ID_BUTTON4 = wxNewId();
+const wxWindowID CCDebugInfo::ID_COMBOBOX3 = wxNewId();
+const wxWindowID CCDebugInfo::ID_BUTTON5 = wxNewId();
+const wxWindowID CCDebugInfo::ID_COMBOBOX2 = wxNewId();
+const wxWindowID CCDebugInfo::ID_BUTTON3 = wxNewId();
+const wxWindowID CCDebugInfo::ID_COMBOBOX1 = wxNewId();
+const wxWindowID CCDebugInfo::ID_BUTTON2 = wxNewId();
+const wxWindowID CCDebugInfo::ID_STATICTEXT26 = wxNewId();
+const wxWindowID CCDebugInfo::ID_BUTTON7 = wxNewId();
+const wxWindowID CCDebugInfo::ID_STATICTEXT28 = wxNewId();
+const wxWindowID CCDebugInfo::ID_BUTTON8 = wxNewId();
+const wxWindowID CCDebugInfo::ID_STATICTEXT35 = wxNewId();
+const wxWindowID CCDebugInfo::ID_PANEL1 = wxNewId();
+const wxWindowID CCDebugInfo::ID_LISTBOX1 = wxNewId();
+const wxWindowID CCDebugInfo::ID_PANEL2 = wxNewId();
+const wxWindowID CCDebugInfo::ID_LISTBOX2 = wxNewId();
+const wxWindowID CCDebugInfo::ID_PANEL3 = wxNewId();
+const wxWindowID CCDebugInfo::ID_LISTBOX3 = wxNewId();
+const wxWindowID CCDebugInfo::ID_PANEL4 = wxNewId();
+const wxWindowID CCDebugInfo::ID_NOTEBOOK1 = wxNewId();
+const wxWindowID CCDebugInfo::ID_BUTTON6 = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(CCDebugInfo,wxScrollingDialog)

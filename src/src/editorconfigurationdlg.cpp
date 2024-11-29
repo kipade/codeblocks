@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13585 $
- * $Id: editorconfigurationdlg.cpp 13585 2024-11-11 10:34:22Z wh11204 $
+ * $Revision: 13586 $
+ * $Id: editorconfigurationdlg.cpp 13586 2024-11-11 17:54:48Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/src/editorconfigurationdlg.cpp $
  */
 
@@ -163,7 +163,7 @@ EditorConfigurationDlg::EditorConfigurationDlg(wxWindow* parent)
     wxChoice *cmbFontQuality = XRCCTRL(*this, "cmbFontQuality", wxChoice);
 
 #if defined(__WXMSW__) && wxCHECK_VERSION(3, 1, 0)
-    cmbTechnology->SetSelection(cfg->ReadInt(wxT("/technology"), 1);
+    cmbTechnology->SetSelection(cfg->ReadInt(wxT("/technology"), 1));
     cmbFontQuality->SetSelection(cfg->ReadInt(wxT("/font_quality"), 0));
 #else
     cmbTechnology->SetSelection(0);

@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 11996 $
- * $Id: virtualbuildtargetsdlg.cpp 11996 2020-03-26 21:04:41Z fuscated $
+ * $Revision: 13570 $
+ * $Id: virtualbuildtargetsdlg.cpp 13570 2024-09-14 05:03:57Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/src/virtualbuildtargetsdlg.cpp $
  */
 
@@ -41,11 +41,11 @@ VirtualBuildTargetsDlg::VirtualBuildTargetsDlg(wxWindow* parent,wxWindowID /*id*
     btnRemove = (wxButton*)FindWindow(XRCID("ID_BTN_REMOVE"));
     lstTargets = (wxCheckListBox*)FindWindow(XRCID("ID_LST_TARGETS"));
 
-    Connect(XRCID("ID_LST_ALIASES"),wxEVT_COMMAND_LISTBOX_SELECTED,(wxObjectEventFunction)&VirtualBuildTargetsDlg::OnAliasesSelect);
-    Connect(XRCID("ID_BTN_ADD"),wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VirtualBuildTargetsDlg::OnAddClick);
-    Connect(XRCID("ID_BTN_EDIT"),wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VirtualBuildTargetsDlg::OnEditClick);
-    Connect(XRCID("ID_BTN_REMOVE"),wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&VirtualBuildTargetsDlg::OnRemoveClick);
-    Connect(XRCID("ID_LST_TARGETS"),wxEVT_COMMAND_CHECKLISTBOX_TOGGLED,(wxObjectEventFunction)&VirtualBuildTargetsDlg::OnTargetsToggled);
+    Connect(XRCID("ID_LST_ALIASES"),wxEVT_COMMAND_LISTBOX_SELECTED,wxCommandEventHandler(VirtualBuildTargetsDlg::OnAliasesSelect));
+    Connect(XRCID("ID_BTN_ADD"),wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(VirtualBuildTargetsDlg::OnAddClick));
+    Connect(XRCID("ID_BTN_EDIT"),wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(VirtualBuildTargetsDlg::OnEditClick));
+    Connect(XRCID("ID_BTN_REMOVE"),wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(VirtualBuildTargetsDlg::OnRemoveClick));
+    Connect(XRCID("ID_LST_TARGETS"),wxEVT_COMMAND_CHECKLISTBOX_TOGGLED,wxCommandEventHandler(VirtualBuildTargetsDlg::OnTargetsToggled));
     //*)
     XRCCTRL(*this, "wxID_OK", wxButton)->SetDefault();
 

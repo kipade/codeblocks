@@ -16,8 +16,8 @@
 * along with wxSmith; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 *
-* $Revision: 12462 $
-* $Id: libselectdlg.h 12462 2021-06-19 19:44:46Z fuscated $
+* $Revision: 13570 $
+* $Id: libselectdlg.h 13570 2024-09-14 05:03:57Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/lib_finder/libselectdlg.h $
 */
 
@@ -72,12 +72,12 @@ class LibSelectDlg: public wxScrollingDialog
 		//*)
 
 		//(*Identifiers(LibSelectDlg)
-		static const long ID_STATICTEXT1;
-		static const long ID_CHECKLISTBOX1;
-		static const long ID_RADIOBUTTON1;
-		static const long ID_RADIOBUTTON2;
-		static const long ID_RADIOBUTTON3;
-		static const long ID_CHECKBOX1;
+		static const wxWindowID ID_STATICTEXT1;
+		static const wxWindowID ID_CHECKLISTBOX1;
+		static const wxWindowID ID_RADIOBUTTON1;
+		static const wxWindowID ID_RADIOBUTTON2;
+		static const wxWindowID ID_RADIOBUTTON3;
+		static const wxWindowID ID_CHECKBOX1;
 		//*)
 
 		//(*Handlers(LibSelectDlg)

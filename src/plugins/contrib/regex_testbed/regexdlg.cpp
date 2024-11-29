@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13013 $
- * $Id: regexdlg.cpp 13013 2022-11-11 08:35:53Z wh11204 $
+ * $Revision: 13570 $
+ * $Id: regexdlg.cpp 13570 2024-09-14 05:03:57Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/regex_testbed/regexdlg.cpp $
  */
 
@@ -58,12 +58,12 @@ RegExDlg::RegExDlg(wxWindow* parent,wxWindowID /*id*/)
     m_text = (wxTextCtrl*)FindWindow(XRCID("ID_TEXT"));
     m_output = (wxHtmlWindow*)FindWindow(XRCID("ID_OUT"));
 
-    Connect(XRCID("ID_REGEX"),wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&RegExDlg::OnValueChanged);
-    Connect(XRCID("ID_QUOTED"),wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&RegExDlg::OnQuoteChanged);
-    Connect(XRCID("ID_SYNTAX"),wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&RegExDlg::OnSyntaxSelect);
-    Connect(XRCID("ID_NOCASE"),wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&RegExDlg::OnOptionChanged);
-    Connect(XRCID("ID_NEWLINES"),wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&RegExDlg::OnOptionChanged);
-    Connect(XRCID("ID_TEXT"),wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&RegExDlg::OnOptionChanged);
+    Connect(XRCID("ID_REGEX"),wxEVT_COMMAND_TEXT_UPDATED,wxCommandEventHandler(RegExDlg::OnValueChanged));
+    Connect(XRCID("ID_QUOTED"),wxEVT_COMMAND_TEXT_UPDATED,wxCommandEventHandler(RegExDlg::OnQuoteChanged));
+    Connect(XRCID("ID_SYNTAX"),wxEVT_COMMAND_CHOICE_SELECTED,wxCommandEventHandler(RegExDlg::OnSyntaxSelect));
+    Connect(XRCID("ID_NOCASE"),wxEVT_COMMAND_CHECKBOX_CLICKED,wxCommandEventHandler(RegExDlg::OnOptionChanged));
+    Connect(XRCID("ID_NEWLINES"),wxEVT_COMMAND_CHECKBOX_CLICKED,wxCommandEventHandler(RegExDlg::OnOptionChanged));
+    Connect(XRCID("ID_TEXT"),wxEVT_COMMAND_TEXT_UPDATED,wxCommandEventHandler(RegExDlg::OnOptionChanged));
     //*)
 
     assert(m_regex);

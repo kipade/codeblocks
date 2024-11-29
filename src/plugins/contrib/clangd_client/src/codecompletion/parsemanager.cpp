@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13539 $
- * $Id: parsemanager.cpp 13539 2024-08-07 17:30:24Z pecanh $
+ * $Revision: 13570 $
+ * $Id: parsemanager.cpp 13570 2024-09-14 05:03:57Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parsemanager.cpp $
  */
 
@@ -1721,7 +1721,7 @@ void ParseManager::OnAUIProjectPageChanged(wxAuiNotebookEvent& event)
         ProjectManager* pPrjMgr = Manager::Get()->GetProjectManager();
         wxWindow* pCurrentPage = pPrjMgr->GetUI().GetNotebook()->GetCurrentPage();
         int pageIndex = pPrjMgr->GetUI().GetNotebook()->GetPageIndex(pCurrentPage);
-        wxString pageTitle = pPrjMgr->GetUI().GetNotebook()->GetPageText(pageIndex);
+        pageTitle = pPrjMgr->GetUI().GetNotebook()->GetPageText(pageIndex);
         if (pCurrentPage == GetClassBrowser())
         {
             if ( pCurrentPage->GetScreenRect().Contains( wxGetMousePosition()) )
@@ -1995,7 +1995,7 @@ void ParseManager::GetPriorityFilesForParsing(StringList& localSourcesList, cbPr
         // -------------------------------------------------------
         for (int ii=0; ii< pEdMgr->GetEditorsCount(); ++ii)
         {
-            cbEditor* pEditor = pEdMgr->GetBuiltinEditor(ii);
+            pEditor = pEdMgr->GetBuiltinEditor(ii);
             if (pEditor)
             {
                 // don't re-list an already listed editor file

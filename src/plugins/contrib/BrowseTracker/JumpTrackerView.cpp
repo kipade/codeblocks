@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13292 $
- * $Id: JumpTrackerView.cpp 13292 2023-05-30 15:50:46Z mortenmacfly $
+ * $Revision: 13570 $
+ * $Id: JumpTrackerView.cpp 13570 2024-09-14 05:03:57Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/BrowseTracker/JumpTrackerView.cpp $
  */
 
@@ -94,7 +94,7 @@ bool JumpTrackerView::HasFeature(Feature::Enum feature) const
 }
 
 // ----------------------------------------------------------------------------
-void JumpTrackerView::AppendAdditionalMenuItems(wxMenu &menu)
+void JumpTrackerView::AppendAdditionalMenuItems(cb_unused wxMenu &menu)
 // ----------------------------------------------------------------------------
 {
 }

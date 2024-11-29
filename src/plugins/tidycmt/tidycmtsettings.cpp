@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13293 $
- * $Id: tidycmtsettings.cpp 13293 2023-05-30 15:53:23Z mortenmacfly $
+ * $Revision: 13565 $
+ * $Id: tidycmtsettings.cpp 13565 2024-09-14 04:45:08Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/tidycmt/tidycmtsettings.cpp $
  */
 
@@ -15,10 +15,10 @@
 //*)
 
 //(*IdInit(TidyCmtSettings)
-const long TidyCmtSettings::ID_CHK_ENABLE = wxNewId();
-const long TidyCmtSettings::ID_SPN_LENGTH = wxNewId();
-const long TidyCmtSettings::ID_TXT_SINGLE_LINE_CMT = wxNewId();
-const long TidyCmtSettings::ID_TXT_MULTI_LINE_CMT = wxNewId();
+const wxWindowID TidyCmtSettings::ID_CHK_ENABLE = wxNewId();
+const wxWindowID TidyCmtSettings::ID_SPN_LENGTH = wxNewId();
+const wxWindowID TidyCmtSettings::ID_TXT_SINGLE_LINE_CMT = wxNewId();
+const wxWindowID TidyCmtSettings::ID_TXT_MULTI_LINE_CMT = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(TidyCmtSettings,wxPanel)
@@ -49,14 +49,13 @@ TidyCmtSettings::TidyCmtSettings(wxWindow* parent, const TidyCmtConfig& tcc)
 	grdMain->Add(spnLength, 0, wxEXPAND, 5);
 	lblSingleLineCmt = new wxStaticText(this, wxID_ANY, _("Single-line comment trigger:"), wxDefaultPosition, wxDefaultSize, 0, _T("wxID_ANY"));
 	grdMain->Add(lblSingleLineCmt, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
-	txtSingleLineCmt = new wxTextCtrl(this, ID_TXT_SINGLE_LINE_CMT, _("//--"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TXT_SINGLE_LINE_CMT"));
+	txtSingleLineCmt = new wxTextCtrl(this, ID_TXT_SINGLE_LINE_CMT, _T("//--"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TXT_SINGLE_LINE_CMT"));
 	grdMain->Add(txtSingleLineCmt, 0, wxEXPAND, 5);
 	lblMultiLineCmt = new wxStaticText(this, wxID_ANY, _("Multi-line comment trigger:"), wxDefaultPosition, wxDefaultSize, 0, _T("wxID_ANY"));
 	grdMain->Add(lblMultiLineCmt, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
-	txtMultiLineCmt = new wxTextCtrl(this, ID_TXT_MULTI_LINE_CMT, _("/*--"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TXT_MULTI_LINE_CMT"));
+	txtMultiLineCmt = new wxTextCtrl(this, ID_TXT_MULTI_LINE_CMT, _T("/*--"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TXT_MULTI_LINE_CMT"));
 	grdMain->Add(txtMultiLineCmt, 0, wxEXPAND, 5);
 	SetSizer(grdMain);
-	grdMain->Fit(this);
 	grdMain->SetSizeHints(this);
 
 	Connect(ID_CHK_ENABLE,wxEVT_COMMAND_CHECKBOX_CLICKED,wxCommandEventHandler(TidyCmtSettings::OnEnableClick));

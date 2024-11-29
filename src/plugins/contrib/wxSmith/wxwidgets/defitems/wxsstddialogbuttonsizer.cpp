@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13547 $
-* $Id: wxsstddialogbuttonsizer.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
+* $Revision: 13584 $
+* $Id: wxsstddialogbuttonsizer.cpp 13584 2024-10-05 10:16:27Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxsstddialogbuttonsizer.cpp $
 */
 
@@ -177,7 +177,8 @@ void wxsStdDialogButtonSizer::OnBuildCreatingCode()
             AddHeader(_T("<wx/sizer.h>"),GetInfo().ClassName,hfInPCH);
             AddHeader(_T("<wx/button.h>"),GetInfo().ClassName,hfLocal);
 
-            if ( IsPointer() ) Codef(_T("%C();\n"));
+            if ( IsPointer() )
+                Codef(_T("%C();\n"));
 
             for ( int i=0; i<NumButtons; i++ )
             {
@@ -186,7 +187,11 @@ void wxsStdDialogButtonSizer::OnBuildCreatingCode()
                     Codef(_T("%AAddButton(new wxButton(%W, %v, %t));\n"),IdNames[i],m_Label[i].wx_str());
                 }
             }
+
             Codef(_T("%ARealize();\n"));
+            if ( m_Use[0] )
+                Codef(_T("dynamic_cast <wxButton *> (%W->FindWindow(%v))->SetDefault();\n"), IdNames[0]);
+
             break;
 
         }

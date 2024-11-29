@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13487 $
- * $Id: codecompletion.cpp 13487 2024-03-07 04:51:52Z pecanh $
+ * $Revision: 13580 $
+ * $Id: codecompletion.cpp 13580 2024-09-30 06:51:02Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/codecompletion.cpp $
  */
 
@@ -2862,7 +2862,7 @@ void CodeCompletion::OnFunction(cb_unused wxCommandEvent& event)
     }
 }
 
-/** Here is the expansion of how the two wxChoices are constructed.
+/** Here is the explanation of how the two wxChoices are constructed.
  * for a file have such contents below
  * @code{.cpp}
  *  Line  0     void g_func1(){

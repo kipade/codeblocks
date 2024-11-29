@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13531 $
- * $Id: cbeditor.cpp 13531 2024-06-21 20:24:30Z mortenmacfly $
+ * $Revision: 13585 $
+ * $Id: cbeditor.cpp 13585 2024-11-11 10:34:22Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/sdk/cbeditor.cpp $
  */
 
@@ -1441,7 +1441,7 @@ static void SetEditorTechnology(cbStyledTextCtrl *control, ConfigManager *config
     if (!control)
         return;
 #if defined(__WXMSW__) && wxCHECK_VERSION(3, 1, 0)
-    const int technology = config->ReadInt(wxT("/technology"), 0);
+    const int technology = config->ReadInt(wxT("/technology"), 1);
     if (technology == 1)
         control->SetTechnology(wxSCI_TECHNOLOGY_DIRECTWRITE);
     else

@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13529 $
- * $Id: ccoptionsdlg.cpp 13529 2024-06-12 17:43:55Z pecanh $
+ * $Revision: 13621 $
+ * $Id: ccoptionsdlg.cpp 13621 2025-02-24 19:09:56Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/ccoptionsdlg.cpp $
  */
 
@@ -247,6 +247,13 @@ void CCOptionsDlg::OnApply()
         int pageID = page ? lb->FindPage(page) : 0;
         activePageTitle = lb ? lb->GetPageText(pageID) : wxString();
     }
+
+    // Patch to avoid clobbering .conf data at project close //(svn 13612 bkport)
+    cbProject* pProject = Manager::Get()->GetProjectManager()->GetActiveProject();
+     // Remember the project that changed the .conf data
+    m_ParseManager->SetOptsChangedByProject(pProject);
+    // Renember the Parser that changed the .conf data
+    m_ParseManager->SetOptsChangedByParser(&(m_ParseManager->GetParser())); //(ph 2025/02/07)
 
     ConfigManager* cfg = Manager::Get()->GetConfigManager("clangd_client");
 

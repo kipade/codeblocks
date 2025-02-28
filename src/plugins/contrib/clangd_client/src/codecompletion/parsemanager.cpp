@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13570 $
- * $Id: parsemanager.cpp 13570 2024-09-14 05:03:57Z mortenmacfly $
+ * $Revision: 13621 $
+ * $Id: parsemanager.cpp 13621 2025-02-24 19:09:56Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parsemanager.cpp $
  */
 
@@ -250,8 +250,8 @@ ParseManager::ParseManager( LSPEventCallbackHandler* pLSPEventSinkHandler ) :
     m_LastResult(-1)
 {
     // parser used when no project is loaded, holds options etc
-    m_NullParser = new Parser(this, nullptr); // null pProject
-    m_ActiveParser     = m_NullParser;
+    m_TempParser = new Parser(this, nullptr); // null pProject
+    m_ActiveParser     = m_TempParser;
 
     m_ParserPerWorkspace = false;
 
@@ -280,8 +280,8 @@ ParseManager::~ParseManager()
 
     RemoveClassBrowser();
     ClearParsers();
-    if (m_NullParser)
-        Delete(m_NullParser);
+    if (m_TempParser)
+        Delete(m_TempParser);
 
     if (m_pProxyProject)
         m_pProxyProject->SetModified(false);
@@ -832,7 +832,7 @@ Parser* ParseManager::CreateParser(cbProject* project, bool useSavedOptions)
 
     // If current parser is the temp or proxy parser activate the new parser
     Parser* pProxyParser = (Parser*)GetParserByProject(GetProxyProject());
-    if ( m_ActiveParser == m_NullParser)
+    if ( m_ActiveParser == m_TempParser)
         SetParser(parser); // Also updates class browser
     else if (m_ActiveParser == pProxyParser)
         SetParser(parser); // Also updates class browser
@@ -887,13 +887,15 @@ bool ParseManager::DeleteParser(cbProject* project)
         delete parserList_it->second;      // delete the instance first, then remove from the list
         m_ParserList.erase(parserList_it); // remove deleted parser from parser list
 
-        // if the active parser is deleted, set the active parser to m_NullParser
+        // if the active parser is deleted, set the active parser to m_TempParser
         if (pDeletedParser == m_ActiveParser)
         {
+            // Remember the closing parser //(svn 13612 bkport)
+            SetClosingParser(m_ActiveParser);
             m_ActiveParser = nullptr;
-            SetParser(m_NullParser); // Also updates class browser;
+            SetParser(m_TempParser); // Also updates class browser;
             cbAssertNonFatal(m_ActiveParser && "SetParser() failed to set valid ptr");
-            if (not m_ActiveParser) m_ActiveParser =  m_NullParser;
+            if (not m_ActiveParser) m_ActiveParser =  m_TempParser;
         }
 
         return true;
@@ -1876,7 +1878,7 @@ void ParseManager::UpdateClassBrowser(bool force)
         if (not IsOkToUpdateClassBrowserView())
             return;
 
-        if ( m_ActiveParser != m_NullParser
+        if ( m_ActiveParser != m_TempParser
             && m_ActiveParser->Done() )
         {
             //-s_ClassBrowserCaller = wxString::Format("%s:%d",__FUNCTION__, __LINE__);
@@ -3185,7 +3187,7 @@ void ParseManager::OnEditorActivated(EditorBase* editor)
             }
         }
         else
-            parser = m_NullParser;
+            parser = m_TempParser;
     }
     else if (!project)
     {
@@ -3552,4 +3554,22 @@ void ParseManager::ClearDiagnostics(wxString filename)  //(Christo 2024/03/30)
     {
         m_diagnosticsCache.erase(itr);
     }
+}
+// ----------------------------------------------------------------------------
+std::unordered_map<cbProject*,ParserBase*> * ParseManager::GetActiveParsers()  //(svn 13612 bkport)
+// ----------------------------------------------------------------------------
+{
+ // First, clear the contents of m_ActiveParserList
+    m_ActiveParserList.clear();
+
+    // Then, copy the contents of m_ParserList to m_ActiveParserList
+    for (const auto& pair : m_ParserList)
+    {
+        // Don't count the ProxyProjec
+        cbProject* pProject = pair.first;
+        if (pProject and (pProject->GetTitle() == "~ProxyProject~")) continue;
+        m_ActiveParserList.insert(pair);
+    }
+
+    return &m_ActiveParserList;
 }

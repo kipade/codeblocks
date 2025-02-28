@@ -16,7 +16,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-// RCS-ID: $Id: ProjectData.cpp 13606 2025-01-30 23:01:51Z pecanh $
+// RCS-ID: $Id: ProjectData.cpp 13608 2025-02-01 18:31:07Z pecanh $
 
 #if defined(CB_PRECOMP)
 #include "sdk.h"
@@ -56,7 +56,7 @@ ProjectData::ProjectData(cbProject* pcbProject)
 {
     //ctor
     #if defined(LOGGING)
-    if (not pcbProject) asm("int3"); /*trap*/;
+    //if (not pcbProject) asm("int3"); /*trap*/;
     #endif
     if (not pcbProject) return;
     m_pCBProject = pcbProject;
@@ -163,7 +163,7 @@ BrowseMarks* ProjectData::HashAddBrowse_Marks( const wxString fullPath )
 
     EditorBase* eb = m_pEdMgr->GetEditor(fullPath);
     #if defined(LOGGING)
-        if(not eb) asm("int3"); /*trap*/
+        //if(not eb) asm("int3"); /*trap*/
     #endif
     if(not eb) return 0;
     wxString filePath = eb->GetFilename();

@@ -16,7 +16,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-// RCS-ID: $Id: BrowseTracker.cpp 13607 2025-01-31 23:07:30Z pecanh $
+// RCS-ID: $Id: BrowseTracker.cpp 13608 2025-02-01 18:31:07Z pecanh $
 
 // Notes:
 //
@@ -1485,7 +1485,7 @@ void BrowseTracker::RecordBrowseMark(EditorBase* eb)
             #if defined(LOGGING)
             LOGIT( _T("BT RecordBrowseMarkByEb: pos[%d]line[%d]eb[%p][%s]"),
                 pos, m_CurrScrLine, eb, eb->GetShortName().c_str() );
-            if (not LineHasBrowseMarker(control, m_CurrScrLine)  ) {asm("int3"); /*trap*/}
+            //if (not LineHasBrowseMarker(control, m_CurrScrLine)  ) {asm("int3"); /*trap*/}
             #endif
         }//if
     }while(0);//if do

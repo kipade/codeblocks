@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13509 $
- * $Id: uservarmanager.cpp 13509 2024-04-21 14:56:35Z mortenmacfly $
+ * $Revision: 13616 $
+ * $Id: uservarmanager.cpp 13616 2025-02-18 15:38:22Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/sdk/uservarmanager.cpp $
  */
 
@@ -447,10 +447,10 @@ void UserVariableManager::ParseCommandLine(wxCmdLineParser& parser)
     }
 
     wxString active;
-    if ( parser.Found("S", &active))
+    if (parser.Found("S", &active))
     {
         if (!SetActiveSetName(active))
-            Manager::Get()->GetLogManager()->LogError(_("Set " + active +" not found"));
+            Manager::Get()->GetLogManager()->LogError(wxString::Format(_("Set %s not found"), active));
     }
 }
 

@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13534 $
- * $Id: parser.cpp 13534 2024-07-01 19:34:27Z pecanh $
+ * $Revision: 13616 $
+ * $Id: parser.cpp 13616 2025-02-18 15:38:22Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parser/parser.cpp $
  */
 
@@ -2467,7 +2467,7 @@ void Parser::OnLSP_DeclDefResponse(wxCommandEvent& event)
         //{"jsonrpc":"2.0","id":"textDocument/declaration","error":{"code":-32600,"message":"not indexed"}}
         wxString errorMsg = wxString::Format("error:%s", pJson->at("error").dump() );
         CCLogger::Get()->DebugLog(errorMsg);
-        cbMessageBox(_("LSP returned \"" + errorMsg + "\""), _("Warning"), wxICON_WARNING);
+        cbMessageBox(wxString::Format(_("LSP returned \"%s\""), errorMsg), _("Warning"), wxICON_WARNING);
         return;
     }//end if declaration/definition error
 }//end OnLSP_DeclDefResponse

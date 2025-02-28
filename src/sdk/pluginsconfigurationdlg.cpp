@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13097 $
- * $Id: pluginsconfigurationdlg.cpp 13097 2022-12-06 09:25:14Z wh11204 $
+ * $Revision: 13616 $
+ * $Id: pluginsconfigurationdlg.cpp 13616 2025-02-18 15:38:22Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/sdk/pluginsconfigurationdlg.cpp $
  */
 
@@ -352,7 +352,7 @@ void PluginsConfigurationDlg::OnExport(cb_unused wxCommandEvent& event)
         files.Add(elem->fileName);
 
         // normalize version
-        wxString version = _(elem->info.version);
+        wxString version = wxGetTranslation(elem->info.version);
         version.Replace("/",  "_", true);
         version.Replace("\\", "_", true);
         version.Replace("?",  "_", true);

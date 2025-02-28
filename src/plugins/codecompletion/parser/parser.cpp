@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13613 $
- * $Id: parser.cpp 13613 2025-02-17 12:48:34Z ollydbg $
+ * $Revision: 13616 $
+ * $Id: parser.cpp 13616 2025-02-18 15:38:22Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parser/parser.cpp $
  */
 
@@ -1028,7 +1028,7 @@ void Parser::ShowGlobalChangeAnnoyingMsg()
                    // << "Projects needing reparse:\n"
                    // << projectNames;
 
-        AnnoyingDialog dlg(_("Global settings warning"), _(warningMsg), wxART_WARNING,
+        AnnoyingDialog dlg(_("Global settings warning"), warningMsg, wxART_WARNING,
                            AnnoyingDialog::OK);
         dlg.ShowModal();
     }//endif size

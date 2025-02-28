@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13293 $
- * $Id: dlgabout.cpp 13293 2023-05-30 15:53:23Z mortenmacfly $
+ * $Revision: 13616 $
+ * $Id: dlgabout.cpp 13616 2025-02-18 15:38:22Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/src/dlgabout.cpp $
  */
 
@@ -253,7 +253,7 @@ dlgAbout::dlgAbout(wxWindow* parent)
             const wxString name(pluginlist[i]->info.name);
             const bool active = Manager::Get()->GetConfigManager("plugins")->ReadBool("/"+name, true);
             if (active)
-                plugins.push_back({_(pluginlist[i]->info.title), pluginlist[i]->info.version});
+                plugins.push_back({wxGetTranslation(pluginlist[i]->info.title), pluginlist[i]->info.version});
         }
 
         wxTextCtrl *txtPlugins = XRCCTRL(*this, "txtPlugins", wxTextCtrl);

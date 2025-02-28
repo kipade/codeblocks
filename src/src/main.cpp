@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13504 $
- * $Id: main.cpp 13504 2024-04-21 09:44:06Z mortenmacfly $
+ * $Revision: 13616 $
+ * $Id: main.cpp 13616 2025-02-18 15:38:22Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/src/main.cpp $
  */
 
@@ -1873,7 +1873,7 @@ void MainFrame::LoadViewLayout(const wxString& name, bool isTemp)
         wxAuiPaneInfoArray &panes = m_LayoutManager.GetAllPanes();
         const size_t paneCount = panes.GetCount();
         for (size_t i = 0; i < paneCount; ++i)
-            panes[i].caption = _(panes[i].caption);
+            panes[i].caption = wxGetTranslation(panes[i].caption);
     }
     else
     {

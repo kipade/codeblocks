@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13441 $
- * $Id: pluginmanager.cpp 13441 2024-02-01 07:44:57Z wh11204 $
+ * $Revision: 13616 $
+ * $Id: pluginmanager.cpp 13616 2025-02-18 15:38:22Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/sdk/pluginmanager.cpp $
  */
 
@@ -761,7 +761,7 @@ static wxString RemoveCRAndTranslate(const wxString& value)
 {
     wxString Result(value);
     Result.Replace("\r\n", "\n");
-    return _(Result);
+    return wxGetTranslation(Result);
 }
 
 bool PluginManager::ReadManifestFile(const wxString& pluginFilename,

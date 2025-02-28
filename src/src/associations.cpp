@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13293 $
- * $Id: associations.cpp 13293 2023-05-30 15:53:23Z mortenmacfly $
+ * $Revision: 13616 $
+ * $Id: associations.cpp 13616 2025-02-18 15:38:22Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/src/associations.cpp $
  */
 
@@ -169,7 +169,7 @@ void Associations::DoSetAssociation(const wxString& ext, const wxString& descr, 
 
     key.SetName(BaseKeyName + node);
     key.Create();
-    key = _(descr);
+    key = wxGetTranslation(descr);
 
     key.SetName(BaseKeyName + node + "\\DefaultIcon");
     key.Create();
@@ -301,7 +301,7 @@ ManageAssocsDialog::ManageAssocsDialog(wxWindow* parent)
     const unsigned int assocCount = Associations::CountAssocs();
     for (unsigned int i = 0; i < assocCount; ++i)
     {
-        list->Append('.' + knownTypes[i].ext + "  (" + _(knownTypes[i].descr) + ')');
+        list->Append('.' + knownTypes[i].ext + "  (" + wxGetTranslation(knownTypes[i].descr) + ')');
         list->Check(i, Associations::DoCheckAssociation(knownTypes[i].ext, knownTypes[i].descr, exe, knownTypes[i].index));
     }
 

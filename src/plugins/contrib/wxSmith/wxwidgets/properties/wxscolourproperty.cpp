@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13547 $
-* $Id: wxscolourproperty.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
+* $Revision: 13616 $
+* $Id: wxscolourproperty.cpp 13616 2025-02-18 15:38:22Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/properties/wxscolourproperty.cpp $
 */
 
@@ -480,8 +480,13 @@ namespace
         wxASSERT( propgrid );
 
         // Must only occur when user triggers event
+#if wxCHECK_VERSION(3, 3, 0)
+        if ( !(propgrid->GetInternalFlags() & wxPropertyGrid::wxPG_FL_IN_HANDLECUSTOMEDITOREVENT) )
+            return res;
+#else
         if ( !(propgrid->GetInternalFlags() & wxPG_FL_IN_HANDLECUSTOMEDITOREVENT) )
             return res;
+#endif
 
         wxColourPropertyValue val = GetVal();
 
@@ -578,7 +583,7 @@ namespace
             int index = paintdata.m_choiceItem;
             value = wxsColourValues[index];
         }
-        else if ( !(m_flags & wxPG_PROP_UNSPECIFIED) )
+        else if ( !(m_flags & (wxPGPropertyFlags)wxPG_PROP_UNSPECIFIED) )
         {
             value = GetVal().m_type;
         }

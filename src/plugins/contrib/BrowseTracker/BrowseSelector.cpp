@@ -16,7 +16,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-// RCS-ID: $Id: BrowseSelector.cpp 13606 2025-01-30 23:01:51Z pecanh $
+// RCS-ID: $Id: BrowseSelector.cpp 13607 2025-01-31 23:07:30Z pecanh $
 
 
 #include <wx/listctrl.h>
@@ -320,7 +320,7 @@ int BrowseSelector::PopulateListControl(EditorBase* /*pEditor*/)
     int maxWidth  = 0;
     int itemIdx   = 0;
 
-    for (int c = 0; c < maxCount; c++)
+    for (int c = 0; c<maxCount; c++)
     {
         editorFilename = m_pBrowseTracker->GetPageFilename(c);
         if (not editorFilename.IsEmpty())
@@ -358,7 +358,7 @@ void BrowseSelector::CloseDialog()
         std::map<int, int>::iterator iter = m_indexMap.find(m_selectedItem);
         LOGIT("ListBox[%ld] Map[%d]", m_selectedItem, iter->second);
         // we have to end the dlg before activating the editor or else
-        // the old editor get re-activated.
+        // the old editor gets re-activated.
         //-m_pBrowseTracker->SetSelection( iter->second ); logic error
         m_pBrowseTracker->m_UpdateUIEditorIndex = iter->second;
     }

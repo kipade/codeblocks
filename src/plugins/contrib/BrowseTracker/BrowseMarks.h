@@ -16,7 +16,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-// RCS-ID: $Id: BrowseMarks.h 13606 2025-01-30 23:01:51Z pecanh $
+// RCS-ID: $Id: BrowseMarks.h 13607 2025-01-31 23:07:30Z pecanh $
 #ifndef BROWSEMARKS_H
 #define BROWSEMARKS_H
 
@@ -75,7 +75,7 @@ class BrowseMarks
         wxString    m_fileShortName;
         int         m_currIndex;    //index of current cursor posn
         int         m_lastIndex;    //insertion index
-        wxArrayInt  m_EdPosnArray;
+        wxArrayInt  m_EdPosnArray;  // contains editor line numbers
 };
 
 #endif // BROWSEMARKS_H

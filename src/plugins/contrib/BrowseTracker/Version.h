@@ -18,7 +18,7 @@
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 // ----------------------------------------------------------------------------
-// RCS-ID: $Id: Version.h 13606 2025-01-30 23:01:51Z pecanh $
+// RCS-ID: $Id: Version.h 13607 2025-01-31 23:07:30Z pecanh $
 
 #ifndef VERSION_H
 #define VERSION_H
@@ -58,7 +58,7 @@ class AppVersion
 
 #include <wx/string.h>
 //-----Release-Feature-Fix------------------
-#define VERSION wxT("1.4.120 25/01/30")
+#define VERSION wxT("1.4.121 25/01/31")
 //------------------------------------------
 // Release - Current development identifier
 // Feature - User interface level
@@ -66,6 +66,7 @@ class AppVersion
 #endif // VERSION_H
 
 // ----------------------------------------------------------------------------
+// 1.4.121  2025/01/31 Rework array compression and re-check m_apEditors indexing.
 // 1.4.120  2025/01/30 Rework OnEditorActivate to catch editors loaded via layout.
 // 1.4.119  2025/01/29 Rework the EditorHook for efficiency.
 // 1.4.118  2025/01/28 Fix assert "idx < m_size" failed in at() in AddEditor().

@@ -16,7 +16,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-// RCS-ID: $Id: BrowseTracker.h 13606 2025-01-30 23:01:51Z pecanh $
+// RCS-ID: $Id: BrowseTracker.h 13607 2025-01-31 23:07:30Z pecanh $
 
 
 #ifndef BROWSETRACKER_H_INCLUDED
@@ -194,7 +194,7 @@ class BrowseTracker : public cbPlugin
         void        SetSelection(int nEditorIndex);
         void        AddEditor(EditorBase* eb);
         void        RemoveEditor(EditorBase* eb);
-        void        ClearEditor(int index);
+        void        ClearEditor(EditorBase* eb);
         void        RecordBrowseMark(EditorBase* eb);
         void        ClearLineBrowseMark(bool removeScreenMark);
         void        ClearLineBrowseMark(int line, bool removeScreenMark);

@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13381 $
-* $Id: wxseventseditor.cpp 13381 2023-10-27 12:55:51Z wh11204 $
+* $Revision: 13620 $
+* $Id: wxseventseditor.cpp 13620 2025-02-21 13:17:44Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxseventseditor.cpp $
 */
 
@@ -478,7 +478,7 @@ bool wxsEventsEditor::GotoHandler(int Index)
     }
 
     cbStyledTextCtrl* Ctrl = Editor->GetControl();
-    wxString FullText = Ctrl->GetText();
+    // wxString FullText = Ctrl->GetText();
     int Begin = 0;
     int End = Ctrl->GetLength();
     while ( Begin < End )

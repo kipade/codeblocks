@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13468 $
- * $Id: parsemanager.cpp 13468 2024-02-20 02:38:24Z ollydbg $
+ * $Revision: 13612 $
+ * $Id: parsemanager.cpp 13612 2025-02-15 19:15:17Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parsemanager.cpp $
  */
 
@@ -623,6 +623,7 @@ bool ParseManager::DeleteParser(cbProject* project)
         // if the active parser is deleted, set the active parser to nullptr
         if (it->second == m_Parser)
         {
+            SetClosingParser(m_Parser); //(ph 2025/02/12)
             m_Parser = nullptr;
             SetParser(m_TempParser); // Also updates class browser
         }
@@ -2781,4 +2782,19 @@ bool ParseManager::RemoveProjectFromParser(cbProject* project)
     }
 
     return true;
+}
+// ----------------------------------------------------------------------------
+std::unordered_map<cbProject*,ParserBase*> * ParseManager::GetActiveParsers()  //(ph 2025/02/14)
+// ----------------------------------------------------------------------------
+{
+ // First, clear the contents of m_ActiveParserList
+    m_ActiveParserList.clear();
+
+    // Then, copy the contents of m_ParserList to m_ActiveParserList
+    for (const auto& pair : m_ParserList)
+    {
+        m_ActiveParserList.insert(pair);
+    }
+
+    return &m_ActiveParserList;
 }

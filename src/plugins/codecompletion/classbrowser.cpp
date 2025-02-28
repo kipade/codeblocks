@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13471 $
- * $Id: classbrowser.cpp 13471 2024-02-20 02:38:52Z ollydbg $
+ * $Revision: 13612 $
+ * $Id: classbrowser.cpp 13612 2025-02-15 19:15:17Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/classbrowser.cpp $
  */
 
@@ -46,7 +46,7 @@
 
 #include "parser/ccdebuginfo.h"
 
-#include <stack>
+//unused-#include <stack>
 #include <chrono>
 
 #define CC_CLASS_BROWSER_DEBUG_OUTPUT 0
@@ -242,7 +242,7 @@ void ClassBrowser::SetParser(ParserBase* parser)
             filter = bdfProject;
 
         m_Parser->ClassBrowserOptions().displayFilter = filter;
-        m_Parser->WriteOptions();
+        m_Parser->WriteOptions(/*classbrowserOnly=*/true);  //(ph 2025/02/13)
         UpdateClassBrowserView();
     }
     else

@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13471 $
- * $Id: ccoptionsdlg.cpp 13471 2024-02-20 02:38:52Z ollydbg $
+ * $Revision: 13612 $
+ * $Id: ccoptionsdlg.cpp 13612 2025-02-15 19:15:17Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/ccoptionsdlg.cpp $
  */
 
@@ -183,6 +183,12 @@ CCOptionsDlg::~CCOptionsDlg()
 
 void CCOptionsDlg::OnApply()
 {
+    cbProject* pProject = Manager::Get()->GetProjectManager()->GetActiveProject();
+     // Remember the project that changed the .conf data //(ph 2025/02/04)
+    m_ParseManager->SetOptsChangedByProject(pProject);
+    // Renember the Parser that changed the .conf data //(ph 2025/02/04)
+    m_ParseManager->SetOptsChangedByParser(&(m_ParseManager->GetParser())); //(ph 2025/02/07)
+
     ConfigManager* cfg = Manager::Get()->GetConfigManager(_T("code_completion"));
 
     // -----------------------------------------------------------------------

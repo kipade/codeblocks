@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 11996 $
- * $Id: HelpConfigDialog.cpp 11996 2020-03-26 21:04:41Z fuscated $
+ * $Revision: 13604 $
+ * $Id: HelpConfigDialog.cpp 13604 2025-01-14 18:34:17Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/help_plugin/HelpConfigDialog.cpp $
  */
 
@@ -118,17 +118,14 @@ void HelpConfigDialog::ChooseFile()
 {
   wxString filename = wxFileSelector
   (
-    _T("Choose a help file"),
+    _("Choose a help file"),
     wxEmptyString,
     wxEmptyString,
     wxEmptyString,
 #ifdef __WXMSW__
-    _T(
-      "Windows help files (*.chm;*.hlp)|*.hlp;*.chm|"
-      "All files (*.*)|*.*"
-    )
+    _("Windows help files (*.chm;*.hlp)|*.hlp;*.chm|All files (*.*)|*.*")
 #else
-    _T("All files (*.*)|*.*")
+    _("All files (*.*)|*.*")
 #endif
   );
 

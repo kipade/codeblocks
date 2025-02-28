@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13580 $
- * $Id: codecompletion.cpp 13580 2024-09-30 06:51:02Z ollydbg $
+ * $Revision: 13619 $
+ * $Id: codecompletion.cpp 13619 2025-02-21 08:03:13Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/codecompletion.cpp $
  */
 
@@ -1022,7 +1022,7 @@ void CodeCompletion::DoCodeCompletePreprocessor(int tknStart, int tknEnd, cbEdit
     macros.push_back(wxT("line"));
     macros.push_back(wxT("pragma"));
     macros.push_back(wxT("undef"));
-    const wxString idxStr = wxString::Format("\n%d", PARSER_IMG_MACRO_DEF);
+    // const wxString idxStr = wxString::Format("\n%d", PARSER_IMG_MACRO_DEF);
     for (size_t i = 0; i < macros.size(); ++i)
     {
         if (text.IsEmpty() || macros[i][0] == text[0]) // ignore tokens that start with a different letter

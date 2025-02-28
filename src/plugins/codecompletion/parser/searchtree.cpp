@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 10635 $
- * $Id: searchtree.cpp 10635 2015-12-29 16:30:36Z fuscated $
+ * $Revision: 13619 $
+ * $Id: searchtree.cpp 13619 2025-02-21 08:03:13Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parser/searchtree.cpp $
  */
 
@@ -443,7 +443,7 @@ wxString SearchTreeNode::I2S(int i)
 
 wxString SearchTreeNode::Serialize(BasicSearchTree* tree,nSearchTreeNode node_id,bool withchildren)
 {
-    wxString result,children,sparent,sdepth,slabelno,slabelstart,slabellen;
+    wxString result, sparent, sdepth, slabelno, slabelstart, slabellen;
     SearchTreeLinkMap::const_iterator link;
     SearchTreeItemsMap::const_iterator item;
     sparent = U2S(m_Parent);
@@ -562,8 +562,7 @@ const wxString BasicSearchTree::GetString(size_t n) const
 
 wxString BasicSearchTree::GetString(const SearchTreePoint &nn,nSearchTreeNode top) const
 {
-    wxString result(_T(""));
-    wxString tmplabel;
+    wxString result;
     if (!nn.n || nn.n==top)
         return result;
     const SearchTreeNode *curnode;

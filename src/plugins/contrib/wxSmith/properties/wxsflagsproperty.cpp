@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12197 $
-* $Id: wxsflagsproperty.cpp 12197 2020-08-11 08:14:14Z fuscated $
+* $Revision: 13619 $
+* $Id: wxsflagsproperty.cpp 13619 2025-02-21 08:03:13Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/properties/wxsflagsproperty.cpp $
 */
 
@@ -85,7 +85,6 @@ bool wxsFlagsProperty::XmlRead(cb_unused wxsPropertyContainer* Object,
     }
     if ( UseNamesInXml )
     {
-        wxString TextS = cbC2U(Text);
         wxStringTokenizer Tokenizer(cbC2U(Text),_T("| \t\n"), wxTOKEN_STRTOK);
         VALUE = 0;
         while ( Tokenizer.HasMoreTokens() )

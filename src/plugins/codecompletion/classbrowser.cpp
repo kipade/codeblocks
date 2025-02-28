@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13612 $
- * $Id: classbrowser.cpp 13612 2025-02-15 19:15:17Z pecanh $
+ * $Revision: 13619 $
+ * $Id: classbrowser.cpp 13619 2025-02-21 08:03:13Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/classbrowser.cpp $
  */
 
@@ -356,13 +356,14 @@ void ClassBrowser::OnClassBrowserSetFocus(wxFocusEvent& event) //(ph 2024/01/25)
     // Check if the mouse is within the Symbols window.
     ProjectManager* pPrjMgr = Manager::Get()->GetProjectManager();
     wxWindow* pCurrentPage = pPrjMgr->GetUI().GetNotebook()->GetCurrentPage();
-    int pageIndex = pPrjMgr->GetUI().GetNotebook()->GetPageIndex(pCurrentPage);
-    wxString pageTitle = pPrjMgr->GetUI().GetNotebook()->GetPageText(pageIndex);
+    // int pageIndex = pPrjMgr->GetUI().GetNotebook()->GetPageIndex(pCurrentPage);
+    // wxString pageTitle = pPrjMgr->GetUI().GetNotebook()->GetPageText(pageIndex);
     if (pCurrentPage == m_ParseManager->GetClassBrowser())
     {
         if ( pCurrentPage->GetScreenRect().Contains( wxGetMousePosition()) )
             m_ParseManager->SetSymbolsWindowHasFocus(true);
-        else m_ParseManager->SetSymbolsWindowHasFocus(false);
+        else
+            m_ParseManager->SetSymbolsWindowHasFocus(false);
     }
     // If the user is fiddling around in the Symbols windows, update if necessary
     // This seldom happens here since OnParserEnd() does it when parsing ends.

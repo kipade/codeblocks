@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 12833 $
- * $Id: astyleplugin.cpp 12833 2022-06-10 14:59:28Z wh11204 $
+ * $Revision: 13619 $
+ * $Id: astyleplugin.cpp 13619 2025-02-21 08:03:13Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/astyle/astyleplugin.cpp $
  */
 
@@ -283,7 +283,6 @@ bool AStylePlugin::FormatEditor( cbEditor *ed )
     const int pos = control->GetCurrentPos();
     int start = control->GetSelectionStart();
     int end = control->GetSelectionEnd();
-    wxString fromWord;
     if (start != end)
     {
         onlySelected = true;

@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13538 $
- * $Id: compiler.cpp 13538 2024-07-14 17:16:54Z mortenmacfly $
+ * $Revision: 13619 $
+ * $Id: compiler.cpp 13619 2025-02-21 08:03:13Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/sdk/compiler.cpp $
  */
 
@@ -622,8 +622,6 @@ void Compiler::LoadSettings(const wxString& baseKey)
             return;
     }
 
-    wxString sep = wxFileName::GetPathSeparator();
-
     m_Name = cfg->Read(tmp + _T("/name"), m_Name);
 
     m_MasterPath         = cfg->Read(tmp + _T("/master_path"),     m_MasterPath);
@@ -1139,7 +1137,7 @@ void Compiler::LoadRegExArray(const wxString& name, bool globalPrecedence, int r
     int depth = 0;
     while (node)
     {
-        const wxString value = node->GetAttribute(wxT("value"), wxString());
+        // const wxString value = node->GetAttribute(wxT("value"), wxString());
         if (node->GetName() == wxT("if") && node->GetChildren())
         {
             if (EvalXMLCondition(node))

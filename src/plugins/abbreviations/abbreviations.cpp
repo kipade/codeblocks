@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13093 $
- * $Id: abbreviations.cpp 13093 2022-12-03 09:30:37Z wh11204 $
+ * $Revision: 13619 $
+ * $Id: abbreviations.cpp 13619 2025-02-21 08:03:13Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/abbreviations/abbreviations.cpp $
  */
 
@@ -480,7 +480,6 @@ void Abbreviations::SaveAutoCompleteConfig()
     for (itlan = m_AutoCompLanguageMap.begin(); itlan != m_AutoCompLanguageMap.end(); ++itlan)
     {
         wxString langStr = itlan->first;
-        wxString langStrLw = langStr.Lower();
         AutoCompleteMap* pAutoCompleteMap = itlan->second;
         for (it = pAutoCompleteMap->begin(); it != pAutoCompleteMap->end(); ++it)
         {

@@ -7,7 +7,7 @@
 // Copyright:   (c) Francesco Montorsi
 // Licence:     wxWidgets licence
 /////////////////////////////////////////////////////////////////////////////
-// RCS-ID:      $Id: menuutils.cpp 12250 2020-12-22 14:39:11Z fuscated $
+// RCS-ID:      $Id: menuutils.cpp 13619 2025-02-21 08:03:13Z wh11204 $
 
 // menuutils for KeyBinder v2.0 2019/04/8
 
@@ -114,7 +114,7 @@ int FindMenuDuplicateItems(wxMenu* pMenu, wxString& rStr, int& rCount)
         if (wxMenuCmd::IsNumericMenuItem(pMenuItem)) continue;
 
         // Find matching menu item in keybinder array of commands
-        wxString menuItemLabel = pMenuItem->GetItemLabelText().Trim();
+        // wxString menuItemLabel = pMenuItem->GetItemLabelText().Trim();
         if (rStr == pMenuItem->GetItemLabelText().Trim() )
         {    rCount++;
             #if defined(LOGGING)

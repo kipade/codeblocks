@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 12816 $
- * $Id: macrosmanager.cpp 12816 2022-05-21 03:18:55Z ollydbg $
+ * $Revision: 13619 $
+ * $Id: macrosmanager.cpp 13619 2025-02-21 08:03:13Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/sdk/macrosmanager.cpp $
  */
 
@@ -741,7 +741,6 @@ wxString MacrosManager::EvalCondition(const wxString& in_cond, const wxString& t
     enum condition_codes {EQ = 1, LT = 2, GT = 4, NE = 8};
 
     wxString cond(in_cond);
-    wxString result;
 
     ReplaceMacros(cond, target, true);
 

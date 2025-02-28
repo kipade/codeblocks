@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13432 $
- * $Id: parserthread.cpp 13432 2024-01-26 19:39:37Z pecanh $
+ * $Revision: 13619 $
+ * $Id: parserthread.cpp 13619 2025-02-21 08:03:13Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parser/parserthread.cpp $
  */
 
@@ -2861,11 +2861,10 @@ bool ParserThread::CalcEnumExpression(Token* tokenParent, long& result, wxString
     m_Tokenizer.SetState(tsRawExpression);
 
     Expression exp;
-    wxString token, next;
 
     while (IS_ALIVE)
     {
-        token = m_Tokenizer.GetToken();
+        wxString token = m_Tokenizer.GetToken();
         if (token.IsEmpty())
             return false;
         if (token == _T("\\"))
@@ -3119,7 +3118,7 @@ void ParserThread::HandleTypedef()
         && (!m_LastParent->m_TemplateType.IsEmpty())
         && m_LastParent->m_TemplateType.Index(components.front()) != wxNOT_FOUND )
     {
-        wxArrayString templateType = m_LastParent->m_TemplateType;
+        // wxArrayString templateType = m_LastParent->m_TemplateType;
         alias = components.front();
         components.pop();
         ancestor = components.front();

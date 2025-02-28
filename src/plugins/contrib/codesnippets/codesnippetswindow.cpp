@@ -17,7 +17,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-// RCS-ID: $Id: codesnippetswindow.cpp 13182 2023-02-01 03:15:11Z ollydbg $
+// RCS-ID: $Id: codesnippetswindow.cpp 13619 2025-02-21 08:03:13Z wh11204 $
 
 #ifdef WX_PRECOMP //
     #include "wx_pch.h"
@@ -328,7 +328,7 @@ void CodeSnippetsWindow::InitDlg()
 // ----------------------------------------------------------------------------
 {
     // Color which we're going to use as mask
-    wxColor maskColor(255, 0, 255);
+    // wxColor maskColor(255, 0, 255);
 
     wxBoxSizer* parentSizer = new wxBoxSizer(wxVERTICAL);
 

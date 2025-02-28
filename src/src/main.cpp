@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13616 $
- * $Id: main.cpp 13616 2025-02-18 15:38:22Z wh11204 $
+ * $Revision: 13619 $
+ * $Id: main.cpp 13619 2025-02-21 08:03:13Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/src/main.cpp $
  */
 
@@ -2805,7 +2805,6 @@ void MainFrame::OnFileNewWhat(wxCommandEvent& event)
     if (!ed || !project)
         return;
 
-    wxString oldname = ed->GetFilename();
     if (cbMessageBox(_("Do you want to add this new file in the active project (has to be saved first)?"),
                     _("Add file to project"),
                     wxYES_NO | wxICON_QUESTION) == wxID_YES &&
@@ -2919,7 +2918,6 @@ void MainFrame::DoOnFileOpen(bool bProject)
             if (FileFilters::GetFilterNameFromIndex(Filters, Index, Filter))
                 cfg->Write("/file_dialogs/file_new_open/filter", Filter);
 
-            wxString Test = dlg.GetDirectory();
             cfg->Write("/file_dialogs/file_new_open/directory", dlg.GetDirectory());
         }
 

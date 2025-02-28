@@ -16,7 +16,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-// RCS-ID: $Id: BrowseTracker.cpp 13608 2025-02-01 18:31:07Z pecanh $
+// RCS-ID: $Id: BrowseTracker.cpp 13619 2025-02-21 08:03:13Z wh11204 $
 
 // Notes:
 //
@@ -1599,7 +1599,6 @@ void BrowseTracker::OnEditorActivated(CodeBlocksEvent& event)
     {
         EditorBase* eb = event.GetEditor();
         if (not eb) return;
-        wxString editorFullPath = eb->GetFilename();
         cbEditor* cbed = Manager::Get()->GetEditorManager()->GetBuiltinEditor(eb);
         if (not cbed)
         {
@@ -1608,6 +1607,7 @@ void BrowseTracker::OnEditorActivated(CodeBlocksEvent& event)
             // call and get OnEditorOpened() to re-issue OnEditorActivated() when
             // it does have a cbEditor, but no cbProject associated;
             #if defined(LOGGING)
+            wxString editorFullPath = eb->GetFilename();
             LOGIT( _T("BT [OnEditorActivated ignored:no cbEditor[%s]"), editorFullPath.c_str());
             #endif
             return;
@@ -1617,17 +1617,19 @@ void BrowseTracker::OnEditorActivated(CodeBlocksEvent& event)
         //    if ( m_bProjectIsLoading )
         //    {
         //        #if defined(LOGGING)
+        //        wxString editorFullPath = eb->GetFilename();
         //        LOGIT( _T("BT OnEditorActivated ignored: Project Loading[%s]"), editorFullPath.c_str());
         //        #endif
-        //         return;
+        //        return;
         //    }
 
         if ( m_bProjectClosing )
         {
             #if defined(LOGGING)
+            wxString editorFullPath = eb->GetFilename();
             LOGIT( _T("BT OnEditorActivated ignored: Project Closing[%s]"), editorFullPath.c_str());
             #endif
-             return;
+            return;
         }
 
         #if defined(LOGGING)
@@ -2319,7 +2321,7 @@ void BrowseTracker::OnProjectOpened(CodeBlocksEvent& event)
      LOGIT( _T("BT Project OPENED[%s]"), event.GetProject()->GetFilename().c_str() );
     #endif
 
-    wxString projectFilename = event.GetProject()->GetFilename();
+    // wxString projectFilename = event.GetProject()->GetFilename();
 
 
     // allocate a ProjectData to hold activated editors

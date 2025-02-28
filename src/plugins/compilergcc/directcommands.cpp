@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13231 $
- * $Id: directcommands.cpp 13231 2023-03-07 22:50:38Z bluehazzard $
+ * $Revision: 13619 $
+ * $Id: directcommands.cpp 13619 2025-02-21 08:03:13Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/compilergcc/directcommands.cpp $
  */
 
@@ -594,7 +594,7 @@ wxArrayString DirectCommands::GetPreBuildCommands(ProjectBuildTarget* target) co
     wxArrayString buildcmds = target ? target->GetCommandsBeforeBuild() : m_pProject->GetCommandsBeforeBuild();
     if (!buildcmds.IsEmpty())
     {
-        wxString title = target ? target->GetTitle() : m_pProject->GetTitle();
+        // wxString title = target ? target->GetTitle() : m_pProject->GetTitle();
         wxArrayString tmp;
         for (size_t i = 0; i < buildcmds.GetCount(); ++i)
         {
@@ -635,7 +635,7 @@ wxArrayString DirectCommands::GetPostBuildCommands(ProjectBuildTarget* target) c
     wxArrayString buildcmds = target ? target->GetCommandsAfterBuild() : m_pProject->GetCommandsAfterBuild();
     if (!buildcmds.IsEmpty())
     {
-        wxString title = target ? target->GetTitle() : m_pProject->GetTitle();
+        // wxString title = target ? target->GetTitle() : m_pProject->GetTitle();
         wxArrayString tmp;
         for (size_t i = 0; i < buildcmds.GetCount(); ++i)
         {

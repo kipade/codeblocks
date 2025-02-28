@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-// RCS-ID: $Id: codesnippetstreectrl.h 13258 2023-04-12 18:13:31Z pecanh $
+// RCS-ID: $Id: codesnippetstreectrl.h 13619 2025-02-21 08:03:13Z wh11204 $
 
 #ifndef CODESNIPPETSTREECTRL_H
 #define CODESNIPPETSTREECTRL_H
@@ -107,7 +107,7 @@ class CodeSnippetsTreeCtrl : public wxTreeCtrl
             }
 
         long GetSnippetID( wxTreeItemId itemId )
-            {   wxString itemData = wxEmptyString;
+            {
                 if (not itemId.IsOk()) return 0;
                 SnippetTreeItemData* pItem = (SnippetTreeItemData*)(GetItemData(itemId));
                 return pItem->GetID();

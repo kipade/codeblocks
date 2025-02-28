@@ -5,7 +5,7 @@
  * Copyright: (c) Pecan Heber etal.
  * License:   GPL
  **************************************************************/
-// RCS-ID:      $Id: cbkeybinder.cpp 13318 2023-07-06 00:11:06Z pecanh $
+// RCS-ID:      $Id: cbkeybinder.cpp 13619 2025-02-21 08:03:13Z wh11204 $
 
 // The majority of this code was lifted from wxKeyBinder and
 // its "minimal.cpp" sample program
@@ -496,7 +496,7 @@ bool cbKeyBinder::CreateKeyBindDefaultFile(bool refresh)
         long plgnVersionNum; plgnVersionString.ToLong(&plgnVersionNum);
         int oldPlgnVersionNum = plgnVersionNum - 10;
 
-        wxString oldVersionFile = wxString::Format(_T("cbKeyBinder%d.ini"), oldPlgnVersionNum);
+        // wxString oldVersionFile = wxString::Format(_T("cbKeyBinder%d.ini"), oldPlgnVersionNum);
         wxFileName fnOldVersionKeyBindings(ConfigManager::GetConfigFolder(), _T("cbKeyBinder10.ini"));
         fnOldVersionKeyBindings.SetName(GetUserPersonality() +_T(".") + fnOldVersionKeyBindings.GetName());
 
@@ -677,8 +677,8 @@ int cbKeyBinder::ConvertMenuScanToKeyMnuAcceratorsConf(wxString keybinderFile, w
 
     if (missingMenuItems)
     {
-        wxString msg = wxString::Format(_("Convert found %u unmatched menu items."), (unsigned)missingMenuItems);
         #if defined(LOGGING)
+            //wxString msg = wxString::Format(_("Convert found %u unmatched menu items."), (unsigned)missingMenuItems);
             //cbMessageBox(msg, _("Converter"), wxOK, Manager::Get()->GetAppWindow());
         #endif
     }
@@ -853,8 +853,8 @@ int cbKeyBinder::ConvertOldKeybinderIniToAcceratorsConf(wxString oldKeybinderFil
 
     if (missingMenuItems)
     {
-        wxString msg = wxString::Format(_T("KeyBinder Convert found %u unmatched menu items."), (unsigned)missingMenuItems);
         #if defined(LOGGING)
+            wxString msg = wxString::Format(_T("KeyBinder Convert found %u unmatched menu items."), (unsigned)missingMenuItems);
             LOGIT( _T("[%s]"), msg.wx_str());
         #endif
     }

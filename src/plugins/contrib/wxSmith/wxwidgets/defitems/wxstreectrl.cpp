@@ -19,8 +19,8 @@
 * This code is based in part on wxsimagecombobox from the wxSmithImage plug-in,
 * copyright Ron Collins and released under the GPL.
 *
-* $Revision: 13547 $
-* $Id: wxstreectrl.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
+* $Revision: 13619 $
+* $Id: wxstreectrl.cpp 13619 2025-02-21 08:03:13Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxstreectrl.cpp $
 */
 
@@ -328,7 +328,7 @@ void wxsTreeCtrl::OnEnumWidgetProperties(cb_unused long _Flags)
     static wxString      sImageNames[128];
     static const wxChar *pImageNames[128];
 
-    wxString            ss, tt;
+    wxString            ss;
     wxArrayString       aa;
 
     // find available image lists and store them in our local static arrays
@@ -367,7 +367,7 @@ void wxsTreeCtrl::FindAllImageLists(wxArrayString &aNames)
     int             i, n;
     wxsItemResData  *res;
     wxsTool         *tool;
-    wxString        ss, tt;
+    wxString        ss;
 
     // start the list with a chance to de-select any old list
     aNames.Clear();
@@ -397,7 +397,7 @@ void wxsTreeCtrl::FindAllImageLists(wxArrayString &aNames)
 void wxsTreeCtrl::UpdateTreeItemList()
 {
     int              i, n;
-    wxString         ss, tt;
+    wxString         ss;
     wxArrayString    aa;
 
     // first 2 items are always our var name and the name of the image list

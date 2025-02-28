@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13585 $
- * $Id: cbeditor.cpp 13585 2024-11-11 10:34:22Z wh11204 $
+ * $Revision: 13619 $
+ * $Id: cbeditor.cpp 13619 2025-02-21 08:03:13Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/sdk/cbeditor.cpp $
  */
 
@@ -2113,7 +2113,7 @@ bool cbEditor::SaveAs()
         Filter.Empty();
         if (FileFilters::GetFilterNameFromIndex(Filters, Index, Filter))
             mgr->Write(_T("/file_dialogs/save_file_as/filter"), Filter);
-        wxString Test = dlg.GetDirectory();
+
         mgr->Write(_T("/file_dialogs/save_file_as/directory"), dlg.GetDirectory());
     }
     return Save();

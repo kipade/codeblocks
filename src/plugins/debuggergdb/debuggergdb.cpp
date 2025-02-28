@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13253 $
- * $Id: debuggergdb.cpp 13253 2023-04-01 10:08:14Z wh11204 $
+ * $Revision: 13619 $
+ * $Id: debuggergdb.cpp 13619 2025-02-21 08:03:13Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/debuggergdb/debuggergdb.cpp $
  */
 
@@ -804,7 +804,6 @@ int DebuggerGDB::DoDebug(bool breakOnEntry)
     // Continue
 
     // create gdb launch command
-    wxString cmd;
 
     // prepare the driver
     wxString cmdline;
@@ -947,7 +946,6 @@ int DebuggerGDB::DoDebug(bool breakOnEntry)
         return ret;
     }
 
-    wxString out;
     // start polling gdb's output
     m_TimerPollDebugger.Start(20);
 

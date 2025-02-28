@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13162 $
- * $Id: gdb_driver.cpp 13162 2023-01-26 08:37:37Z wh11204 $
+ * $Revision: 13619 $
+ * $Id: gdb_driver.cpp 13619 2025-02-21 08:03:13Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/debuggergdb/gdb_driver.cpp $
  */
 
@@ -958,7 +958,7 @@ void GDB_driver::ParseOutput(const wxString& output)
             {
                 m_Cursor.file = re->GetMatch(lines[i], 3);
                 m_Cursor.function = re->GetMatch(lines[i], 2);
-                wxString lineStr = _T("");
+                // wxString lineStr = _T("");
                 m_Cursor.address = re->GetMatch(lines[i], 1);
                 m_Cursor.line = -1;
                 m_Cursor.changed = true;
@@ -969,7 +969,7 @@ void GDB_driver::ParseOutput(const wxString& output)
             {
                 m_Cursor.file = reThreadSwitch2.GetMatch(lines[i], 3);
                 m_Cursor.function = reThreadSwitch2.GetMatch(lines[i], 2);
-                wxString lineStr = reThreadSwitch2.GetMatch(lines[i], 4);
+                // wxString lineStr = reThreadSwitch2.GetMatch(lines[i], 4);
                 m_Cursor.address = reThreadSwitch2.GetMatch(lines[i], 1);
                 m_Cursor.line = -1;
                 m_Cursor.changed = true;

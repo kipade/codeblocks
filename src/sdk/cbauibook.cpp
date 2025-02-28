@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13106 $
- * $Id: cbauibook.cpp 13106 2022-12-10 08:21:40Z wh11204 $
+ * $Revision: 13610 $
+ * $Id: cbauibook.cpp 13610 2025-02-03 14:37:07Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/sdk/cbauibook.cpp $
  */
 
@@ -324,18 +324,23 @@ void cbAuiNotebook::RestoreFocus()
     // if selected tab has changed, we set the focus on the window it belongs too
     if ((m_LastSelected != wxNOT_FOUND) && (GetSelection() != m_LastSelected))
     {
-        wxWindow* win = GetPage(GetSelection());
-        if (win)
-            win->SetFocus();
+        const int Selection = GetSelection();
+        if (Selection != wxNOT_FOUND)
+        {
+            wxWindow* win = GetPage(Selection);
+            if (win)
+                win->SetFocus();
+        }
     }
-    // otherwise, we restore the former focus, if the window
-    // with the saved Id still exists
     else if (m_LastId != 0)
     {
+        // otherwise, we restore the former focus, if the window
+        // with the saved Id still exists
         wxWindow* win = FindWindowById(m_LastId);
         if (win)
             win->SetFocus();
     }
+
     m_LastSelected = wxNOT_FOUND;
     m_LastId = 0;
 }

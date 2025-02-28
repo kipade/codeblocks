@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13611 $
- * $Id: projectmanagerui.cpp 13611 2025-02-09 18:16:46Z wh11204 $
+ * $Revision: 13617 $
+ * $Id: projectmanagerui.cpp 13617 2025-02-18 16:42:42Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/src/projectmanagerui.cpp $
  */
 
@@ -470,7 +470,7 @@ void ProjectManagerUI::RebuildTree()
     // Saving the first puts it at the bottom of the window
     std::vector <wxString> path;
     wxTreeItemId item = m_pTree->GetFirstVisibleItem();
-    if (item.IsOk())
+    if (item.IsOk() && (item != m_pTree->GetRootItem()))
     {
         while (m_pTree->GetNextVisible(item).IsOk())
             item = m_pTree->GetNextVisible(item);

@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13550 $
- * $Id: ProjectOptionsManipulatorDlg.cpp 13550 2024-09-14 04:36:54Z mortenmacfly $
+ * $Revision: 13614 $
+ * $Id: ProjectOptionsManipulatorDlg.cpp 13614 2025-02-17 12:48:42Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/ProjectOptionsManipulator/ProjectOptionsManipulatorDlg.cpp $
  */
 
@@ -98,13 +98,13 @@ ProjectOptionsManipulatorDlg::ProjectOptionsManipulatorDlg(wxWindow* parent,wxWi
 	bszOperation = new wxBoxSizer(wxVERTICAL);
 	wxString __wxRadioBoxChoices_1[7] =
 	{
-	  _("Search for option present"),
-	  _("Search for option NOT present"),
-	  _("Remove option"),
-	  _("Add option"),
-	  _("Change option"),
-	  _("Remove files w/o target"),
-	  _("Replace compiler")
+	    _("Search for option present"),
+	    _("Search for option NOT present"),
+	    _("Remove option"),
+	    _("Add option"),
+	    _("Change option"),
+	    _("Remove files w/o target"),
+	    _("Replace compiler")
 	};
 	m_RboOperation = new wxRadioBox(this, ID_RBO_OPERATION, _("Operation:"), wxDefaultPosition, wxDefaultSize, 7, __wxRadioBoxChoices_1, 1, wxRA_SPECIFY_COLS, wxDefaultValidator, _T("ID_RBO_OPERATION"));
 	m_RboOperation->SetSelection(0);
@@ -149,8 +149,8 @@ ProjectOptionsManipulatorDlg::ProjectOptionsManipulatorDlg(wxWindow* parent,wxWi
 	sbsItem->Add(m_ChkOptionReplacePattern, 0, wxTOP|wxLEFT|wxRIGHT|wxEXPAND, 5);
 	wxString __wxRadioBoxChoices_2[2] =
 	{
-	  _("Search for \"equals option\""),
-	  _("Search for \"contains option\"")
+	    _("Search for \"equals option\""),
+	    _("Search for \"contains option\"")
 	};
 	m_RboOptionSearch = new wxRadioBox(this, ID_RBO_OPTION_SEARCH, _("When searching..."), wxDefaultPosition, wxDefaultSize, 2, __wxRadioBoxChoices_2, 1, 0, wxDefaultValidator, _T("ID_RBO_OPTION_SEARCH"));
 	m_RboOptionSearch->SetSelection(0);
@@ -198,16 +198,17 @@ ProjectOptionsManipulatorDlg::ProjectOptionsManipulatorDlg(wxWindow* parent,wxWi
 	sbzOKCancel->AddButton(new wxButton(this, wxID_OK, wxEmptyString));
 	sbzOKCancel->AddButton(new wxButton(this, wxID_CANCEL, wxEmptyString));
 	sbzOKCancel->Realize();
+	dynamic_cast <wxButton *> (this->FindWindow(wxID_OK))->SetDefault();
 	bszMainH->Add(sbzOKCancel, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5);
 	SetSizer(bszMainH);
 	bszMainH->SetSizeHints(this);
 	Center();
 
-	Connect(ID_CHO_SCAN,wxEVT_COMMAND_CHOICE_SELECTED,wxCommandEventHandler(ProjectOptionsManipulatorDlg::OnScanSelect));
-	Connect(ID_RBO_OPERATION,wxEVT_COMMAND_RADIOBOX_SELECTED,wxCommandEventHandler(ProjectOptionsManipulatorDlg::OnOperationSelect));
-	Connect(ID_BTN_SEARCH_COMPILER_SRC,wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(ProjectOptionsManipulatorDlg::OnSearchCompilerClick));
-	Connect(ID_BTN_SEARCH_COMPILER_DEST,wxEVT_COMMAND_BUTTON_CLICKED,wxCommandEventHandler(ProjectOptionsManipulatorDlg::OnSearchCompilerClick));
-	Connect(ID_CHO_TARGET_TYPE,wxEVT_COMMAND_CHOICE_SELECTED,wxCommandEventHandler(ProjectOptionsManipulatorDlg::OnTargetTypeSelect));
+	Connect(ID_CHO_SCAN, wxEVT_COMMAND_CHOICE_SELECTED, (wxObjectEventFunction)&ProjectOptionsManipulatorDlg::OnScanSelect);
+	Connect(ID_RBO_OPERATION, wxEVT_COMMAND_RADIOBOX_SELECTED, (wxObjectEventFunction)&ProjectOptionsManipulatorDlg::OnOperationSelect);
+	Connect(ID_BTN_SEARCH_COMPILER_SRC, wxEVT_COMMAND_BUTTON_CLICKED, (wxObjectEventFunction)&ProjectOptionsManipulatorDlg::OnSearchCompilerClick);
+	Connect(ID_BTN_SEARCH_COMPILER_DEST, wxEVT_COMMAND_BUTTON_CLICKED, (wxObjectEventFunction)&ProjectOptionsManipulatorDlg::OnSearchCompilerClick);
+	Connect(ID_CHO_TARGET_TYPE, wxEVT_COMMAND_CHOICE_SELECTED, (wxObjectEventFunction)&ProjectOptionsManipulatorDlg::OnTargetTypeSelect);
 	//*)
 }
 

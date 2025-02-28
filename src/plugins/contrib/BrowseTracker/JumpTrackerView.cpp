@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13570 $
- * $Id: JumpTrackerView.cpp 13570 2024-09-14 05:03:57Z mortenmacfly $
+ * $Revision: 13606 $
+ * $Id: JumpTrackerView.cpp 13606 2025-01-30 23:01:51Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/BrowseTracker/JumpTrackerView.cpp $
  */
 
@@ -67,7 +67,7 @@ JumpTrackerView::~JumpTrackerView()
 {
     //dtor
     if (FindEventHandler(this))
-        Manager::Get()->GetAppWindow()->RemoveEventHandler(this);   //(ph 2021/04/17)
+        Manager::Get()->GetAppWindow()->RemoveEventHandler(this);
 }
 // ----------------------------------------------------------------------------
 wxWindow* JumpTrackerView::CreateControl(wxWindow* parent)

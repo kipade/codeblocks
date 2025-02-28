@@ -16,7 +16,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-// RCS-ID: $Id: ProjectData.cpp 13526 2024-06-10 03:37:14Z pecanh $
+// RCS-ID: $Id: ProjectData.cpp 13606 2025-01-30 23:01:51Z pecanh $
 
 #if defined(CB_PRECOMP)
 #include "sdk.h"
@@ -62,7 +62,7 @@ ProjectData::ProjectData(cbProject* pcbProject)
     m_pCBProject = pcbProject;
     m_ProjectFilename = pcbProject->GetFilename();
     m_CurrIndexEntry = 0;
-    m_LastIndexEntry = Helpers::GetMaxEntries()-1;
+    m_LastIndexEntry = Helpers::GetMaxAllocEntries()-1;
     m_pEdMgr = Manager::Get()->GetEditorManager();
     m_ActivationCount = 0;
     m_bLayoutLoaded = false;

@@ -16,7 +16,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-// RCS-ID: $Id: BrowseSelector.cpp 13526 2024-06-10 03:37:14Z pecanh $
+// RCS-ID: $Id: BrowseSelector.cpp 13606 2025-01-30 23:01:51Z pecanh $
 
 
 #include <wx/listctrl.h>
@@ -42,7 +42,7 @@
 #include "BrowseSelector.h"
 #include "Version.h"
 #include "BrowseTrackerDefs.h"
-#include "helpers.h" //(ph 2024/06/01)
+#include "helpers.h"
 
 wxBitmap BrowseSelector::m_bmp;
 namespace
@@ -313,8 +313,10 @@ int BrowseSelector::PopulateListControl(EditorBase* /*pEditor*/)
     wxString editorFilename;
 
     // memorize current selection
-    int selection = m_pBrowseTracker->GetCurrentEditorIndex();
-    int maxCount  = Helpers::GetMaxEntries();
+    EditorBase* pCurrEditor = m_pBrowseTracker->GetCurrentEditor();
+    int selection = m_pBrowseTracker->GetCurrentEditorIndex((pCurrEditor));
+    if (selection == wxNOT_FOUND) selection = 0;
+    int maxCount  = Helpers::GetMaxAllocEntries();
     int maxWidth  = 0;
     int itemIdx   = 0;
 
@@ -351,7 +353,7 @@ void BrowseSelector::CloseDialog()
 {
     m_selectedItem = m_listBox->GetSelection();
 
-    if ((m_selectedItem > -1) && (m_selectedItem < Helpers::GetMaxEntries()))
+    if ((m_selectedItem > -1) && (m_selectedItem < Helpers::GetMaxAllocEntries()))
     {
         std::map<int, int>::iterator iter = m_indexMap.find(m_selectedItem);
         LOGIT("ListBox[%ld] Map[%d]", m_selectedItem, iter->second);

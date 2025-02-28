@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13612 $
- * $Id: parser.cpp 13612 2025-02-15 19:15:17Z pecanh $
+ * $Revision: 13613 $
+ * $Id: parser.cpp 13613 2025-02-17 12:48:34Z ollydbg $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parser/parser.cpp $
  */
 
@@ -1019,19 +1019,18 @@ void Parser::ShowGlobalChangeAnnoyingMsg()
 
     if (pActiveParsers->size() > 0)
     {
-            wxString warningMsg;
-            warningMsg << "The global settings change does not take effect\n"
-                       << "until the projects are either reloaded or reparsed.\n\n"
-                       << "You can selectively reparse projects by right clicking\n"
-                       << "on the project title in the Workspace tree and selecting\n"
-                       << "'Reparse current project'.\n\n"
-                       // << "Projects needing reparse:\n"
-                       // << projectNames;
-                        ;
+        wxString warningMsg;
+        warningMsg = _("The global settings change does not take effect\n"
+                       "until the projects are either reloaded or reparsed.\n\n"
+                       "You can selectively reparse projects by right clicking\n"
+                       "on the project title in the Workspace tree and selecting\n"
+                       "'Reparse current project'.");
+                   // << "Projects needing reparse:\n"
+                   // << projectNames;
 
-            AnnoyingDialog dlg(_("Global settings warning"), _(warningMsg), wxART_WARNING,
-                               AnnoyingDialog::OK);
-            dlg.ShowModal();
+        AnnoyingDialog dlg(_("Global settings warning"), _(warningMsg), wxART_WARNING,
+                           AnnoyingDialog::OK);
+        dlg.ShowModal();
     }//endif size
 }//end ShowGlobalChangeAnnoyingMsg
 

@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13571 $
- * $Id: execution.cpp 13571 2024-09-16 18:51:27Z wh11204 $
+ * $Revision: 13593 $
+ * $Id: execution.cpp 13593 2024-12-04 18:38:38Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/headerfixup/execution.cpp $
  */
 
@@ -79,8 +79,8 @@ Execution::Execution(wxWindow* parent,wxWindowID id)
   sizLeft = new wxBoxSizer(wxVERTICAL);
   wxString __wxRadioBoxChoices_1[2] =
   {
-      _("Scan source files in project"),
-      _("Scan source files in workspace")
+    _("Scan source files in project"),
+    _("Scan source files in workspace")
   };
   m_Scope = new wxRadioBox(this, ID_RB_SCOPE, _("Scope"), wxDefaultPosition, wxDefaultSize, 2, __wxRadioBoxChoices_1, 2, wxRA_SPECIFY_ROWS, wxDefaultValidator, _T("ID_RB_SCOPE"));
   m_Scope->SetSelection(0);
@@ -88,8 +88,8 @@ Execution::Execution(wxWindow* parent,wxWindowID id)
   sizLeft->Add(m_Scope, 0, wxTOP|wxLEFT|wxRIGHT|wxEXPAND, 5);
   wxString __wxRadioBoxChoices_2[2] =
   {
-      _("Use \"include.h\" (quotation marks)"),
-      _("Use <include.h> (brackets)")
+    _("Use \"include.h\" (quotation marks)"),
+    _("Use <include.h> (brackets)")
   };
   m_Options = new wxRadioBox(this, ID_RB_OPTIONS, _("Options"), wxDefaultPosition, wxDefaultSize, 2, __wxRadioBoxChoices_2, 2, wxRA_SPECIFY_ROWS, wxDefaultValidator, _T("ID_RB_OPTIONS"));
   m_Options->SetSelection(1);
@@ -110,9 +110,9 @@ Execution::Execution(wxWindow* parent,wxWindowID id)
   sizAdvancedOptions->Add(m_ObsoleteLog, 0, wxTOP|wxEXPAND, 5);
   wxString __wxRadioBoxChoices_3[3] =
   {
-      _("Process header files only"),
-      _("Process implementation files only"),
-      _("Process both files (2-step-fix up)")
+    _("Process header files only"),
+    _("Process implementation files only"),
+    _("Process both files (2-step-fix up)")
   };
   m_FileType = new wxRadioBox(this, ID_RDO_FILE_TYPE, _("File types to process:"), wxDefaultPosition, wxDefaultSize, 3, __wxRadioBoxChoices_3, 3, wxRA_SPECIFY_ROWS, wxDefaultValidator, _T("ID_RDO_FILE_TYPE"));
   m_FileType->SetSelection(2);

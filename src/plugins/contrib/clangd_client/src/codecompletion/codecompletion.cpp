@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
-+ * $Revision: 13660 $
-+ * $Id: codecompletion.cpp 13660 2025-05-06 16:36:55Z pecanh $
++ * $Revision: 13662 $
++ * $Id: codecompletion.cpp 13662 2025-05-07 09:12:06Z wh11204 $
 + * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/codecompletion.cpp $
  */
 
@@ -3094,7 +3094,8 @@ void ClgdCompletion::OnAppStartupDone(CodeBlocksEvent& event)
         wxString msg;
         if (not fnClangdPath.FileExists())
             msg << _("A path containing clangd has not been found.\n");
-        else msg.Replace(_("not"), "");
+        else
+            msg << _("A path containing clangd has been found.\n");
 
         if (fnClangdPath.FileExists())
         {

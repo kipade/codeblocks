@@ -25,7 +25,7 @@
 #endif
 
 //-----Release-Feature-Fix------------------
-#define VERSION wxT("1.2.141 25/05/27")
+#define VERSION wxT("1.2.133 25/03/14")
 //------------------------------------------
 // Release - Current development identifier
 // Feature - User interface level
@@ -47,25 +47,11 @@ class AppVersion
 };
 
 #endif // VERSION_H
-//Versions
 // ----------------------------------------------------------------------------
 // Modifications
 // ----------------------------------------------------------------------------
-//1.2.141   2025/05/27 Update CC_ENABLE_LOCKER_TRACK and CC_ENABLE_LOCKER_ASSERT macros
-//                     for std::timed_mutex usage.
-//1.2.140   2025/05/26 Switch wxMutex to std::timed_mutex to avoid Manjaro bug
-//1.2.139   2025/05/14 Avoid asset when FindSortedMenuItemPosition() returns menu
-//                     insert position greater than menu items.
-//1.2.138   2025/05/10 Apply Christo cland source formatting patch
-//1.2.137   2025/05/5 Avoid use of clang compiler resources when using mingw compiler
-//                     in $(CODEBLOCKS)\MinGW
-//1.2.136   2025/04/21 Avoid issuing annoying message for non clangd_client global settings
-//                     See:   Parser::ShowGlobalChangeAnnoyingMsg()
-//1.2.135   2025/03/27 Appy Christo patch 1518 some memory usage fixes
-//1.2.134   2025/03/20 remove dead/unused code
 //1.2.133   2025/03/14 Fix message boxes being hidden behind "Manage plugins" window
 //                     Change references of "old CodeCompletion" to "legacy CodeCompletion"
-//                     Remove some legacy CodeCompletion dead code.
 //1.2.132   2025/02/22 Backport svn 13612 (global settings clobbered) to clangd_client
 //1.2.131   2025/02/19 Apply Christo patch 1515
 //1.2.130   2024/10/03 Apply Christo patch 1503

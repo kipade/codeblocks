@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13650 $
- * $Id: projectmanagerui.cpp 13650 2025-04-06 09:40:37Z wh11204 $
+ * $Revision: 13626 $
+ * $Id: projectmanagerui.cpp 13626 2025-03-02 17:53:46Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/src/projectmanagerui.cpp $
  */
 
@@ -1205,24 +1205,8 @@ void ProjectManagerUI::RemoveFilesRecursively(wxTreeItemId& sel_id)
                 cbProject* prj = ftd->GetProject();
                 if (prj && ftd->GetKind() == FileTreeData::ftdkFile)
                 {
-                    ProjectFile* pf = ftd->GetProjectFile();
-                    if (pf)
-                    {
-                        wxString dir = pf->file.GetPath();
-                        if(::wxDirExists(dir))
-                        {
-                            Manager::Get()->GetProjectManager()->RemoveFileFromProject(pf, prj);
-                        }
-                        else
-                        {
-                            wxString msg = wxString::Format(_("The directory '%s' no longer exists on disk") , dir);
-                            msg += "\n\n" + _("Instead, use 'Remove files...' and select all") + " ...";
-                            cbMessageBox(msg, _("Error"), wxICON_ERROR);
-                            Manager::Get()->GetLogManager()->LogError(msg);
-
-                            break;
-                        }
-                    }
+                    if ( ProjectFile* pf = ftd->GetProjectFile() )
+                        Manager::Get()->GetProjectManager()->RemoveFileFromProject(pf, prj);
                 }
                 else if (  ftd->GetKind() == FileTreeData::ftdkFolder
                         || ftd->GetKind() == FileTreeData::ftdkVirtualFolder)

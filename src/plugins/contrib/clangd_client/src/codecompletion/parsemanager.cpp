@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13636 $
- * $Id: parsemanager.cpp 13636 2025-03-20 17:25:57Z pecanh $
+ * $Revision: 13654 $
+ * $Id: parsemanager.cpp 13654 2025-04-21 18:16:01Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parsemanager.cpp $
  */
 
@@ -44,6 +44,7 @@
 #include <wx/wfstream.h>
 #include <wx/textfile.h>
 #include <wx/aui/aui.h>
+#include <wx/listbook.h>
 
 #include <cbstyledtextctrl.h>
 #include <compilercommandgenerator.h>
@@ -55,7 +56,7 @@
 #include "procutils.h"
 #endif //_Win32
 
-
+#include "codecompletion.h"
 #include "parsemanager.h"
 #include "parsemanager_base.h"
 #include "parser/parser.h"
@@ -2869,4 +2870,23 @@ std::unordered_map<cbProject*,ParserBase*> * ParseManager::GetActiveParsers()  /
     }
 
     return &m_ActiveParserList;
+}
+// ----------------------------------------------------------------------------
+wxString ParseManager::GetConfigListSelection()
+// ----------------------------------------------------------------------------
+{
+    wxString activePageTitle;
+    // Get the title of the currently active/focused configuration page
+    wxWindow* pTopWindow = wxFindWindowByName(_("Configure editor"));
+    if (not pTopWindow)
+        pTopWindow = m_pClientEventHandler->GetTopWxWindow();
+    if (pTopWindow)
+    {
+        wxListbook* lb = XRCCTRL(*pTopWindow, "nbMain", wxListbook);
+        wxWindow* page = lb ? lb->GetCurrentPage() : nullptr;
+        int pageID = page ? lb->FindPage(page) : 0;
+        activePageTitle = lb ? lb->GetPageText(pageID) : wxString();
+    }
+    return activePageTitle;
+
 }

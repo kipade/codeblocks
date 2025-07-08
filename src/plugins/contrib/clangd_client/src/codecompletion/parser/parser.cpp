@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13638 $
- * $Id: parser.cpp 13638 2025-03-22 09:21:54Z wh11204 $
+ * $Revision: 13654 $
+ * $Id: parser.cpp 13654 2025-04-21 18:16:01Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parser/parser.cpp $
  */
 
@@ -1549,10 +1549,17 @@ void Parser::ShowGlobalChangeAnnoyingMsg()
 // ----------------------------------------------------------------------------
 {
     //(svn 13612 bkport)
-    // Fix from svn 13612 to avoid overwritting global settings on project close
+    // Fix from svn 13612 to avoid overwriting global settings on project close
     // Tell the user that global changes are not applied until projects are reparsed.
 
     if (Manager::IsAppShuttingDown()) return;
+
+    // Issue warning message only for clangd_client global options change
+    wxString activePageTitle = GetParseManager()->GetConfigListSelection();
+    if (not ((activePageTitle == "clangd_client") or (activePageTitle == _("clangd_client"))) )
+        return;
+
+
     ParseManager* pParseMgr = m_pParseManager;
 
     // Get number of active parsers (from m_ParserList)

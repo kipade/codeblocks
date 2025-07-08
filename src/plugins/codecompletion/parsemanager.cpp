@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13655 $
- * $Id: parsemanager.cpp 13655 2025-04-21 20:51:42Z pecanh $
+ * $Revision: 13656 $
+ * $Id: parsemanager.cpp 13656 2025-04-25 14:36:43Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parsemanager.cpp $
  */
 
@@ -16,6 +16,7 @@
     #include <wx/log.h> // for wxSafeShowMessage()
     #include <wx/regex.h>
     #include <wx/wfstream.h>
+    #include <wx/xrc/xmlres.h>
 
     #include <cbauibook.h>
     #include <cbeditor.h>

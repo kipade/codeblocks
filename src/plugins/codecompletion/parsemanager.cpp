@@ -2,12 +2,12 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13656 $
- * $Id: parsemanager.cpp 13656 2025-04-25 14:36:43Z wh11204 $
+ * $Revision: 13675 $
+ * $Id: parsemanager.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parsemanager.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
 
 #ifndef CB_PRECOMP
     #include <cctype>
@@ -18,28 +18,28 @@
     #include <wx/wfstream.h>
     #include <wx/xrc/xmlres.h>
 
-    #include <cbauibook.h>
-    #include <cbeditor.h>
-    #include <cbexception.h>
-    #include <cbproject.h>
-    #include <compilerfactory.h>
-    #include <configmanager.h>
-    #include <editormanager.h>
-    #include <logmanager.h>
-    #include <macrosmanager.h>
-    #include <manager.h>
-    #include <pluginmanager.h>
-    #include <prep.h> // nullptr
-    #include <projectmanager.h>
+    #include "cbauibook.h"
+    #include "cbeditor.h"
+    #include "cbexception.h"
+    #include "cbproject.h"
+    #include "compilerfactory.h"
+    #include "configmanager.h"
+    #include "editormanager.h"
+    #include "logmanager.h"
+    #include "macrosmanager.h"
+    #include "manager.h"
+    #include "pluginmanager.h"
+    #include "prep.h" // nullptr
+    #include "projectmanager.h"
 
-    #include <tinyxml/tinyxml.h>
+    #include "tinyxml/tinyxml.h"
 #endif
 
 #include <wx/tokenzr.h>
 #include <wx/listbook.h> //2025/04/21
 
-#include <cbstyledtextctrl.h>
-#include <compilercommandgenerator.h>
+#include "cbstyledtextctrl.h"
+#include "compilercommandgenerator.h"
 
 #include "codecompletion.h" //2025/04/21
 #include "parsemanager.h"

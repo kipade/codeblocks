@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13655 $
- * $Id: parser.cpp 13655 2025-04-21 20:51:42Z pecanh $
+ * $Revision: 13675 $
+ * $Id: parser.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parser/parser.cpp $
  */
 
@@ -18,17 +18,17 @@
     #include <wx/intl.h>
     #include <wx/progdlg.h>
 
-    #include <cbproject.h>
-    #include <configmanager.h>
-    #include <editormanager.h>
-    #include <globals.h>
-    #include <infowindow.h>
-    #include <logmanager.h>
-    #include <manager.h>
+    #include "cbproject.h"
+    #include "configmanager.h"
+    #include "editormanager.h"
+    #include "globals.h"
+    #include "infowindow.h"
+    #include "logmanager.h"
+    #include "manager.h"
 #endif
 
 #include <wx/tokenzr.h>
-#include <cbstyledtextctrl.h>
+#include "cbstyledtextctrl.h"
 
 #include "parser.h"
 #include "parserthreadedtask.h"

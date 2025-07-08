@@ -6,9 +6,6 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <mutex>
-#include <chrono>
-
 #include <wx/arrstr.h>
 #include <wx/event.h>
 #include <wx/file.h>
@@ -88,8 +85,7 @@ class Parser;
 #define PARSER_IMG_MIN PARSER_IMG_CLASS_FOLDER
 #define PARSER_IMG_MAX PARSER_IMG_MACRO_USE_FOLDER
 
-//extern wxMutex s_ParserMutex;
-extern std::timed_mutex s_ParserMutex; //(ph 250526)
+extern wxMutex s_ParserMutex;
 
 /** Tree data associate with the symbol tree item */
 // ----------------------------------------------------------------------------
@@ -240,8 +236,6 @@ public:
     void OnLSP_GoToNextFunctionResponse(wxCommandEvent& event);
     void OnLSP_GoToFunctionResponse(wxCommandEvent& event); //unused
     void OnLSP_CompletionPopupHoverResponse(wxCommandEvent& event);
-    void OnLSP_RangeFormattingResponse(wxCommandEvent& event);  // (christo 25/05/02)
-
     void OnRequestCodeActionApply(wxCommandEvent& event);
 
     wxString GetCompletionPopupDocumentation(const ClgdCCToken& token);

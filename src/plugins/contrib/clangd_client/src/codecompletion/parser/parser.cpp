@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13668 $
- * $Id: parser.cpp 13668 2025-06-02 16:15:48Z pecanh $
+ * $Revision: 13636 $
+ * $Id: parser.cpp 13636 2025-03-20 17:25:57Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parser/parser.cpp $
  */
 
@@ -93,8 +93,7 @@
     #define TRACE2(format, args...)
 #endif
 
-//wxMutex s_ParserMutex;
-std::timed_mutex s_ParserMutex; //(ph 250526)
+wxMutex s_ParserMutex;
 // ----------------------------------------------------------------------------
 namespace ParserCommon
 // ----------------------------------------------------------------------------
@@ -429,9 +428,9 @@ void Parser::AddParse(const wxString& filename)
     // ----------------------------------------------------------------------------
     // CC_LOCKER_TRACK_P_MTX_LOCK(s_ParserMutex)
     // ----------------------------------------------------------------------------
-    auto locker_result = CCLogger::Get()->GetTimedMutexLock(s_ParserMutex);
+    auto locker_result = s_ParserMutex.LockTimeout(250);
     wxString lockFuncLine = wxString::Format("%s_%d", __FUNCTION__, __LINE__);
-    if (locker_result != true)
+    if (locker_result != wxMUTEX_NO_ERROR)
     {
         // lock failed, do not block the UI thread, restart the timer and return later
         if (not m_BatchTimer.IsRunning() )
@@ -610,10 +609,9 @@ void Parser::LSP_ParseDocumentSymbols(wxCommandEvent& event)
         /// CC_LOCKER_TRACK_TT_MTX_LOCK(s_TokenTreeMutex)
         // --------------------------------------------------
         // Avoid blocking the UI. If lock is busy, queue a callback for idle time.
-        auto locker_result = CCLogger::Get()->GetTimedMutexLock(s_TokenTreeMutex); //(ph 250526)
-        //auto locker_result = s_TokenTreeMutex.Lock();
+        auto locker_result = s_TokenTreeMutex.LockTimeout(250);
         wxString lockFuncLine = wxString::Format("%s_%d", __FUNCTION__, __LINE__);
-        if (locker_result != true)
+        if (locker_result != wxMUTEX_NO_ERROR)
         {
             /// lock failed
             // **Debugging**
@@ -903,9 +901,9 @@ void Parser::LSP_ParseSemanticTokens(wxCommandEvent& event)
         /// CC_LOCKER_TRACK_TT_MTX_LOCK(s_TokenTreeMutex)
         // --------------------------------------------------
         // Avoid blocking the UI. If lock is busy, queue a callback for idle time.
-        auto locker_result = CCLogger::Get()->GetTimedMutexLock(s_TokenTreeMutex); //(ph 250526)
+        auto locker_result = s_TokenTreeMutex.LockTimeout(250);
         wxString lockFuncLine = wxString::Format("%s_%d", __FUNCTION__, __LINE__);
-        if (locker_result != true)
+        if (locker_result != wxMUTEX_NO_ERROR)
         {
             // **Debugging**
             //wxString locker_result_reason;
@@ -1066,9 +1064,9 @@ void Parser::RemoveFile(const wxString& filename)
     // CC_LOCKER_TRACK_TT_MTX_LOCK(s_TokenTreeMutex)
     // ----------------------------------------------------
     // If lock is busy, queue a callback for idle time
-    auto locker_result = CCLogger::Get()->GetTimedMutexLock(s_TokenTreeMutex); //(ph 250526)
+    auto locker_result = s_TokenTreeMutex.LockTimeout(250);
     wxString lockFuncLine = wxString::Format("%s_%d", __FUNCTION__, __LINE__);
-    if (locker_result != true)
+    if (locker_result != wxMUTEX_NO_ERROR)
     {
         // lock failed, do not block the UI thread, call back when idle
         // Parser* pParser = static_cast<Parser*>(m_Parser);
@@ -1268,9 +1266,9 @@ void Parser::OnLSP_BatchTimer(cb_unused wxTimerEvent& event)
         // -------------------------------------------------------
         // CC_LOCKER_TRACK_P_MTX_LOCK(s_ParserMutex)
         // -------------------------------------------------------
-        auto locker_result = CCLogger::Get()->GetTimedMutexLock(s_ParserMutex);  //(ph 250526)
+        auto locker_result = s_ParserMutex.LockTimeout(250);
         wxString lockFuncLine = wxString::Format("%s_%d", __FUNCTION__, __LINE__);
-        if (locker_result != true)
+        if (locker_result != wxMUTEX_NO_ERROR)
         {
             // lock failed, do not block the UI thread, restart the timer and return later
             m_BatchTimer.Start(ParserCommon::PARSER_BATCHPARSE_TIMER_DELAY, wxTIMER_ONE_SHOT);
@@ -1551,17 +1549,10 @@ void Parser::ShowGlobalChangeAnnoyingMsg()
 // ----------------------------------------------------------------------------
 {
     //(svn 13612 bkport)
-    // Fix from svn 13612 to avoid overwriting global settings on project close
+    // Fix from svn 13612 to avoid overwritting global settings on project close
     // Tell the user that global changes are not applied until projects are reparsed.
 
     if (Manager::IsAppShuttingDown()) return;
-
-    // Issue warning message only for clangd_client global options change
-    wxString activePageTitle = GetParseManager()->GetConfigListSelection();
-    if (not ((activePageTitle == "clangd_client") or (activePageTitle == _("clangd_client"))) )
-        return;
-
-
     ParseManager* pParseMgr = m_pParseManager;
 
     // Get number of active parsers (from m_ParserList)
@@ -1576,7 +1567,7 @@ void Parser::ShowGlobalChangeAnnoyingMsg()
                        "on the project title in the Workspace tree and selecting\n"
                        "'Reparse current project'.");
 
-        AnnoyingDialog dlg(_("Global settings warning"), warningMsg, wxART_WARNING,
+        AnnoyingDialog dlg(_("Global settings warning"), _(warningMsg), wxART_WARNING,
                            AnnoyingDialog::OK);
         dlg.ShowModal();
     }//endif size
@@ -3450,86 +3441,6 @@ void Parser::OnLSP_RenameResponse(wxCommandEvent& event)
     }//endif "textDocument/rename"
 
 }//end OnLSP_RenameResponse
-// ----------------------------------------------------------------------------
-void Parser::OnLSP_RangeFormattingResponse(wxCommandEvent& event)  // (christo 25/05/02)
-// ----------------------------------------------------------------------------
-{
-    if (GetIsShuttingDown())
-        return;
-
-    auto* pEditor = Manager::Get()->GetEditorManager()->GetBuiltinActiveEditor();
-    if (!pEditor)
-        return;
-
-    wxString evtString = event.GetString();
-
-    if (!evtString.StartsWith("textDocument/rangeFormatting"))
-        return;
-
-    const wxString editorFile = pEditor->GetFilename();
-    wxFileName fn(editorFile);
-    const wxString editorBasePath(fn.GetPath());
-
-    json* pJson = static_cast<json*>(event.GetClientData());
-    if (!pJson->contains("result"))
-    {
-        if (pJson->contains("error"))
-        {
-            auto& msgObject = (*pJson)["error"];
-            std::string msg = msgObject.contains("message")
-                                  ? msgObject["message"].dump()
-                                  : msgObject.dump();
-
-            CCLogger::Get()->DebugLog(msg);
-            cbMessageBox(wxString::FromUTF8(msg.c_str()));  // std::string overload is available since 3.1.1
-        }
-        else
-        {
-            std::cerr << "textDocument/rangeFormatting json: " << pJson->dump() << std::endl;
-            cbMessageBox(_("Unexpected LSP response"));
-        }
-        return;
-    }
-
-    auto* control = pEditor->GetControl();
-    if (!control)
-        return;
-
-    control->BeginUndoAction();
-    const auto& textEdits = (*pJson)["result"];
-
-    for (auto iter = textEdits.rbegin(); iter != textEdits.rend(); ++iter)
-    {
-        try
-        {
-            const auto& textEdit = *iter;
-            wxString newText = GetwxUTF8Str(textEdit.at("newText").get<std::string>());
-
-            const auto& range = textEdit.at("range");
-            int startLine = range.at("start").at("line").get<int>();
-            int startCol = range.at("start").at("character").get<int>();
-            int endLine = range.at("end").at("line").get<int>();
-            int endCol = range.at("end").at("character").get<int>();
-
-            int startPos = control->PositionFromLine(startLine) + startCol;
-            int endPos = control->PositionFromLine(endLine) + endCol;
-
-            control->SetTargetStart(startPos);
-            control->SetTargetEnd(endPos);
-            control->ReplaceTarget(newText);
-        }
-        catch (const std::exception& err)
-        {
-            fprintf(stderr, "Parser::%s:%d [%p] Exception: %s\nTextEdit: %s\n",
-                    __FUNCTION__, __LINE__, this, err.what(), iter->dump().c_str());
-
-            wxString errMsg = wxString::Format("ERROR: %s: %s", __FUNCTION__, err.what());
-            CCLogger::Get()->DebugLogError(errMsg);
-        }
-    }
-
-    control->EndUndoAction();
-}
 // ----------------------------------------------------------------------------
 void Parser::OnLSP_GoToPrevFunctionResponse(wxCommandEvent& event)  //response from LSPserver
 // ----------------------------------------------------------------------------

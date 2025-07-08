@@ -49,7 +49,7 @@
 #include "client.h"
 
 // ----------------------------------------------------------------------------
-namespace //anonymouse
+namespace //annonymous
 // ----------------------------------------------------------------------------
 {
     wxString fileSep = wxFILE_SEP_PATH;
@@ -65,9 +65,6 @@ namespace //anonymouse
         wxString clangexe("clang");
         wxString clangdexe("clangd");
     #endif
-
-    // Reject codeblocks 25.03 MinGW clangd.exe path
-    wxRegEx rejectThisPath(wxT("(codeblocks|output|devel).*\\\\MinGW"));
 
     // ----------------------------------------------------------------------------
     void StdString_ReplaceAll(std::string& str, const std::string& from, const std::string& to)
@@ -379,7 +376,7 @@ ProcessLanguageClient::ProcessLanguageClient(const cbProject* pProject, const ch
         }
     }
 
-    // Try to locate folder for Clangd.exe because Settings/Editor/Clangd_client/CC++ parser was empty.
+    // Locate folder for Clangd
     ClangLocator clangLocator;
     wxString clangd_Dir;
 
@@ -391,7 +388,6 @@ ProcessLanguageClient::ProcessLanguageClient(const cbProject* pProject, const ch
         cfgClangdMasterPath.Empty();
     }
     // clang master path was obtained from settings clangd_client config
-    // else try auto-finding the clangd executable
     if (cfgClangdMasterPath.Length())
         clangd_Dir = fnClangdMasterPath.GetPath();
     else clangd_Dir = clangLocator.Locate_ClangdDir();
@@ -402,14 +398,7 @@ ProcessLanguageClient::ProcessLanguageClient(const cbProject* pProject, const ch
         fnClangdMasterPath.SetFullName(clangdexe);
     }
 
-    // Find the allociated resources for this clangd executable
     wxString clangdResourceDir = clangLocator.Locate_ResourceDir(fnClangdMasterPath);
-
-    // Disallow use of ".../codeblocks/MinGW/bin/clangd.exe" when NOT clang.
-    // Mingw cannot use clang resource libs and headers
-    if (clangdResourceDir.StartsWith("~INVALID~"))
-        clangdResourceDir = wxString();
-
     if (clangd_Dir.empty() or clangdResourceDir.empty())
     {
         wxString msg; msg << _("clangd_client plugin could not auto detect a clangd installation.\n"
@@ -428,8 +417,7 @@ ProcessLanguageClient::ProcessLanguageClient(const cbProject* pProject, const ch
         return;
     }
 
-
-    // Set the clangd --query-driver parameter
+    // Set the clangd --query-dirver parameter
     Compiler* pCompiler = CompilerFactory::GetCompiler(pProject->GetCompilerID());
     if (not pCompiler)
     {
@@ -438,13 +426,12 @@ ProcessLanguageClient::ProcessLanguageClient(const cbProject* pProject, const ch
         return;
     }
     wxString masterPath = pCompiler ? pCompiler->GetMasterPath() : "";
-    Manager::Get()->GetMacrosManager()->ReplaceMacros(masterPath); // (ph 25/05/01)
+
     // get the first char of executable name from the compiler toolchain
     CompilerPrograms toolchain = pCompiler->GetPrograms();
     wxString toolchainCPP = toolchain.CPP.Length() ? wxString(toolchain.CPP[0]) : "";
     // " --query-driver=f:\\usr\\MinGW810_64seh\\**\\g*"
     wxString queryDriver = masterPath + fileSep + "**" + fileSep + toolchainCPP + "*";
-    //- testing - queryDriver = "F:/usr/Proj/Clangd_Client-work/trunk/src/output32_64/MinGW/bin/g*"; // (ph 25/05/01)
     if (not platform::windows) queryDriver.Replace("\\","/");
 
     wxString pgmExec = clangd_Dir + fileSep + clangdexe;
@@ -1685,11 +1672,6 @@ void ProcessLanguageClient::OnIDResult(wxCommandEvent& event)
         {
             lspevt.SetString(idValue + STX +"result");
         }
-        else if (idValue.StartsWith("textDocument/rangeFormatting"))    // (christo 25/05/02)
-        {
-            lspevt.SetString(idValue + STX + "result");
-        }
-
 
     }//endif "id"
 
@@ -2050,13 +2032,11 @@ bool ProcessLanguageClient::LSP_DidOpen(cbEditor* pcbEd)
 
     wxString strText = pCntl->GetText();
     //-const char* pText = strText.mb_str();        //works //(2022/01/17)
-    //const char* pText = strText.ToUTF8();         //ollydbg  220115 did not solve illegal utf8char
+    const char* pText = strText.ToUTF8();           //ollydbg  220115 did not solve illegal utf8char
 
     writeClientLog(StdString_Format("<<< LSP_DidOpen:%s", docuri.c_str()) );
 
-    //-try { DidOpen(docuri, string_ref(pText, strText.Length()) ); }
-    try { DidOpen(docuri, string_ref(strText.ToUTF8().data(), strText.Length()) ); } //christo 1518
-
+    try { DidOpen(docuri, string_ref(pText, strText.Length()) ); }
     catch(std::exception &err)
     {
         //printf("read error -> %s\nread -> %s\n ", e.what(), read.c_str());
@@ -2674,67 +2654,7 @@ void ProcessLanguageClient::LSP_RequestRename(cbEditor* pEd, int argCaretPositio
 
     return ;
 }//end LSP_RequestRename
-// ----------------------------------------------------------------------------
-void ProcessLanguageClient::LSP_RequestRangeFormatting(cbEditor* pEd)  // (christo 25/05/02)
-// ----------------------------------------------------------------------------
-{
-    cbAssertNonFatal(pEd && "LSP_RequestRangeFormatting called with nullptr");
-    if (not GetLSP_Initialized())
-    {
-        cbMessageBox(_("LSP: attempt to LSP_RequestRangeFormatting() before initialization."));
-        return;
-    }
 
-    if (!GetLSP_IsEditorParsed(pEd))
-    {
-        wxString msg = wxString::Format(_("%s\nnot yet parsed.\nProject:"),
-                                        wxFileName(pEd->GetFilename()).GetFullName());
-        wxString title = GetEditorsProjectTitle(pEd);
-        msg += title.IsEmpty() ? _("None") : title;
-        InfoWindow::Display(_("LSP: File not yet parsed"), msg);
-        return;
-    }
-
-    cbStyledTextCtrl* pCtrl = pEd->GetControl();
-    if (not pCtrl)
-        return;
-
-    wxString fileURI = fileUtils.FilePathToURI(pEd->GetFilename());
-    fileURI.Replace("\\", "/");
-
-    const int selectionStart = pCtrl->GetSelectionStart();
-    const int selectionEnd = pCtrl->GetSelectionEnd();
-
-    const int startLine = pCtrl->LineFromPosition(selectionStart);
-    const int endLine = pCtrl->LineFromPosition(selectionEnd);
-
-    Range range;
-    range.start.line = startLine;
-    range.start.character = selectionStart - pCtrl->PositionFromLine(startLine);
-    range.end.line = endLine;
-    range.end.character = selectionEnd - pCtrl->PositionFromLine(endLine);
-
-    std::string stdFileURI = GetstdUTF8Str(fileURI);
-    DocumentUri docuri = DocumentUri(stdFileURI.c_str());
-
-    writeClientLog(StdString_Format("<<< LSP_RequestRangeFormatting:\n%s,line[%d], char[%d]", docuri.c_str(), range.start.line, range.start.character));
-
-    // Report changes to server else reported line references will be wrong.
-    LSP_DidChange(pEd);
-
-    try
-    {
-        RangeFormatting(docuri, range);
-    }
-    catch (std::exception& err)
-    {
-        wxString errMsg(wxString::Format("\nLSP_RequestRangeFormatting() error: %s\n%s", err.what(), docuri.c_str()));
-        writeClientLog(errMsg.ToStdString());
-        cbMessageBox(errMsg);
-    }
-
-    SetLastLSP_Request(pEd->GetFilename(), "textDocument/rangeFormatting");
-}
 // ----------------------------------------------------------------------------
 void ProcessLanguageClient::LSP_RequestSymbols(cbEditor* pEd, size_t rrid)
 // ----------------------------------------------------------------------------

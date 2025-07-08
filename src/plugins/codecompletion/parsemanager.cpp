@@ -2,12 +2,12 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13675 $
- * $Id: parsemanager.cpp 13675 2025-07-01 11:33:27Z wh11204 $
+ * $Revision: 13624 $
+ * $Id: parsemanager.cpp 13624 2025-03-02 17:49:18Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parsemanager.cpp $
  */
 
-#include "sdk.h"
+#include <sdk.h>
 
 #ifndef CB_PRECOMP
     #include <cctype>
@@ -16,36 +16,33 @@
     #include <wx/log.h> // for wxSafeShowMessage()
     #include <wx/regex.h>
     #include <wx/wfstream.h>
-    #include <wx/xrc/xmlres.h>
 
-    #include "cbauibook.h"
-    #include "cbeditor.h"
-    #include "cbexception.h"
-    #include "cbproject.h"
-    #include "compilerfactory.h"
-    #include "configmanager.h"
-    #include "editormanager.h"
-    #include "logmanager.h"
-    #include "macrosmanager.h"
-    #include "manager.h"
-    #include "pluginmanager.h"
-    #include "prep.h" // nullptr
-    #include "projectmanager.h"
+    #include <cbauibook.h>
+    #include <cbeditor.h>
+    #include <cbexception.h>
+    #include <cbproject.h>
+    #include <compilerfactory.h>
+    #include <configmanager.h>
+    #include <editormanager.h>
+    #include <logmanager.h>
+    #include <macrosmanager.h>
+    #include <manager.h>
+    #include <pluginmanager.h>
+    #include <prep.h> // nullptr
+    #include <projectmanager.h>
 
-    #include "tinyxml/tinyxml.h"
+    #include <tinyxml/tinyxml.h>
 #endif
 
 #include <wx/tokenzr.h>
-#include <wx/listbook.h> //2025/04/21
 
-#include "cbstyledtextctrl.h"
-#include "compilercommandgenerator.h"
+#include <cbstyledtextctrl.h>
+#include <compilercommandgenerator.h>
 
-#include "codecompletion.h" //2025/04/21
 #include "parsemanager.h"
 #include "classbrowser.h"
 #include "parser/parser.h"
-//#include "parser/profiletimer.h"
+#include "parser/profiletimer.h"
 
 #define CC_PARSEMANAGER_DEBUG_OUTPUT 0
 
@@ -2800,22 +2797,4 @@ std::unordered_map<cbProject*,ParserBase*> * ParseManager::GetActiveParsers() //
     }
 
     return &m_ActiveParserList;
-}
-// ----------------------------------------------------------------------------
-wxString ParseManager::GetConfigListSelection() //2025/04/21
-// ----------------------------------------------------------------------------
-{
-    wxString activePageTitle;
-    // Get the title of the currently active/focused configuration page
-    wxWindow* pTopWindow = wxFindWindowByName(_("Configure editor"));
-    if (not pTopWindow)
-        pTopWindow = GetTopWxWindow();
-    if (pTopWindow)
-    {
-        wxListbook* lb = XRCCTRL(*pTopWindow, "nbMain", wxListbook);
-        wxWindow* page = lb ? lb->GetCurrentPage() : nullptr;
-        int pageID = page ? lb->FindPage(page) : 0;
-        activePageTitle = lb ? lb->GetPageText(pageID) : wxString();
-    }
-    return activePageTitle;
 }

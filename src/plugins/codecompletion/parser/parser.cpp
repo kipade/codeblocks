@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13675 $
- * $Id: parser.cpp 13675 2025-07-01 11:33:27Z wh11204 $
+ * $Revision: 13624 $
+ * $Id: parser.cpp 13624 2025-03-02 17:49:18Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parser/parser.cpp $
  */
 
@@ -18,17 +18,17 @@
     #include <wx/intl.h>
     #include <wx/progdlg.h>
 
-    #include "cbproject.h"
-    #include "configmanager.h"
-    #include "editormanager.h"
-    #include "globals.h"
-    #include "infowindow.h"
-    #include "logmanager.h"
-    #include "manager.h"
+    #include <cbproject.h>
+    #include <configmanager.h>
+    #include <editormanager.h>
+    #include <globals.h>
+    #include <infowindow.h>
+    #include <logmanager.h>
+    #include <manager.h>
 #endif
 
 #include <wx/tokenzr.h>
-#include "cbstyledtextctrl.h"
+#include <cbstyledtextctrl.h>
 
 #include "parser.h"
 #include "parserthreadedtask.h"
@@ -1013,16 +1013,8 @@ void Parser::WriteOptions(bool classBrowserOnly)
 void Parser::ShowGlobalChangeAnnoyingMsg()
 // ----------------------------------------------------------------------------
 {
-    if (Manager::IsAppShuttingDown()) return;
-
     // Tell the user that global changes are not applied until projects are reparsed.
     ParseManager* pParseMgr = (ParseManager*)m_Parent;
-
-    // Issue warning message only for CodeCompletion global options change
-    wxString activePageTitle = pParseMgr->GetConfigListSelection();
-    if (not ((activePageTitle == "Code completion") or (activePageTitle == _("Code completion"))) )
-        return;
-
 
     // Get number of active parsers (from m_ParserList)
     std::unordered_map<cbProject*,ParserBase*>* pActiveParsers = pParseMgr->GetActiveParsers();

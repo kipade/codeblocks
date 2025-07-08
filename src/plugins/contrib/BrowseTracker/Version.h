@@ -18,7 +18,7 @@
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 // ----------------------------------------------------------------------------
-// RCS-ID: $Id: Version.h 13672 2025-06-23 18:55:37Z pecanh $
+// RCS-ID: $Id: Version.h 13673 2025-06-26 15:54:00Z pecanh $
 
 #ifndef VERSION_H
 #define VERSION_H
@@ -58,7 +58,7 @@ class AppVersion
 
 #include <wx/string.h>
 //-----Release-Feature-Fix------------------
-#define VERSION wxT("1.4.128 25/06/23")
+#define VERSION wxT("1.4.129 25/06/24")
 //------------------------------------------
 // Release - Current development identifier
 // Feature - User interface level
@@ -66,6 +66,7 @@ class AppVersion
 #endif // VERSION_H
 //versions
 // ----------------------------------------------------------------------------
+// 1.4.129  2025/06/24 Include logmanager.h for non CB_PRECOMP compiles
 // 1.4.128  2025/06/23 Apply some cppcheck suggestions. Thanks Blauzahn
 //                     https://forums.codeblocks.org/index.php?topic=26066.0;topicseen
 // 1.4.127  2025/06/19 Move CreateJumpTrackerView() request for DragScroll service to OnStartupDone()

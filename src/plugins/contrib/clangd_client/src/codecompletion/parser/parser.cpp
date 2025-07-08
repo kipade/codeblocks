@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13663 $
- * $Id: parser.cpp 13663 2025-05-10 21:05:41Z pecanh $
+ * $Revision: 13667 $
+ * $Id: parser.cpp 13667 2025-05-21 14:32:21Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parser/parser.cpp $
  */
 
@@ -3479,12 +3479,12 @@ void Parser::OnLSP_RangeFormattingResponse(wxCommandEvent& event)  // (christo 2
                                   : msgObject.dump();
 
             CCLogger::Get()->DebugLog(msg);
-            cbMessageBox(wxString::FromUTF8(msg));
+            cbMessageBox(wxString::FromUTF8(msg.c_str()));  // std::string overload is available since 3.1.1
         }
         else
         {
             std::cerr << "textDocument/rangeFormatting json: " << pJson->dump() << std::endl;
-            cbMessageBox("Unexpected LSP response");
+            cbMessageBox(_("Unexpected LSP response"));
         }
         return;
     }

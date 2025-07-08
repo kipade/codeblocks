@@ -138,10 +138,8 @@ bool FileUtils::ReadFileContentRaw(const wxFileName& fn, std::string& data)
 
     wxString filename = fn.GetFullPath();
     data.clear();
-    //-const char* cfile = filename.mb_str(wxConvUTF8).data();
-    //-FILE* fp = fopen(cfile, "rb");
-    FILE* fp = fopen(filename.mb_str(wxConvUTF8).data(), "rb"); //christo patch 1518
-
+    const char* cfile = filename.mb_str(wxConvUTF8).data();
+    FILE* fp = fopen(cfile, "rb");
     if(!fp) {
         // Nothing to be done
         return false;
@@ -461,9 +459,8 @@ time_t FileUtils::GetFileModificationTime(const wxFileName& filename)
 {
     wxString file = filename.GetFullPath();
     struct stat buff;
-    //-const wxCharBuffer cname = file.mb_str(wxConvUTF8);
-    //-if(stat(cname.data(), &buff) < 0) {
-    if(stat(file.mb_str(wxConvUTF8).data(), &buff) < 0) {   //christo patch 1518
+    const wxCharBuffer cname = file.mb_str(wxConvUTF8);
+    if(stat(cname.data(), &buff) < 0) {
         return 0;
     }
     return buff.st_mtime;
@@ -473,9 +470,8 @@ size_t FileUtils::GetFileSize(const wxFileName& filename)
 {
     struct stat b;
     wxString file_name = filename.GetFullPath();
-    //-const char* cfile = file_name.mb_str(wxConvUTF8).data();
-    //-if(::stat(cfile, &b) == 0) {
-    if(::stat(file_name.mb_str(wxConvUTF8).data(), &b) == 0) {  //christo patch 1518
+    const char* cfile = file_name.mb_str(wxConvUTF8).data();
+    if(::stat(cfile, &b) == 0) {
         return b.st_size;
     } else {
         wxString error( "Failed to open file:"); error << file_name << "." << strerror(errno);

@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
-+ * $Revision: 13663 $
-+ * $Id: codecompletion.cpp 13663 2025-05-10 21:05:41Z pecanh $
++ * $Revision: 13664 $
++ * $Id: codecompletion.cpp 13664 2025-05-14 19:14:42Z pecanh $
 + * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/codecompletion.cpp $
  */
 
@@ -1068,15 +1068,19 @@ void ClgdCompletion::BuildModuleMenu(const ModuleType type, wxMenu* menu, const 
         // Try to append after "Format use AStyle" else append at end.
         const wxString labelAStyle = _("Format use AStyle");
         const wxString label = _("Format use Clangd"); // (christo 25/05/02)
-        int position = Manager::Get()->GetPluginManager()->FindSortedMenuItemPosition(*menu, labelAStyle);
-        wxMenuItem* item = menu->FindItemByPosition(position);
-        if (item)  {
-            wxString itemLabel = item->GetItemLabelText();
-            if (itemLabel == labelAStyle)
-                position += 1;
+        size_t position = Manager::Get()->GetPluginManager()->FindSortedMenuItemPosition(*menu, labelAStyle);
+        //size_t menuKnt = menu->GetMenuItemCount(); // **Debugging**
+        if (position < menu->GetMenuItemCount())
+        {
+            wxMenuItem* item = menu->FindItemByPosition(position);
+            if (item)
+            {
+                wxString itemLabel = item->GetItemLabelText();
+                if (itemLabel == labelAStyle)
+                    position += 1;
+            }
         }
         menu->Insert(position, idCodeFormatterActiveFile, label, _("Format the selected source code (selected line) in the current file"));
-
     }
     else if (type == mtProjectManager)
     {

@@ -16,7 +16,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-// RCS-ID: $Id: BrowseTracker.h 13607 2025-01-31 23:07:30Z pecanh $
+// RCS-ID: $Id: BrowseTracker.h 13671 2025-06-21 17:24:54Z pecanh $
 
 
 #ifndef BROWSETRACKER_H_INCLUDED
@@ -266,8 +266,8 @@ class BrowseTracker : public cbPlugin
         //-void OnPageChanged(wxAuiNotebookEvent& event);
         void AppShuttingDown(CodeBlocksEvent& event); //2017/12/7
 
-        void OnMenuBrowseMarkPrevious(wxCommandEvent& event);
-        void OnMenuBrowseMarkNext(wxCommandEvent& event);
+        void OnMenuBookMarkPrevious(wxCommandEvent& event);
+        void OnMenuBookMarkNext(wxCommandEvent& event);
         void OnMenuRecordBrowseMark(wxCommandEvent& event);
         void OnMenuClearBrowseMark(wxCommandEvent& event);
         void OnMenuToggleBrowseMark(wxCommandEvent& event);
@@ -279,6 +279,10 @@ class BrowseTracker : public cbPlugin
 		void TrackEditorBackward();
 		void TrackEditorForward();
         void OnMouseKeyEvent(wxMouseEvent& event);
+
+        //-- Jump marks
+        void OnMenuJumpBack(wxCommandEvent& event);
+        void OnMenuJumpNext(wxCommandEvent& event);
 
         //-- BOOK marks
         void AddBook_Mark(EditorBase* eb, int line = -1);

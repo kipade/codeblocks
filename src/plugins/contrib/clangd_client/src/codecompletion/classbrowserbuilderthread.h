@@ -6,13 +6,16 @@
 #ifndef CLASSBROWSERBUILDERTHREAD_H
 #define CLASSBROWSERBUILDERTHREAD_H
 
+#include <mutex> //(ph 250526)
+#include <chrono>
+
 #include <wx/thread.h>
 #include <wx/treectrl.h>
 
 #include "cctreectrl.h"
 #include "parsemanager.h"
 #include "parser/token.h"
-#include "parser/parser.h"
+//-unused-#include "parser/parser.h"
 
 #define CRC32_CCITT       0x04C11DB7
 
@@ -73,7 +76,17 @@ class CCTreeItem
 public:
     CCTreeItem(CCTreeItem* parent, const wxString& text, int image = -1, int selImage = -1, CCTreeCtrlData* data = nullptr);
     virtual ~CCTreeItem();
-    void DeleteChildren() {while (m_firstChild) delete m_firstChild; m_hasChildren = false;}
+//- void DeleteChildren() {while (m_firstChild) delete m_firstChild; m_hasChildren = false;}
+    void DeleteChildren() //christo patch 1518
+    {
+        if (m_firstChild)
+        {
+            delete m_firstChild;
+            m_firstChild = nullptr;
+        }
+        m_hasChildren = false;
+    }
+
     static void Swap(CCTreeItem* a, CCTreeItem* b);
 
     CCTreeItem* m_parent;
@@ -299,7 +312,9 @@ private:
      * that only one thread can access to those member variables.
      */
 
-    static wxMutex   m_ClassBrowserBuilderThreadMutex;
+    //static wxMutex   m_ClassBrowserBuilderThreadMutex;
+    static std::timed_mutex m_ClassBrowserBuilderThreadMutex; //(ph 250526)
+
     ParseManager*    m_ParseManager;
 
     /** pointers to the CCTree */

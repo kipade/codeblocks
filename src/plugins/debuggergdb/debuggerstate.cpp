@@ -2,15 +2,16 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 12999 $
- * $Id: debuggerstate.cpp 12999 2022-11-01 13:12:28Z wh11204 $
+ * $Revision: 13675 $
+ * $Id: debuggerstate.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/debuggergdb/debuggerstate.cpp $
  */
 
-#include <sdk.h>
-#include <cbexception.h>
+#include "sdk.h"
+
+#include "cbexception.h"
 #include "debuggerstate.h"
-#include <compilerfactory.h>
+#include "compilerfactory.h"
 #include "debuggergdb.h"
 #include "debuggeroptionsdlg.h"
 #include "projectbuildtarget.h"

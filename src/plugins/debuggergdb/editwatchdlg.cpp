@@ -2,12 +2,13 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 10912 $
- * $Id: editwatchdlg.cpp 10912 2016-09-25 16:10:13Z fuscated $
+ * $Revision: 13675 $
+ * $Id: editwatchdlg.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/debuggergdb/editwatchdlg.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
+
 #include "editwatchdlg.h"
 
 #ifndef CB_PRECOMP

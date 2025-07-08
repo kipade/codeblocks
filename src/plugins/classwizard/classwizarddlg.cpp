@@ -2,12 +2,13 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13110 $
- * $Id: classwizarddlg.cpp 13110 2022-12-11 12:37:19Z wh11204 $
+ * $Revision: 13674 $
+ * $Id: classwizarddlg.cpp 13674 2025-06-27 18:05:22Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/classwizard/classwizarddlg.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
+
 #ifndef CB_PRECOMP
   #include <wx/button.h>
   #include <wx/checkbox.h>

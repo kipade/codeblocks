@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13292 $
- * $Id: tokentree.cpp 13292 2023-05-30 15:50:46Z mortenmacfly $
+ * $Revision: 13668 $
+ * $Id: tokentree.cpp 13668 2025-06-02 16:15:48Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parser/tokentree.cpp $
  */
 
@@ -56,7 +56,13 @@
  * The wxString in wx3.0+ doesn't have such issue. So we should remove it after the migration
  * to wx3.0+
  */
-wxMutex s_TokenTreeMutex;
+
+//wxMutex s_TokenTreeMutex(wxMUTEX_DEFAULT);
+
+#include <mutex>
+#include <chrono>
+std::timed_mutex s_TokenTreeMutex; //(ph 250526)
+
 
 TokenTree::TokenTree() :
     m_TokenTicketCount(255) // Reserve some space for the class browser

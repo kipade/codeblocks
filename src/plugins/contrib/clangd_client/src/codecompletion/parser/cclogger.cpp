@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13484 $
- * $Id: cclogger.cpp 13484 2024-03-02 16:29:53Z pecanh $
+ * $Revision: 13668 $
+ * $Id: cclogger.cpp 13668 2025-06-02 16:15:48Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parser/cclogger.cpp $
  */
 
@@ -248,3 +248,26 @@ void CCLogger::DebugLogError(const wxString& msg)
 {
     DebugLog(msg, m_DebugLogErrorId);
 }
+// ----------------------------------------------------------------------------
+bool CCLogger::GetTimedMutexLock(std::timed_mutex& mutexref) //(ph 250526)
+// ----------------------------------------------------------------------------
+{
+    bool result = mutexref.try_lock_for(std::chrono::milliseconds(250));
+    return result;
+}
+// ----------------------------------------------------------------------------
+void CCLogger::GetMutexLock(std::timed_mutex& mutexref) //(ph 250526)
+// ----------------------------------------------------------------------------
+{
+    mutexref.lock();
+    return;
+}
+// ----------------------------------------------------------------------------
+void CCLogger::GetMutexUnlock(std::timed_mutex& mutexref) //(ph 250526)
+// ----------------------------------------------------------------------------
+{
+    mutexref.unlock();
+    return;
+}
+
+

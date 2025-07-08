@@ -2,12 +2,12 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13434 $
- * $Id: systemheadersthread.cpp 13434 2024-01-28 00:47:55Z pecanh $
+ * $Revision: 13675 $
+ * $Id: systemheadersthread.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/systemheadersthread.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
 
 #ifndef CB_PRECOMP
     #include <wx/app.h> // wxPostEvent

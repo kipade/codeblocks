@@ -2,12 +2,12 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13471 $
- * $Id: coderefactoring.cpp 13471 2024-02-20 02:38:52Z ollydbg $
+ * $Revision: 13675 $
+ * $Id: coderefactoring.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/coderefactoring.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
 
 #ifndef CB_PRECOMP
     #include <wx/artprov.h>
@@ -17,18 +17,18 @@
     #include <wx/statbmp.h>
     #include <wx/stattext.h>
 
-    #include <cbeditor.h>
-    #include <cbproject.h>
-    #include <editorcolourset.h>
-    #include <editormanager.h>
-    #include <logmanager.h>
+    #include "cbeditor.h"
+    #include "cbproject.h"
+    #include "editorcolourset.h"
+    #include "editormanager.h"
+    #include "logmanager.h"
 #endif
 
 #include <wx/progdlg.h>
 
-#include <cbstyledtextctrl.h>
-#include <encodingdetector.h>
-#include <searchresultslog.h>
+#include "cbstyledtextctrl.h"
+#include "encodingdetector.h"
+#include "searchresultslog.h"
 
 #include "coderefactoring.h"
 #include "parsemanager.h"

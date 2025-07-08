@@ -2,12 +2,13 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13292 $
- * $Id: compilerMSVC17.cpp 13292 2023-05-30 15:50:46Z mortenmacfly $
+ * $Revision: 13675 $
+ * $Id: compilerMSVC17.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/compilergcc/compilerMSVC17.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
+
 #include "compilerMSVC17.h"
 #include <wx/wx.h>
 #include <wx/intl.h>

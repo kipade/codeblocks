@@ -2,12 +2,13 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 11069 $
- * $Id: compilerMINGWgenerator.cpp 11069 2017-05-28 15:26:44Z fuscated $
+ * $Revision: 13675 $
+ * $Id: compilerMINGWgenerator.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/compilergcc/compilerMINGWgenerator.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
+
 #include "compilerMINGWgenerator.h"
 #include <wx/intl.h>
 #include "cbexception.h"

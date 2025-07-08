@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13547 $
-* $Id: wxsspinctrldouble.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
+* $Revision: 13651 $
+* $Id: wxsspinctrldouble.cpp 13651 2025-04-08 08:19:11Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxsspinctrldouble.cpp $
 */
 
@@ -67,12 +67,7 @@ void wxsSpinCtrlDouble::OnBuildCreatingCode()
         {
             AddHeader(_T("<wx/spinctrl.h>"), GetInfo().ClassName, 0);
             AddHeader(_T("<wx/spinctrl.h>"), _T("wxSpinEvent"), 0);
-            long ValueLong = 0;
-            Value.ToLong(&ValueLong);
-            Codef(_T("%C(%W, %I, %n, %P, %S, %T, %f, %f, %f, %f, %N);\n"),Value.wx_str(), Min, Max, Initial, Increment);
-            if ( !Value.empty() )
-                Codef(_T("%ASetValue(%n);\n"), Value.wx_str());
-
+            Codef(_T("%C(%W, %I, %n, %P, %S, %T, %f, %f, %f, %f, %N);\n"), Value.wx_str(), Min, Max, Initial, Increment);
             BuildSetupWindowCode();
             return;
         }

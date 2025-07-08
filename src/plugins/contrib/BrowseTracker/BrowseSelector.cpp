@@ -16,7 +16,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-// RCS-ID: $Id: BrowseSelector.cpp 13607 2025-01-31 23:07:30Z pecanh $
+// RCS-ID: $Id: BrowseSelector.cpp 13672 2025-06-23 18:55:37Z pecanh $
 
 
 #include <wx/listctrl.h>
@@ -55,11 +55,11 @@ namespace
 // ----------------------------------------------------------------------------
 BrowseSelector::BrowseSelector(wxWindow* parent, BrowseTracker* pBrowseTracker, int menuID)
 // ----------------------------------------------------------------------------
-: m_listBox(NULL)
-, m_selectedItem(-1)
-, m_panel(NULL)
-, m_pBrowseTracker(pBrowseTracker)
-, m_menuID(menuID)
+    :   m_listBox(NULL),
+        m_selectedItem(-1),
+        m_panel(NULL),
+        m_pBrowseTracker(pBrowseTracker),
+        m_menuID(menuID), m_KeyDownCode(0), m_KeyDownMods(0) // (blauzahn 25/06/22)
 {
 
     Create(parent, pBrowseTracker, m_menuID);

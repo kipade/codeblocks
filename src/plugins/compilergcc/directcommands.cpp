@@ -2,12 +2,13 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13619 $
- * $Id: directcommands.cpp 13619 2025-02-21 08:03:13Z wh11204 $
+ * $Revision: 13675 $
+ * $Id: directcommands.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/compilergcc/directcommands.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
+
 #include <wx/intl.h>
 #include <wx/filename.h>
 #include <wx/msgdlg.h>
@@ -17,20 +18,20 @@
 #include <wx/regex.h> // used in QUICK hack at line 574
 #include <wx/file.h>
 
-#include <compiler.h>
-#include <cbproject.h>
-#include <projectbuildtarget.h>
-#include <globals.h>
-#include <manager.h>
-#include <logmanager.h>
-#include <configmanager.h>
-#include <macrosmanager.h>
+#include "compiler.h"
+#include "cbproject.h"
+#include "projectbuildtarget.h"
+#include "globals.h"
+#include "manager.h"
+#include "logmanager.h"
+#include "configmanager.h"
+#include "macrosmanager.h"
 #include "directcommands.h"
 #include "compilercommandgenerator.h"
 #include "compilergcc.h"
 #include "cbexception.h"
 #include "filefilters.h"
-#include <depslib.h>
+#include "depslib.h"
 
 const wxString COMPILER_SIMPLE_LOG(_T("SLOG:"));
 const wxString COMPILER_NOTE_LOG(_T("SLOG:NLOG:"));

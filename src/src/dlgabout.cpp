@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13616 $
- * $Id: dlgabout.cpp 13616 2025-02-18 15:38:22Z wh11204 $
+ * $Revision: 13647 $
+ * $Id: dlgabout.cpp 13647 2025-03-31 18:42:45Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/src/dlgabout.cpp $
  */
 
@@ -13,7 +13,7 @@
     #ifdef __WXMAC__
         #include <wx/font.h>
     #endif //__WXMAC__
-    #include <wx/button.h>    // wxImage
+    #include <wx/button.h>   // wxImage
     #include <wx/image.h>    // wxImage
     #include <wx/intl.h>
     #include <wx/stattext.h>

@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13003 $
- * $Id: disassemblydlg.cpp 13003 2022-11-08 08:50:45Z wh11204 $
+ * $Revision: 13658 $
+ * $Id: disassemblydlg.cpp 13658 2025-05-05 12:58:09Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/src/disassemblydlg.cpp $
  */
 
@@ -64,7 +64,11 @@ DisassemblyDlg::DisassemblyDlg(wxWindow* parent) :
     wxXmlResource::Get()->AttachUnknownControl(_T("lcCode"), m_pCode);
 
     // use the same font as editor's
-    wxFont font(8, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+#if wxCHECK_VERSION(3, 1, 0)
+    wxFont font(FromDIP(8), wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+#else
+    wxFont font(wxRound(8*cbGetContentScaleFactor(*this)), wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+#endif
     wxString fontstring = Manager::Get()->GetConfigManager(_T("editor"))->Read(_T("/font"), wxEmptyString);
     if (!fontstring.IsEmpty())
     {

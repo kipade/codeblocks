@@ -2,15 +2,15 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 11443 $
- * $Id: formattersettings.cpp 11443 2018-08-12 06:23:37Z ollydbg $
+ * $Revision: 13674 $
+ * $Id: formattersettings.cpp 13674 2025-06-27 18:05:22Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/astyle/formattersettings.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
 #include "formattersettings.h"
 #include "astylepredefinedstyles.h"
-#include <configmanager.h>
+#include "configmanager.h"
 
 FormatterSettings::FormatterSettings()
 {

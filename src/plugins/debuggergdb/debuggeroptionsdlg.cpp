@@ -2,12 +2,13 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13424 $
- * $Id: debuggeroptionsdlg.cpp 13424 2024-01-03 12:50:12Z wh11204 $
+ * $Revision: 13675 $
+ * $Id: debuggeroptionsdlg.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/debuggergdb/debuggeroptionsdlg.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
+
 #include "debuggeroptionsdlg.h"
 #ifndef CB_PRECOMP
     #include <wx/checkbox.h>
@@ -19,8 +20,8 @@
     #include <wx/textctrl.h>
     #include <wx/xrc/xmlres.h>
 
-    #include <configmanager.h>
-    #include <macrosmanager.h>
+    #include "configmanager.h"
+    #include "macrosmanager.h"
 #endif
 
 #include "debuggergdb.h"

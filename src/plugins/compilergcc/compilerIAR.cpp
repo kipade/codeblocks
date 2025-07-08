@@ -2,13 +2,14 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13003 $
- * $Id: compilerIAR.cpp 13003 2022-11-08 08:50:45Z wh11204 $
+ * $Revision: 13675 $
+ * $Id: compilerIAR.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/compilergcc/compilerIAR.cpp $
  */
 
-#include <sdk.h>
-#include <prep.h>
+#include "sdk.h"
+
+#include "prep.h"
 #include "compilerIAR.h"
 #include <wx/dir.h>
 #include <wx/intl.h>

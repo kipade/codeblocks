@@ -2,12 +2,12 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13316 $
- * $Id: expression.cpp 13316 2023-07-02 05:02:03Z mortenmacfly $
+ * $Revision: 13675 $
+ * $Id: expression.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parser/expression.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
 
 #include <stack>
 
@@ -15,8 +15,8 @@
     #include <wx/wx.h>
 #endif
 
-#include <logmanager.h>
-#include <manager.h>
+#include "logmanager.h"
+#include "manager.h"
 
 #include "cclogger.h"
 #include "expression.h"

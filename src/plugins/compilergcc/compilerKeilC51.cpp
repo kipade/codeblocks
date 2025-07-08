@@ -2,13 +2,14 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 9263 $
- * $Id: compilerKeilC51.cpp 9263 2013-08-17 09:20:28Z mortenmacfly $
+ * $Revision: 13675 $
+ * $Id: compilerKeilC51.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/compilergcc/compilerKeilC51.cpp $
  */
 
-#include <sdk.h>
-#include <prep.h>
+#include "sdk.h"
+
+#include "prep.h"
 #include "compilerKeilC51.h"
 #include <wx/intl.h>
 #include <wx/regex.h>

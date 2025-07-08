@@ -2,12 +2,13 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 11859 $
- * $Id: debuggeroptionsprjdlg.cpp 11859 2019-09-29 12:53:55Z fuscated $
+ * $Revision: 13675 $
+ * $Id: debuggeroptionsprjdlg.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/debuggergdb/debuggeroptionsprjdlg.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
+
 #include "debuggeroptionsprjdlg.h"
 #include <wx/intl.h>
 #include <wx/xrc/xmlres.h>
@@ -15,10 +16,10 @@
 #include <wx/button.h>
 #include <wx/choice.h>
 #include <wx/checkbox.h>
-#include <cbproject.h>
-#include <editpathdlg.h>
-#include <manager.h>
-#include <globals.h>
+#include "cbproject.h"
+#include "editpathdlg.h"
+#include "manager.h"
+#include "globals.h"
 
 #include "debuggergdb.h"
 

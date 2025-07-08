@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13486 $
- * $Id: cclogger.cpp 13486 2024-03-07 04:06:34Z pecanh $
+ * $Revision: 13675 $
+ * $Id: cclogger.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parser/cclogger.cpp $
  */
 
@@ -13,8 +13,8 @@
 #include <wx/textfile.h>
 #include <wx/utils.h> // wxNewId
 
-#include <logmanager.h> // F()
-#include <globals.h>    // cbC2U for cbAssert macro
+#include "logmanager.h" // F()
+#include "globals.h"    // cbC2U for cbAssert macro
 
 std::unique_ptr<CCLogger> CCLogger::s_Inst;
 

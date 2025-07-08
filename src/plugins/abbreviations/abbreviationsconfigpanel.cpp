@@ -2,12 +2,12 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 12944 $
- * $Id: abbreviationsconfigpanel.cpp 12944 2022-10-05 06:02:53Z wh11204 $
+ * $Revision: 13674 $
+ * $Id: abbreviationsconfigpanel.cpp 13674 2025-06-27 18:05:22Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/abbreviations/abbreviationsconfigpanel.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
 #include "abbreviationsconfigpanel.h"
 
 #ifndef CB_PRECOMP
@@ -15,10 +15,10 @@
     #include <wx/fontutil.h>
     #include <wx/choicdlg.h>
 
-    #include <configmanager.h>
-    #include <editorcolourset.h>
-    #include <editormanager.h>
-    #include <logmanager.h>
+    #include "configmanager.h"
+    #include "editorcolourset.h"
+    #include "editormanager.h"
+    #include "logmanager.h"
 #endif
 
 #include "cbcolourmanager.h"

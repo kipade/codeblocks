@@ -2,12 +2,13 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13388 $
- * $Id: compilerMINGW.cpp 13388 2023-11-07 12:08:54Z wh11204 $
+ * $Revision: 13675 $
+ * $Id: compilerMINGW.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/compilergcc/compilerMINGW.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
+
 #include "compilerMINGW.h"
 #include <wx/intl.h>
 #include <wx/regex.h>
@@ -21,7 +22,7 @@
 #include "logmanager.h"
 #include "compilerMINGWgenerator.h"
 
-#include <configmanager.h>
+#include "configmanager.h"
 
 #ifdef __WXMSW__
     #include <wx/dir.h>

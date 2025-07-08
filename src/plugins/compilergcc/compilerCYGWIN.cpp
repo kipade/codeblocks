@@ -2,12 +2,12 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 12618 $
- * $Id: compilerCYGWIN.cpp 12618 2021-12-31 12:59:50Z wh11204 $
+ * $Revision: 13675 $
+ * $Id: compilerCYGWIN.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/compilergcc/compilerCYGWIN.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
 
 #include "compilerCYGWIN.h"
 #include "cygwin.h"

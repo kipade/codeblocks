@@ -2,24 +2,25 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13619 $
- * $Id: gdb_driver.cpp 13619 2025-02-21 08:03:13Z wh11204 $
+ * $Revision: 13675 $
+ * $Id: gdb_driver.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/debuggergdb/gdb_driver.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
+
 #include "gdb_driver.h"
 #include "gdb_commands.h"
 #include "debuggeroptionsdlg.h"
 #include "debuggerstate.h"
 
-#include <cbdebugger_interfaces.h>
-#include <configmanager.h>
-#include <cygwin.h>
-#include <globals.h>
-#include <infowindow.h>
-#include <manager.h>
-#include <macrosmanager.h>
+#include "cbdebugger_interfaces.h"
+#include "configmanager.h"
+#include "cygwin.h"
+#include "globals.h"
+#include "infowindow.h"
+#include "manager.h"
+#include "macrosmanager.h"
 
 // the ">>>>>>" is a hack: sometimes, especially when watching uninitialized char*
 // some random control codes in the stream (like 'delete') will mess-up our prompt and the debugger

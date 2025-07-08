@@ -2,12 +2,12 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13612 $
- * $Id: ccoptionsdlg.cpp 13612 2025-02-15 19:15:17Z pecanh $
+ * $Revision: 13674 $
+ * $Id: ccoptionsdlg.cpp 13674 2025-06-27 18:05:22Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/ccoptionsdlg.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
 
 #ifndef CB_PRECOMP
     #include <wx/button.h>
@@ -23,16 +23,16 @@
     #include <wx/treectrl.h>
     #include <wx/xrc/xmlres.h>
 
-    #include <cbstyledtextctrl.h>
-    #include <configmanager.h>
-    #include <globals.h>
-    #include <logmanager.h>
-    #include <manager.h>
+    #include "cbstyledtextctrl.h"
+    #include "configmanager.h"
+    #include "globals.h"
+    #include "logmanager.h"
+    #include "manager.h"
 #endif
 
 #include <wx/clrpicker.h>
 
-#include <editpairdlg.h>
+#include "editpairdlg.h"
 
 #include "cbcolourmanager.h"
 #include "ccoptionsdlg.h"

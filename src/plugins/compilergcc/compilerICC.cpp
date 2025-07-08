@@ -2,12 +2,13 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 11399 $
- * $Id: compilerICC.cpp 11399 2018-05-08 21:54:03Z fuscated $
+ * $Revision: 13675 $
+ * $Id: compilerICC.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/compilergcc/compilerICC.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
+
 #ifndef CB_PRECOMP
 	#include <wx/intl.h>
 	#include <wx/msgdlg.h>

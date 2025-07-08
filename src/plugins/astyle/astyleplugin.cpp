@@ -2,12 +2,12 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13619 $
- * $Id: astyleplugin.cpp 13619 2025-02-21 08:03:13Z wh11204 $
+ * $Revision: 13674 $
+ * $Id: astyleplugin.cpp 13674 2025-06-27 18:05:22Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/astyle/astyleplugin.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
 
 #ifndef CB_PRECOMP
     #include <algorithm>
@@ -20,17 +20,17 @@
     #include <wx/fs_zip.h>
     #include <wx/strconv.h>
 
-    #include <cbeditor.h>
-    #include <cbexception.h>
-    #include <cbproject.h>
-    #include <configmanager.h>
-    #include <editormanager.h>
-    #include <manager.h>
-    #include <projectmanager.h>
+    #include "cbeditor.h"
+    #include "cbexception.h"
+    #include "cbproject.h"
+    #include "configmanager.h"
+    #include "editormanager.h"
+    #include "manager.h"
+    #include "projectmanager.h"
 #endif
 
 #include <wx/progdlg.h>
-#include <cbstyledtextctrl.h>
+#include "cbstyledtextctrl.h"
 
 #include "astyleplugin.h"
 #include "astyleconfigdlg.h"

@@ -2,25 +2,25 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13462 $
- * $Id: doxygen_parser.cpp 13462 2024-02-20 02:37:21Z ollydbg $
+ * $Revision: 13675 $
+ * $Id: doxygen_parser.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/doxygen_parser.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
 
 #ifndef CB_PRECOMP
   #include <wx/string.h>
 
-  #include <cbeditor.h>
-  #include <editormanager.h>
-  #include <sdk_events.h>
+  #include "cbeditor.h"
+  #include "editormanager.h"
+  #include "sdk_events.h"
 #endif
 
 #include <wx/tokenzr.h>
 #include <wx/html/htmlwin.h>
 
-#include <cbstyledtextctrl.h>
+#include "cbstyledtextctrl.h"
 
 #include "doxygen_parser.h"
 

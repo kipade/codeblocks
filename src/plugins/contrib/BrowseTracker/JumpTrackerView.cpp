@@ -2,13 +2,13 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13606 $
- * $Id: JumpTrackerView.cpp 13606 2025-01-30 23:01:51Z pecanh $
+ * $Revision: 13671 $
+ * $Id: JumpTrackerView.cpp 13671 2025-06-21 17:24:54Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/BrowseTracker/JumpTrackerView.cpp $
  */
 
 //#include "sdk_precomp.h" gets not used because `EXPORT_LIB' not defined [-Winvalid-pch] error
-#include "sdk.h"
+#include "sdk.h" // needed even though clangd: says it's not
 
 #ifndef CB_PRECOMP
     #include <wx/arrstr.h>
@@ -153,7 +153,7 @@ void JumpTrackerView::OnDoubleClick(cb_unused wxCommandEvent& event)
     int index = control->GetNextItem(-1,
                                      wxLIST_NEXT_ALL,
                                      wxLIST_STATE_SELECTED);
-    m_lastDoubleClickIndex = index;
+    //-m_lastJTViewIndex = index;
 
     m_bJumpInProgress = true;
     SyncEditor(index);

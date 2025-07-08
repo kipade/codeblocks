@@ -2,12 +2,12 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13393 $
- * $Id: tokenizer.cpp 13393 2023-11-10 23:35:23Z pecanh $
+ * $Revision: 13675 $
+ * $Id: tokenizer.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parser/tokenizer.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
 
 #include <cctype>
 #include <wx/utils.h>

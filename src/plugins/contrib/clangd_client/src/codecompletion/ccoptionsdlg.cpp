@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13621 $
- * $Id: ccoptionsdlg.cpp 13621 2025-02-24 19:09:56Z pecanh $
+ * $Revision: 13660 $
+ * $Id: ccoptionsdlg.cpp 13660 2025-05-06 16:36:55Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/ccoptionsdlg.cpp $
  */
 
@@ -94,7 +94,7 @@ BEGIN_EVENT_TABLE(CCOptionsDlg, wxPanel)
 END_EVENT_TABLE()
 
 // ----------------------------------------------------------------------------
-namespace
+namespace // anonymous
 // ----------------------------------------------------------------------------
 {
     #if defined(_WIN32)
@@ -592,10 +592,10 @@ void CCOptionsDlg::OnClangd_AutoDetect(cb_unused wxCommandEvent& event)
     }
 
     // Verify clangd version is above 12
-    wxString versionNative;
+    wxString versionNative; // (ph 25/04/30) test this
     wxString clangdVersion = clangLocator.GetClangdVersion(fnClangdPath.GetFullPath(), versionNative);
     //eg., clangd version 13.0,0
-    clangdVersion = clangdVersion.BeforeFirst('.').AfterLast(' ');
+    clangdVersion = clangdVersion.BeforeFirst('.');
     if (clangdVersion.IsEmpty())
     {
         cbMessageBox("clangd version could not be determined from string '" + versionNative + "'");

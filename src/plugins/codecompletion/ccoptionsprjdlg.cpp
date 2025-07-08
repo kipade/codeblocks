@@ -2,12 +2,12 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13471 $
- * $Id: ccoptionsprjdlg.cpp 13471 2024-02-20 02:38:52Z ollydbg $
+ * $Revision: 13674 $
+ * $Id: ccoptionsprjdlg.cpp 13674 2025-06-27 18:05:22Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/ccoptionsprjdlg.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
 
 #ifndef CB_PRECOMP
     #include <wx/button.h>
@@ -15,14 +15,14 @@
     #include <wx/listbox.h>
     #include <wx/xrc/xmlres.h>
 
-    #include <cbproject.h>
-    #include <cbstyledtextctrl.h>
-    #include <globals.h>
-    #include <logmanager.h>
-    #include <manager.h>
+    #include "cbproject.h"
+    #include "cbstyledtextctrl.h"
+    #include "globals.h"
+    #include "logmanager.h"
+    #include "manager.h"
 #endif
 
-#include <editpathdlg.h>
+#include "editpathdlg.h"
 
 #include "ccoptionsprjdlg.h"
 

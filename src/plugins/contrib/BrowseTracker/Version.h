@@ -18,7 +18,7 @@
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 // ----------------------------------------------------------------------------
-// RCS-ID: $Id: Version.h 13607 2025-01-31 23:07:30Z pecanh $
+// RCS-ID: $Id: Version.h 13673 2025-06-26 15:54:00Z pecanh $
 
 #ifndef VERSION_H
 #define VERSION_H
@@ -58,14 +58,31 @@ class AppVersion
 
 #include <wx/string.h>
 //-----Release-Feature-Fix------------------
-#define VERSION wxT("1.4.121 25/01/31")
+#define VERSION wxT("1.4.129 25/06/24")
 //------------------------------------------
 // Release - Current development identifier
 // Feature - User interface level
 // Fix     - bug fix or non UI breaking addition
 #endif // VERSION_H
-
+//versions
 // ----------------------------------------------------------------------------
+// 1.4.129  2025/06/24 Include logmanager.h for non CB_PRECOMP compiles
+// 1.4.128  2025/06/23 Apply some cppcheck suggestions. Thanks Blauzahn
+//                     https://forums.codeblocks.org/index.php?topic=26066.0;topicseen
+// 1.4.127  2025/06/19 Move CreateJumpTrackerView() request for DragScroll service to OnStartupDone()
+// 1.4.126  2025/05/14 Guard against nullptr in OnSearchLogDoubleClick()
+// 1.4.125  2025/05/11 Guard against Get/SetJumpTrackerViewIndex() when jump list is empty.
+// 1.4.124  2025/05/09 Fix broken non-wrapping jump back and jump frwd.
+//              Clarify menu titles as to their functions, ie., Jump vs bookmark
+//              Fix GetJumpTrackerViewIndex() to return 0 when selection == -1
+// 1.4.124  2025/05/08 Add missing jump entry when only one file loaded.
+//              Add missing jump entry when dbouble click on search log items.
+// 1.4.123  2025/04/28 After bookmarks are read from the .bmarks file, stage
+//          a callAfter() to OnEditorActivate() so that ProjectIsLoading() clears
+//          and OnEditorActivated() can set the active editors bookmark.
+// 1.4.122  2025/04/27 optimize jump location recordings
+//          on left click, replace (not add) entry withing half of current location.
+//               Avoid many jump locations within the same area.
 // 1.4.121  2025/01/31 Rework array compression and re-check m_apEditors indexing.
 // 1.4.120  2025/01/30 Rework OnEditorActivate to catch editors loaded via layout.
 // 1.4.119  2025/01/29 Rework the EditorHook for efficiency.

@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
-+ * $Revision: 13529 $
-+ * $Id: codecompletion.cpp 13529 2024-06-12 17:43:55Z pecanh $
++ * $Revision: 13668 $
++ * $Id: codecompletion.cpp 13668 2025-06-02 16:15:48Z pecanh $
 + * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/codecompletion.cpp $
  */
 
@@ -124,7 +124,7 @@ static wxString g_GlobalScope(_T("<global>"));
 
 // this auto-registers the plugin
 // ----------------------------------------------------------------------------
-namespace
+namespace //anonymouse
 // ----------------------------------------------------------------------------
 {
     // this auto-registers the plugin
@@ -371,6 +371,7 @@ int LSPeventID                  = wxNewId();
 int idPauseParsing              = wxNewId();
 int idProjectPauseParsing       = wxNewId();
 int idStartupDelayTimer         = wxNewId();
+static int idCodeFormatterActiveFile = wxNewId();   // (christo 25/05/02)
 
 int idSpecifiedFileReparse      = XRCID("idSpecifiedFileReparse");
 
@@ -418,6 +419,7 @@ BEGIN_EVENT_TABLE(ClgdCompletion, cbCodeCompletionPlugin)
     EVT_MENU(idEditorFileReparse,                  ClgdCompletion::OnActiveEditorFileReparse   )
     EVT_MENU(idPauseParsing,                       ClgdCompletion::OnSelectedPauseParsing )
     EVT_MENU(idProjectPauseParsing,                ClgdCompletion::OnProjectPauseParsing )
+    EVT_MENU(idCodeFormatterActiveFile, ClgdCompletion::OnFormatActiveFile) // (christo 25/05/02)
 
     // CC's toolbar
     EVT_CHOICE(XRCID("chcCodeCompletionScope"),    ClgdCompletion::OnScope   )
@@ -468,7 +470,7 @@ ClgdCompletion::ClgdCompletion() :
     m_CCHasTreeLock = false;
     m_CC_initDeferred = true; //reset to false if code reaches bottom of ctor
 
-    // Trap calls to OnAttach() to see if old CodeCompletion is actually enabled/attached
+    // Trap calls to OnAttach() to see if legacy CodeCompletion is actually enabled/attached
     // when there's no info in .conf for a plugin CB says it's disabled but runs it anyway.
     Manager::Get()->RegisterEventSink(cbEVT_PLUGIN_ATTACHED,      new cbEventFunctor<ClgdCompletion, CodeBlocksEvent>(this, &ClgdCompletion::OnPluginAttached));
 
@@ -495,13 +497,13 @@ ClgdCompletion::ClgdCompletion() :
     m_OldCC_enabled = IsOldCCEnabled();
     if (m_OldCC_enabled)
     {
-        //Clangd_client must not run when old CodeCompletion is enabled and Dll/Lib is loaded.
+        //Clangd_client must not run when legacy CodeCompletion is enabled and Dll/Lib is loaded.
         SetClangdClient_Disabled();
 
-        // Old CodeCompletion is loaded and running
+        // legacy CodeCompletion is loaded and running
         wxString msg = _("The Clangd client plugin cannot run while the \"Code completion\" plugin is enabled.\n"
                          "The Clangd client plugin will now inactivate itself. :-(\n\n"
-                         "If you wish to use the Clangd_client rather than the older CodeCompletion plugin,\n"
+                         "If you wish to use the Clangd_client rather than the legacy CodeCompletion plugin,\n"
                          "navigate to Plugins->Manage plugins... and disable CodeCompletion, then enable Clangd_client.\n\n"
                          "RESTART CodeBlocks after closing the \"Manage plugins\" dialog.");
         msg << "\n\n-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.\n";
@@ -558,10 +560,10 @@ ClgdCompletion::ClgdCompletion() :
     Bind(wxEVT_COMMAND_MENU_SELECTED, &ClgdCompletion::OnReActivateProject, this,XRCID("OnReActivateProject"));
     Bind(wxEVT_COMMAND_MENU_SELECTED, &ClgdCompletion::OnRequestCodeActionApply, this, XRCID("idRequestCodeActionApply"));
 
-    // Disable old Codecompletion plugin for safety (to avoid conflict crashes)
+    // Disable legacy CodeCompletion plugin for safety (to avoid conflict crashes)
     // Note that if there's no plugin entry in the .conf, a plugin gets loaded and run
     // even though ConfigManager states it's not enabled. OnAttach() gets called anyway.
-    // Since clangd_client is about to run, make sure old CodeCompletion cannot.
+    // Since clangd_client is about to run, make sure legacy CodeCompletion cannot.
     Manager::Get()->GetConfigManager(_T("plugins"))->Write(_T("/codecompletion"), false );
 
     // Allow clangd_client to initialize
@@ -622,18 +624,18 @@ void ClgdCompletion::OnAttach()
         return;
     }
 
-    // clangd_client cannot run if old CodeCompletion plugin is able to run
+    // clangd_client cannot run if legacy CodeCompletion plugin is able to run
     m_OldCC_enabled = IsOldCCEnabled();
 
     if (m_OldCC_enabled)
     {
-        // Old CodeCompletion is loaded and running
+        // legacy CodeCompletion is loaded and running
 
         //SetClangdClient_Disabled(); //<< This won't work here. PluginManger will enable on return anyway.
 
         wxString msg = _("The Clangd client plugin cannot run while the \"Code completion\" plugin is enabled.\n"
                          "The Clangd client plugin will now inactivate itself. :-(\n\n"
-                         "If you wish to use the Clangd_client rather than the older CodeCompletion plugin,\n"
+                         "If you wish to use the Clangd_client rather than the legacy CodeCompletion plugin,\n"
                          "navigate to Plugins->Manage plugins... and disable CodeCompletion, then enable Clangd_client.\n\n"
                          "RESTART CodeBlocks after closing the \"Manage plugins\" dialog.");
         msg << "\n\n-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.\n";
@@ -653,7 +655,6 @@ void ClgdCompletion::OnAttach()
                 GetParseManager()->FindEventHandler(this)->SetEvtHandlerEnabled(false);
         }
         pInfo->version = appVersion.GetVersion().BeforeFirst(' ') + " Inactive";
-        ////m_IsAttached = false; Causes asserts when re-enabled
         return;
     }//endif Old CC is running
 
@@ -833,14 +834,33 @@ void ClgdCompletion::OnRelease(bool appShutDown)
 
     // If the plugins is being disabled only (ie., CB is NOT shutting down)
     // emit a warning that CB should be reloaded to clear out resouces that may
-    // conflict with enabling old CodeCompletion.
+    // conflict with enabling legacy CodeCompletion.
     if (not appShutDown)
     {
-        wxString msg = _("You should RESTART Code::Blocks to remove Clangd_Client resource\n"
-                         "  if you intend to re-enable the older CodeCompletion plugin.");
-        cbMessageBox(msg, _("RESTART required"), wxOK, GetTopWxWindow());
-    }
-}
+        wxString msg = _("You should RESTART Code::Blocks to remove Clangd_Client resources\n"
+                         "  if you intend to re-enable the legacy CodeCompletion plugin.");
+
+        //wxWindow* pTopWindow = GetTopWxWindow();
+        wxWindow* pManageWindow = wxFindWindowByName(_("Manage plugins"));
+        if(pManageWindow)
+        {
+            // Use ShowWindowModal() to avoid Linux shifting this dlg behind current window
+            wxMessageDialog dlg(pManageWindow,
+                msg,
+                _("RESTART required"),
+                wxOK|wxSTAY_ON_TOP|wxCAPTION|wxCENTRE);
+            PlaceWindow(&dlg);
+            #ifdef __WXGTK__
+                // For Linux Use ShowWindowModal() instead of ShowModal()
+                // otherwise this message can hide behind the "Manage plugins window"
+                // when using "focus follows mouse"
+            dlg.ShowWindowModal();
+            #else
+            dlg.ShowModal();
+            #endif
+        }
+    }//endif appShutDown
+}//endif OnRelease
 // ----------------------------------------------------------------------------
 cbConfigurationPanel* ClgdCompletion::GetConfigurationPanel(wxWindow* parent)
 // ----------------------------------------------------------------------------
@@ -1045,6 +1065,22 @@ void ClgdCompletion::BuildModuleMenu(const ModuleType type, wxMenu* menu, const 
         if (wxFound(insertId) and pEditor and (not GetLSP_Initialized(pEditor)) )
             menu->Enable(insertId, false);
 
+        // Try to append after "Format use AStyle" else append at end.
+        const wxString labelAStyle = _("Format use AStyle");
+        const wxString label = _("Format use Clangd"); // (christo 25/05/02)
+        size_t position = Manager::Get()->GetPluginManager()->FindSortedMenuItemPosition(*menu, labelAStyle);
+        //size_t menuKnt = menu->GetMenuItemCount(); // **Debugging**
+        if (position < menu->GetMenuItemCount())
+        {
+            wxMenuItem* item = menu->FindItemByPosition(position);
+            if (item)
+            {
+                wxString itemLabel = item->GetItemLabelText();
+                if (itemLabel == labelAStyle)
+                    position += 1;
+            }
+        }
+        menu->Insert(position, idCodeFormatterActiveFile, label, _("Format the selected source code (selected line) in the current file"));
     }
     else if (type == mtProjectManager)
     {
@@ -1107,21 +1143,6 @@ void ClgdCompletion::OnWindowActivated(wxActivateEvent& event) //on Window activ
 {
     event.Skip();
     if (m_CC_initDeferred) return;
-
-    // Only works for the main loop. Does not show activated dialogs
-
-    ////wxWindow* activatedWindow;
-    ////int       activatedID;
-    //////Reason    activatedReason; only for MSW
-    ////if (event.GetActive())
-    ////{
-    ////    wxWindow* activatedWindow = dynamic_cast<wxWindow*>(event.GetEventObject());
-    ////    wxString winTitle = activatedWindow->GetLabel();
-    ////    int       activatedID = event.GetId();
-    ////    if (winTitle == "Manage plugins") asm("int3"); /*trap*/
-    ////    Manager::Get()->GetLogManager()->DebugLog(winTitle);
-    ////    //Reason    activatedReason = event.GetReason(); Ony works for MSW
-    ////}
  }
 // --------------------------------------------------------------
 void ClgdCompletion::OnPluginAttached(CodeBlocksEvent& event)
@@ -1154,7 +1175,7 @@ void ClgdCompletion::OnPluginAttached(CodeBlocksEvent& event)
         if (infoName =="codecompletion")
         {
             isOldCodeCompletion = true;
-            //Make sure manager sets old Codecompletion enabled
+            //Make sure manager sets legacy CodeCompletion enabled
             Manager::Get()->GetConfigManager(_T("plugins"))->Write(_T("/codecompletion"), true );
             m_OldCC_enabled = true;
             // Tell Manager to disable Clangd_client
@@ -1162,13 +1183,13 @@ void ClgdCompletion::OnPluginAttached(CodeBlocksEvent& event)
         }
     }
 
-    // Old CodeCompletion should never be running at same time as clangd_client
+    // Legacy CodeCompletion should never be running at same time as clangd_client
     if ((not m_CC_initDeferred) and isOldCodeCompletion)
     {
         PluginElement* pPluginElement = pPlgnMgr->FindElementByName("CodeCompletion");
         wxString plgnFilename = pPluginElement ? pPluginElement->fileName : wxString();
-        // clangd_client is running and old codecompletion plugin is being loaded.
-        wxString msg = _("The old CodeCompletion plugin should not be enabled when 'Clangd_client' is running.\n"
+        // clangd_client is running and legacy CodeCompletion plugin is being loaded.
+        wxString msg = _("The CodeCompletion plugin should not be enabled when 'Clangd_client' is running.\n"
                          "The plugins are not compatible with one another.\n\n"
                          "Disable either CodeCompletion or Clangd_client and\n"
                          "RESTART Code::Blocks to avoid crashes and effects of incompatibilities.");
@@ -1183,21 +1204,36 @@ void ClgdCompletion::OnPluginAttached(CodeBlocksEvent& event)
     if ( isClangdClientPlugin and (not m_InitDone)
             and (not m_CC_initDeferred) and ns_DefaultCompilerMasterPath.Length() )
     {
-        wxWindow* pTopWindow = wxFindWindowByName(_("Manage plugins"));
+        wxWindow* pTopWindow = GetTopWxWindow();
+        wxWindow* pManageWindow = wxFindWindowByName(_("Manage plugins"));
         // If this is a response to the user just having enabled Clangd_Client,
         // we need to call OnAppStartupDone to fully initialize.
         cbPlugin* pPlugin = event.GetPlugin();
-        if (pPlugin and pTopWindow)
+        if (pPlugin && pManageWindow && pTopWindow)
         {
-            cbMessageBox(_("Clangd_Client plugin needs you to RESTART codeblocks before it can function properly."),
-                            _("CB restart needed"), wxOK, pTopWindow);
+            // Use wxMessageDialog to avoid being hidden behind "Manage plugins" dialog
+            // window when "focus follows mouse"
+            wxMessageDialog dlg(pManageWindow,
+                _("Clangd_Client plugin needs you to RESTART codeblocks..."),
+                _("CB restart needed"),
+                wxOK | wxSTAY_ON_TOP | wxCAPTION | wxCENTRE);
+            PlaceWindow(&dlg);
+            #ifdef __WXGTK__
+                // For Linux, use ShowWindowModal() else window can be hidden behind
+                // the "Manage plugins" dialog when using "focus follows mouse"
+                dlg.ShowWindowModal();
+            #else
+                dlg.ShowModal();
+            #endif
+
             CallAfter(&ClgdCompletion::OnPluginEnabled); //calls OnAppStartupDone()
-        }
+        }//endif pPlugin
+
         return;
-    }
+    }//endif isClangdClientPlugin...
 
     // ----------------------------------------------------------------------------
-    // What we do if old CodeCompletion gets enabled while clangd_client is running.
+    // What we do if legacy CodeCompletion gets enabled while clangd_client is running.
     // ----------------------------------------------------------------------------
     cbPlugin* plug = event.GetPlugin();
     if (plug and clgdEnabled)
@@ -1206,7 +1242,7 @@ void ClgdCompletion::OnPluginAttached(CodeBlocksEvent& event)
         wxString msg = info ? info->title : wxString(_("<Unknown plugin>"));
         if (info->name == "CodeCompletion")
         {
-            wxString msg = _("The old CodeCompletion plugin should not be enabled when 'Clangd_client' is running.\n"
+            wxString msg = _("The CodeCompletion plugin should not be enabled when 'Clangd_client' is running.\n"
                              "The plugins are not compatible with one another.\n\n"
                              "Disable either CodeCompletion or Clangd_client and\n"
                              "RESTART Code::Blocks to avoid crashes and effects of incompatibilities.");
@@ -1215,7 +1251,7 @@ void ClgdCompletion::OnPluginAttached(CodeBlocksEvent& event)
         //Manager::Get()->GetLogManager()->DebugLog(F(_T("%s plugin activated"), msg.wx_str())); // **Debugging**
         if ( info->name.Lower() == "clangd_client" )
         {
-            // This means that old CodeCompletion should be disabled.
+            // This means that legacy CodeCompletion should be disabled.
             // But there's no way to do that from here.
         }
     }
@@ -1262,8 +1298,6 @@ void ClgdCompletion::OnCompilerMenuSelected(wxCommandEvent& event)
 void ClgdCompletion::OnCompilerStarted(CodeBlocksEvent& event)
 // ----------------------------------------------------------------------------
 {
-    ////If this is a idCompileMenuRun only, do not set compiler is running
-    //// else we'll hang before nightly rev 12975 fix
     //#warning Developer should remove the line below when using CB rev 12975 and above.
     //if (ns_CompilerEventId == XRCID("idCompilerMenuRun")) return;
     // Above code remove. No longer necessary after Nightly 221022
@@ -1498,51 +1532,6 @@ static int CalcStcFontSize(cbStyledTextCtrl *stc)
     int fontSize;
     stc->GetTextExtent(wxT("A"), nullptr, &fontSize, nullptr, nullptr, &defaultFont);
     return fontSize;
-}
-// ----------------------------------------------------------------------------
-// UNUSED for clangd at present (2021/10/14) but may be useful in the future
-void ClgdCompletion::DoCodeCompletePreprocessor(int tknStart, int tknEnd, cbEditor* ed, std::vector<CCToken>& tokens)
-// ----------------------------------------------------------------------------
-{
-    cbStyledTextCtrl* stc = ed->GetControl();
-    if (stc->GetLexer() != wxSCI_LEX_CPP)
-    {
-        const FileType fTp = FileTypeOf(ed->GetShortName());
-        if (   fTp != ftSource
-            && fTp != ftHeader
-            && fTp != ftTemplateSource
-            && fTp != ftResource )
-        {
-            return; // not C/C++
-        }
-    }
-    const wxString text = stc->GetTextRange(tknStart, tknEnd);
-
-    wxStringVec macros;
-    macros.push_back(wxT("define"));
-    macros.push_back(wxT("elif"));
-    macros.push_back(wxT("elifdef"));
-    macros.push_back(wxT("elifndef"));
-    macros.push_back(wxT("else"));
-    macros.push_back(wxT("endif"));
-    macros.push_back(wxT("error"));
-    macros.push_back(wxT("if"));
-    macros.push_back(wxT("ifdef"));
-    macros.push_back(wxT("ifndef"));
-    macros.push_back(wxT("include"));
-    macros.push_back(wxT("line"));
-    macros.push_back(wxT("pragma"));
-    macros.push_back(wxT("undef"));
-    const wxString idxStr = F(wxT("\n%d"), PARSER_IMG_MACRO_DEF);
-    for (size_t i = 0; i < macros.size(); ++i)
-    {
-        if (text.IsEmpty() || macros[i][0] == text[0]) // ignore tokens that start with a different letter
-            tokens.push_back(CCToken(wxNOT_FOUND, macros[i], PARSER_IMG_MACRO_DEF));
-    }
-    stc->ClearRegisteredImages();
-    const int fontSize = CalcStcFontSize(stc);
-    stc->RegisterImage(PARSER_IMG_MACRO_DEF,
-                       GetParseManager()->GetImageList(fontSize)->GetBitmap(PARSER_IMG_MACRO_DEF));
 }
 // ----------------------------------------------------------------------------
 std::vector<ClgdCompletion::CCCallTip> ClgdCompletion::GetCallTips(int pos, int style, cbEditor* ed, int& argsPos)
@@ -1813,9 +1802,9 @@ void ClgdCompletion::LSP_DoAutocomplete(const CCToken& token, cbEditor* ed)
                     //CC_LOCKER_TRACK_TT_MTX_LOCK(s_TokenTreeMutex)
                     // ----------------------------------------------------------------------------
                     /// Lock token tree. Unlock occurs in UnlockTokenTree struct dtor above
-                    auto locker_result = s_TokenTreeMutex.LockTimeout(250);
+                    auto locker_result = CCLogger::Get()->GetTimedMutexLock(s_TokenTreeMutex); //(ph 250526)
                     wxString lockFuncLine = wxString::Format("%s_%d", __FUNCTION__, __LINE__);
-                    if (locker_result != wxMUTEX_NO_ERROR)
+                    if (locker_result != true)
                     {
                         // lock failed, do not block the UI thread
                         m_CCHasTreeLock = false;
@@ -2166,9 +2155,9 @@ void ClgdCompletion::OnGotoFunction(cb_unused wxCommandEvent& event)
     // -----------------------------------------------------
     //CC_LOCKER_TRACK_TT_MTX_LOCK(s_TokenTreeMutex)
     // -----------------------------------------------------
-    auto locker_result = s_TokenTreeMutex.LockTimeout(250);
+    auto locker_result = CCLogger::Get()->GetTimedMutexLock(s_TokenTreeMutex); //(ph 250526)
     wxString lockFuncLine = wxString::Format("%s_%d", __FUNCTION__, __LINE__);
-    if (locker_result != wxMUTEX_NO_ERROR)
+    if (locker_result != true)
     {
         // lock failed, do not block the UI thread, call back when idle
         if (GetParseManager()->GetIdleCallbackHandler(pActiveProject)->IncrQCallbackOk(lockFuncLine))
@@ -2601,9 +2590,9 @@ void ClgdCompletion::OnCurrentProjectReparse(wxCommandEvent& event)
     // CC_LOCKER_TRACK_TT_MTX_LOCK(s_TokenTreeMutex)
     // ----------------------------------------------------
     // If lock is busy, queue a callback for idle time
-    auto locker_result = s_TokenTreeMutex.LockTimeout(250);
+    auto locker_result = CCLogger::Get()->GetTimedMutexLock(s_TokenTreeMutex); //(ph 250526)
     wxString lockFuncLine = wxString::Format("%s_%d", __FUNCTION__, __LINE__);
-    if (locker_result != wxMUTEX_NO_ERROR)
+    if (locker_result != true)
     {
         // lock failed, do not block the UI thread, call back when idle
         if (GetIdleCallbackHandler()->IncrQCallbackOk(lockFuncLine))
@@ -2680,9 +2669,9 @@ void ClgdCompletion::OnReparseSelectedProject(wxCommandEvent& event)
     // CC_LOCKER_TRACK_TT_MTX_LOCK(s_TokenTreeMutex)
     // ----------------------------------------------------
     // If lock is busy, queue a callback for idle time
-    auto locker_result = s_TokenTreeMutex.LockTimeout(250);
+    auto locker_result = CCLogger::Get()->GetTimedMutexLock(s_TokenTreeMutex); //(ph 250526)
     wxString lockFuncLine = wxString::Format("%s_%d", __FUNCTION__, __LINE__);
-    if (locker_result != wxMUTEX_NO_ERROR)
+    if (locker_result != true)
     {
         // lock failed, do not block the UI thread, call back when idle
         if (GetIdleCallbackHandler()->IncrQCallbackOk(lockFuncLine))
@@ -2980,7 +2969,7 @@ void ClgdCompletion::OnLSP_EditorFileReparse(wxCommandEvent& event)
             //      to cause a background parse.
             wxString filename = pf->file.GetFullPath();
 
-            //// **Debugging** show status of parse pausing map
+            // **Debugging** show status of parse pausing map
             //wxArrayString pauseParsingReasons;
             //Parser* pParser = (Parser*)GetParseManager()->GetParserByProject(pProject);
             //if (pParser) pParser->GetArrayOfPauseParsingReasons(pauseParsingReasons);
@@ -3048,7 +3037,7 @@ void ClgdCompletion::OnSpecifiedFileReparse(wxCommandEvent& event)
             //      to cause a background parse.
             wxString filename = pf->file.GetFullPath();
 
-            //// **Debugging** show status of parse pausing map
+            // **Debugging** show status of parse pausing map
             //wxArrayString pauseParsingReasons;
             //Parser* pParser = (Parser*)GetParseManager()->GetParserByProject(pProject);
             //if (pParser) pParser->GetArrayOfPauseParsingReasons(pauseParsingReasons);
@@ -3117,11 +3106,14 @@ void ClgdCompletion::OnAppStartupDone(CodeBlocksEvent& event)
     }
     else //no cfgClangMasterPath set
     {
+        // Try to auto-locate the clangd executable
         ClangLocator clangLocator;
         wxFileName fnClangdPath(clangLocator.Locate_ClangdDir(), clangdexe);
-
         wxString msg;
-        msg << _("The clangd path has not been set.\n");
+        if (not fnClangdPath.FileExists())
+            msg << _("A path containing clangd has not been found.\n");
+        else
+            msg << _("A path containing clangd has been found.\n");
 
         if (fnClangdPath.FileExists())
         {
@@ -3152,7 +3144,7 @@ void ClgdCompletion::OnAppStartupDone(CodeBlocksEvent& event)
         return;
     }
 
-    if (!m_InitDone)
+    if (not m_InitDone)
     {
         // Set a timer callback to allow time for the splash screen to clear.
         // Allows CB to appear to start faster.
@@ -3727,6 +3719,11 @@ void ClgdCompletion::OnLSP_Event(wxCommandEvent& event)
     {
         Parser* pParser = (Parser*)GetParseManager()->GetParserByProject(pProject);
         pParser->OnLSP_RequestedSemanticTokensResponse(event);
+    }
+    else if (evtString.StartsWith("textDocument/rangeFormatting")) // (christo 25/05/02)
+    {
+        Parser* pParser = (Parser*)GetParseManager()->GetParserByProject(pProject);
+        pParser->OnLSP_RangeFormattingResponse(event);
     }
 }
 // ----------------------------------------------------------------------------
@@ -4469,9 +4466,9 @@ int ClgdCompletion::DoClassMethodDeclImpl()
     // CC_LOCKER_TRACK_TT_MTX_LOCK(s_TokenTreeMutex)
     // ----------------------------------------------------
     // Do not block the main UI. If the lock is busy, this code re-queues a callback on idle time.
-    auto lock_result = s_TokenTreeMutex.LockTimeout(250);
+    auto locker_result = CCLogger::Get()->GetTimedMutexLock(s_TokenTreeMutex); //(ph 250526)
     wxString lockFuncLine = wxString::Format("%s_%d", __FUNCTION__, __LINE__);
-    if (lock_result != wxMUTEX_NO_ERROR)
+    if (locker_result != true)
     {
         // lock failed, don't block UI thread, requeue a callback on the idle queue instead.
         if (GetIdleCallbackHandler()->IncrQCallbackOk(lockFuncLine))
@@ -4548,9 +4545,9 @@ int ClgdCompletion::DoAllMethodsImpl()
     // ----------------------------------------------------
     // CC_LOCKER_TRACK_TT_MTX_LOCK(s_TokenTreeMutex)
     // ----------------------------------------------------
-    auto lock_result = s_TokenTreeMutex.LockTimeout(250);
+    auto locker_result = CCLogger::Get()->GetTimedMutexLock(s_TokenTreeMutex); //(ph 250526)
     wxString lockFuncLine = wxString::Format("%s_%d", __FUNCTION__, __LINE__);
-    if (lock_result != wxMUTEX_NO_ERROR)
+    if (locker_result != true)
     {
         // lock failed, but don't block UI thread, requeue an idle time callback instead.
         if (not GetIdleCallbackHandler()->IncrQCallbackOk(lockFuncLine) ) //verify tries < 8
@@ -5002,9 +4999,9 @@ void ClgdCompletion::ParseFunctionsAndFillToolbar()
         //CC_LOCKER_TRACK_TT_MTX_LOCK(s_TokenTreeMutex)             // LOCK TokenTree
         // -----------------------------------------------------
         // If the lock is busy, a callback is queued for idle time.
-        auto locker_result = s_TokenTreeMutex.LockTimeout(250);
+        auto locker_result = CCLogger::Get()->GetTimedMutexLock(s_TokenTreeMutex); //(ph 250526)
         wxString lockFuncLine = wxString::Format("%s_%d", __FUNCTION__, __LINE__);
-        if (locker_result != wxMUTEX_NO_ERROR)
+        if (locker_result != true)
         {
             // lock failed, do not block the UI thread, call back when idle
             if (GetIdleCallbackHandler()->IncrQCallbackOk(lockFuncLine))
@@ -5364,9 +5361,9 @@ void ClgdCompletion::UpdateEditorSyntax(cbEditor* ed)
     //CC_LOCKER_TRACK_TT_MTX_LOCK(s_TokenTreeMutex)
     // -----------------------------------------------------
     // Avoid blocking main thread, If the lock is busy, queue a callback at idle time.
-    auto locker_result = s_TokenTreeMutex.LockTimeout(250);
+    auto locker_result = CCLogger::Get()->GetTimedMutexLock(s_TokenTreeMutex); //(ph 250526)
     wxString lockFuncLine = wxString::Format("%s_%d", __FUNCTION__, __LINE__);
-    if (locker_result != wxMUTEX_NO_ERROR)
+    if (locker_result != true)
     {
         // lock failed, do not block the UI thread, call back when idle
         if (GetIdleCallbackHandler()->IncrQCallbackOk(lockFuncLine))
@@ -5915,4 +5912,21 @@ bool ClgdCompletion::DoShowDiagnostics( cbEditor* ed, int line)  //(Christo 2024
 // ----------------------------------------------------------------------------
 {
 	return m_pParseManager->DoShowDiagnostics(ed->GetFilename(), line);
+}
+// ----------------------------------------------------------------------------
+void ClgdCompletion::OnFormatActiveFile(wxCommandEvent& event)  // (christo 25/05/02)
+// ----------------------------------------------------------------------------
+{
+    cbEditor* pEditor = Manager::Get()->GetEditorManager()->GetBuiltinActiveEditor();
+    if (!pEditor)
+        return;
+    cbStyledTextCtrl* control = pEditor->GetControl();
+    if (control->GetReadOnly())
+    {
+        cbMessageBox(_("The file is read-only!"), _("Error"), wxICON_ERROR);
+        return;
+    }
+    GetLSPClient(pEditor)->LSP_RequestRangeFormatting(pEditor);
+
+    return;
 }

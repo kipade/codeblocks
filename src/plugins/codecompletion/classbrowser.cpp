@@ -2,12 +2,12 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13619 $
- * $Id: classbrowser.cpp 13619 2025-02-21 08:03:13Z wh11204 $
+ * $Revision: 13674 $
+ * $Id: classbrowser.cpp 13674 2025-06-27 18:05:22Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/classbrowser.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
 
 #ifndef CB_PRECOMP
     #include <wx/button.h>
@@ -25,21 +25,21 @@
     #include <wx/tipwin.h>
     #include <wx/xrc/xmlres.h>
 
-    #include <cbauibook.h>
-    #include <cbeditor.h>
-    #include <cbproject.h>
-    #include <configmanager.h>
-    #include <editormanager.h>
-    #include <globals.h>
-    #include <logmanager.h>
-    #include <manager.h>
-    #include <pluginmanager.h>
-    #include <projectmanager.h>
+    #include "cbauibook.h"
+    #include "cbeditor.h"
+    #include "cbproject.h"
+    #include "configmanager.h"
+    #include "editormanager.h"
+    #include "globals.h"
+    #include "logmanager.h"
+    #include "manager.h"
+    #include "pluginmanager.h"
+    #include "projectmanager.h"
 #endif
 
 #include <wx/tokenzr.h>
 
-#include <cbstyledtextctrl.h>
+#include "cbstyledtextctrl.h"
 
 #include "classbrowser.h" // class's header file
 #include "parsemanager.h"

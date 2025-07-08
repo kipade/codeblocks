@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13003 $
- * $Id: editorbase.cpp 13003 2022-11-08 08:50:45Z wh11204 $
+ * $Revision: 13642 $
+ * $Id: editorbase.cpp 13642 2025-03-25 17:19:34Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/sdk/editorbase.cpp $
  */
 
@@ -165,9 +165,12 @@ void EditorBase::SetTitle(const wxString& newTitle)
     cbAuiNotebook* nb = Manager::Get()->GetEditorManager()->GetNotebook();
     if (nb)
     {
-        int idx = nb->GetPageIndex(this);
-        nb->SetPageToolTip(idx, toolTip);
-        Manager::Get()->GetEditorManager()->MarkReadOnly(idx, IsReadOnly() || (fname.FileExists() && !wxFile::Access(fname.GetFullPath(), wxFile::write)) );
+        const int idx = nb->GetPageIndex(this);
+        if (idx != wxNOT_FOUND)
+        {
+            nb->SetPageToolTip(idx, toolTip);
+            Manager::Get()->GetEditorManager()->MarkReadOnly(idx, IsReadOnly() || (fname.FileExists() && !wxFile::Access(fname.GetFullPath(), wxFile::write)));
+        }
     }
 }
 

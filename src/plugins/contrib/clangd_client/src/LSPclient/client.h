@@ -134,7 +134,7 @@ class LanguageClient : public JsonTransport
             SendNotify("workspace/didChangeConfiguration", std::move(params));
         }
 
-        RequestID RangeFomatting(DocumentUri uri, Range range) {
+        RequestID RangeFormatting(DocumentUri uri, Range range) {   // (christo 25/05/02)
             DocumentRangeFormattingParams params;
             params.textDocument.uri = std::move(uri);
             params.range = range;
@@ -379,9 +379,6 @@ class ProcessLanguageClient : public wxEvtHandler, private LanguageClient
         // Project needs to remove .cache and compile_commands.json at close
         // probably because they were copied when the project moved.
         std::vector<wxString> m_vProjectNeedsCleanup; //project .cbp full path names
-
-        // FIXME (ph#): This is no longer needed since clangd version 12
-        ////-int             m_LSP_CompileCommandsChangedTime = 0; //contains eon time-of-day in milliseconds
 
         wxArrayString   m_LSP_aIgnoredDiagnostics;
 
@@ -788,6 +785,7 @@ class ProcessLanguageClient : public wxEvtHandler, private LanguageClient
     void LSP_GoToDeclaration(cbEditor* pcbEd, int edCaretPosition, size_t rrid=0);
     void LSP_FindReferences(cbEditor* pEd, int caretPosn);
     void LSP_RequestRename(cbEditor* pEd, int argCaretPosition, wxString newName);        //(cb 2021/10/12)
+    void LSP_RequestRangeFormatting(cbEditor* pEd);     // (christo 25/05/02)
     void LSP_RequestSymbols(cbEditor* pEd, size_t rrid=0);
     void LSP_RequestSymbols(wxString filename, cbProject* pProject, size_t rrid=0);
     void LSP_RequestSemanticTokens(cbEditor* pEd, size_t rrid=0); //(cb 2021/03/16)
@@ -807,16 +805,6 @@ class ProcessLanguageClient : public wxEvtHandler, private LanguageClient
 
     bool ClientProjectOwnsFile(cbEditor* pcbEd, bool notify=true);
     cbProject* GetProjectFromEditor(cbEditor* pcbEd);
-
-// No longer needed since clangd version 12
-////    int   GetCompileCommandsChangedTime()
-////        {return m_LSP_CompileCommandsChangedTime;}
-////    void  SetCompileCommandsChangedTime(bool trueOrFalse)
-////        {
-////            if (trueOrFalse)
-////                m_LSP_CompileCommandsChangedTime = GetNowMilliSeconds();
-////            else m_LSP_CompileCommandsChangedTime = 0;
-////        }
 
     // array of user designated log messages to ignore
     // ----------------------------------------------------------------------------

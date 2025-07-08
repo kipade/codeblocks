@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13404 $
- * $Id: debugger_defs.cpp 13404 2023-12-09 19:02:13Z wh11204 $
+ * $Revision: 13675 $
+ * $Id: debugger_defs.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/debuggergdb/debugger_defs.cpp $
  */
 
@@ -16,7 +16,8 @@
 #include <wx/frame.h>
 #include "manager.h"
 #endif
-#include <cbdebugger_interfaces.h>
+
+#include "cbdebugger_interfaces.h"
 #include "debugger_defs.h"
 #include "debuggerdriver.h"
 #include "debuggergdb.h"

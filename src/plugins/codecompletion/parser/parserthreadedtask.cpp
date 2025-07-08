@@ -2,18 +2,18 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 11505 $
- * $Id: parserthreadedtask.cpp 11505 2018-10-20 14:29:48Z ollydbg $
+ * $Revision: 13675 $
+ * $Id: parserthreadedtask.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parser/parserthreadedtask.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
 
 #ifndef CB_PRECOMP
     #include <wx/string.h>
 
-    #include <cbproject.h>
-    #include <projectfile.h>
+    #include "cbproject.h"
+    #include "projectfile.h"
 #endif
 
 #include "parserthreadedtask.h"

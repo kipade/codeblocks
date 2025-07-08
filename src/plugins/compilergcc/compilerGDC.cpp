@@ -2,13 +2,14 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 12999 $
- * $Id: compilerGDC.cpp 12999 2022-11-01 13:12:28Z wh11204 $
+ * $Revision: 13675 $
+ * $Id: compilerGDC.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/compilergcc/compilerGDC.cpp $
  */
 
-#include <sdk.h>
-#include <prep.h>
+#include "sdk.h"
+
+#include "prep.h"
 #include "compilerGDC.h"
 #include <wx/intl.h>
 #include <wx/regex.h>
@@ -18,7 +19,7 @@
 #include "manager.h"
 #include "logmanager.h"
 
-#include <configmanager.h>
+#include "configmanager.h"
 
 #ifdef __WXMSW__
     #include <wx/msw/registry.h>

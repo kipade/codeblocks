@@ -2,12 +2,13 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13619 $
- * $Id: searchtree.cpp 13619 2025-02-21 08:03:13Z wh11204 $
+ * $Revision: 13675 $
+ * $Id: searchtree.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parser/searchtree.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
+
 #include "searchtree.h"
 
 // *** SearchTreeIterator ***

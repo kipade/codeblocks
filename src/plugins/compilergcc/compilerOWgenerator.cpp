@@ -2,12 +2,13 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 8649 $
- * $Id: compilerOWgenerator.cpp 8649 2012-12-12 19:18:18Z mortenmacfly $
+ * $Revision: 13675 $
+ * $Id: compilerOWgenerator.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/compilergcc/compilerOWgenerator.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
+
 #ifndef CB_PRECOMP
 #   include "compiler.h"
 #   include "cbproject.h"

@@ -2,30 +2,30 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 12795 $
- * $Id: cdb_driver.cpp 12795 2022-04-16 03:47:18Z ollydbg $
+ * $Revision: 13675 $
+ * $Id: cdb_driver.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/debuggergdb/cdb_driver.cpp $
  */
 
-#include <sdk.h>
+#include "sdk.h"
 
 #ifndef CB_PRECOMP
-    #include <cbproject.h>
-    #include <cbexception.h>
-    #include <configmanager.h>
-    #include <debuggermanager.h>
-    #include <globals.h>
-    #include <infowindow.h>
-    #include <logmanager.h>
-    #include <manager.h>
-    #include <projectbuildtarget.h>
+    #include "cbproject.h"
+    #include "cbexception.h"
+    #include "configmanager.h"
+    #include "debuggermanager.h"
+    #include "globals.h"
+    #include "infowindow.h"
+    #include "logmanager.h"
+    #include "manager.h"
+    #include "projectbuildtarget.h"
 #endif
 
 #include "cdb_driver.h"
 #include "cdb_commands.h"
 #include "debuggeroptionsdlg.h"
 
-#include <cbdebugger_interfaces.h>
+#include "cbdebugger_interfaces.h"
 
 // Parse CDB prompts. Support both 32 and 64 bit inferiors
 // The strings looks something like this:

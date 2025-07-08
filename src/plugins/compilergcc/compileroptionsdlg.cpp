@@ -2,13 +2,14 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13366 $
- * $Id: compileroptionsdlg.cpp 13366 2023-09-27 16:44:07Z wh11204 $
+ * $Revision: 13675 $
+ * $Id: compileroptionsdlg.cpp 13675 2025-07-01 11:33:27Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/compilergcc/compileroptionsdlg.cpp $
  */
 
-#include <sdk.h>
-#include <prep.h>
+#include "sdk.h"
+
+#include "prep.h"
 #ifndef CB_PRECOMP
     #include <algorithm>
     #include <wx/arrstr.h>

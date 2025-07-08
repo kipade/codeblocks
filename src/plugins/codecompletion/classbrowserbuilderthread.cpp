@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13675 $
- * $Id: classbrowserbuilderthread.cpp 13675 2025-07-01 11:33:27Z wh11204 $
+ * $Revision: 13676 $
+ * $Id: classbrowserbuilderthread.cpp 13676 2025-07-01 11:39:00Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/classbrowserbuilderthread.cpp $
  */
 
@@ -21,7 +21,7 @@
     #include "cbproject.h"
     #include "cbstyledtextctrl.h"
     #include "globals.h"
-    #include "logmanager.h""
+    #include "logmanager.h"
     #include "manager.h"
     #include "projectmanager.h"
 #endif

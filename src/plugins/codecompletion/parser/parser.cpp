@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13624 $
- * $Id: parser.cpp 13624 2025-03-02 17:49:18Z mortenmacfly $
+ * $Revision: 13655 $
+ * $Id: parser.cpp 13655 2025-04-21 20:51:42Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parser/parser.cpp $
  */
 
@@ -1013,8 +1013,16 @@ void Parser::WriteOptions(bool classBrowserOnly)
 void Parser::ShowGlobalChangeAnnoyingMsg()
 // ----------------------------------------------------------------------------
 {
+    if (Manager::IsAppShuttingDown()) return;
+
     // Tell the user that global changes are not applied until projects are reparsed.
     ParseManager* pParseMgr = (ParseManager*)m_Parent;
+
+    // Issue warning message only for CodeCompletion global options change
+    wxString activePageTitle = pParseMgr->GetConfigListSelection();
+    if (not ((activePageTitle == "Code completion") or (activePageTitle == _("Code completion"))) )
+        return;
+
 
     // Get number of active parsers (from m_ParserList)
     std::unordered_map<cbProject*,ParserBase*>* pActiveParsers = pParseMgr->GetActiveParsers();

@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13636 $
- * $Id: parser.cpp 13636 2025-03-20 17:25:57Z pecanh $
+ * $Revision: 13638 $
+ * $Id: parser.cpp 13638 2025-03-22 09:21:54Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parser/parser.cpp $
  */
 
@@ -1567,7 +1567,7 @@ void Parser::ShowGlobalChangeAnnoyingMsg()
                        "on the project title in the Workspace tree and selecting\n"
                        "'Reparse current project'.");
 
-        AnnoyingDialog dlg(_("Global settings warning"), _(warningMsg), wxART_WARNING,
+        AnnoyingDialog dlg(_("Global settings warning"), warningMsg, wxART_WARNING,
                            AnnoyingDialog::OK);
         dlg.ShowModal();
     }//endif size

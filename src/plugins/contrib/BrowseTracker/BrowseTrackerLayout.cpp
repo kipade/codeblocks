@@ -16,7 +16,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-// RCS-ID: $Id: BrowseTrackerLayout.cpp 13673 2025-06-26 15:54:00Z pecanh $
+// RCS-ID: $Id: BrowseTrackerLayout.cpp 13672 2025-06-23 18:55:37Z pecanh $
 
 /*
 * This file is part of Code::Bocks, an open-source cross-platform IDE
@@ -25,8 +25,8 @@
 * This program is distributed under the terms of the GNU General Public License as published by
 * the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 *
-* $Revision: 13673 $
-* $Id: BrowseTrackerLayout.cpp 13673 2025-06-26 15:54:00Z pecanh $
+* $Revision: 13672 $
+* $Id: BrowseTrackerLayout.cpp 13672 2025-06-23 18:55:37Z pecanh $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/BrowseTracker/BrowseTrackerLayout.cpp $
 */
 
@@ -44,7 +44,7 @@
     #include "cbeditor.h"
     #include "cbproject.h"
 #endif
-#include "logmanager.h" // (ph 25/06/24)
+
 #include <wx/tokenzr.h>
 #include <tinyxml.h>
 #include <tinywxuni.h>

@@ -4,7 +4,6 @@
 #include <sdk.h> // Code::Blocks SDK
 #include <configurationpanel.h>
 #include <cbstyledtextctrl.h>
-#include <logmanager.h> // (ph 25/06/24)
 #include <projectmanager.h>
 #include <editormanager.h>
 #include <cbeditor.h>
@@ -504,9 +503,7 @@ void JumpTracker::OnMouseMove(wxMouseEvent& event) {
 void JumpTracker::OnLeftUp(wxMouseEvent& event) {
     // ----------------------------------------------------------------------------
     if (m_leftDown && (not m_isDragging)) {
-        // Pure click (no drag) occurred, nothing to do
-        // clear left-Down and m_isDragging anyway. // (blauzahn 25/06/22)
-        ;
+        // Pure click (no drag) occurred
     }
     m_leftDown = m_isDragging = false;
     event.Skip();

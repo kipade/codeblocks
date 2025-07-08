@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
-+ * $Revision: 13636 $
-+ * $Id: codecompletion.cpp 13636 2025-03-20 17:25:57Z pecanh $
++ * $Revision: 13660 $
++ * $Id: codecompletion.cpp 13660 2025-05-06 16:36:55Z pecanh $
 + * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/codecompletion.cpp $
  */
 
@@ -124,7 +124,7 @@ static wxString g_GlobalScope(_T("<global>"));
 
 // this auto-registers the plugin
 // ----------------------------------------------------------------------------
-namespace
+namespace //anonymouse
 // ----------------------------------------------------------------------------
 {
     // this auto-registers the plugin
@@ -3088,11 +3088,13 @@ void ClgdCompletion::OnAppStartupDone(CodeBlocksEvent& event)
     }
     else //no cfgClangMasterPath set
     {
+        // Try to auto-locate the clangd executable
         ClangLocator clangLocator;
         wxFileName fnClangdPath(clangLocator.Locate_ClangdDir(), clangdexe);
-
         wxString msg;
-        msg << _("The clangd path has not been set.\n");
+        if (not fnClangdPath.FileExists())
+            msg << _("A path containing clangd has not been found.\n");
+        else msg.Replace(_("not"), "");
 
         if (fnClangdPath.FileExists())
         {
@@ -3123,7 +3125,7 @@ void ClgdCompletion::OnAppStartupDone(CodeBlocksEvent& event)
         return;
     }
 
-    if (!m_InitDone)
+    if (not m_InitDone)
     {
         // Set a timer callback to allow time for the splash screen to clear.
         // Allows CB to appear to start faster.

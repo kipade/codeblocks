@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13654 $
- * $Id: parser.cpp 13654 2025-04-21 18:16:01Z pecanh $
+ * $Revision: 13663 $
+ * $Id: parser.cpp 13663 2025-05-10 21:05:41Z pecanh $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parser/parser.cpp $
  */
 
@@ -3448,6 +3448,86 @@ void Parser::OnLSP_RenameResponse(wxCommandEvent& event)
     }//endif "textDocument/rename"
 
 }//end OnLSP_RenameResponse
+// ----------------------------------------------------------------------------
+void Parser::OnLSP_RangeFormattingResponse(wxCommandEvent& event)  // (christo 25/05/02)
+// ----------------------------------------------------------------------------
+{
+    if (GetIsShuttingDown())
+        return;
+
+    auto* pEditor = Manager::Get()->GetEditorManager()->GetBuiltinActiveEditor();
+    if (!pEditor)
+        return;
+
+    wxString evtString = event.GetString();
+
+    if (!evtString.StartsWith("textDocument/rangeFormatting"))
+        return;
+
+    const wxString editorFile = pEditor->GetFilename();
+    wxFileName fn(editorFile);
+    const wxString editorBasePath(fn.GetPath());
+
+    json* pJson = static_cast<json*>(event.GetClientData());
+    if (!pJson->contains("result"))
+    {
+        if (pJson->contains("error"))
+        {
+            auto& msgObject = (*pJson)["error"];
+            std::string msg = msgObject.contains("message")
+                                  ? msgObject["message"].dump()
+                                  : msgObject.dump();
+
+            CCLogger::Get()->DebugLog(msg);
+            cbMessageBox(wxString::FromUTF8(msg));
+        }
+        else
+        {
+            std::cerr << "textDocument/rangeFormatting json: " << pJson->dump() << std::endl;
+            cbMessageBox("Unexpected LSP response");
+        }
+        return;
+    }
+
+    auto* control = pEditor->GetControl();
+    if (!control)
+        return;
+
+    control->BeginUndoAction();
+    const auto& textEdits = (*pJson)["result"];
+
+    for (auto iter = textEdits.rbegin(); iter != textEdits.rend(); ++iter)
+    {
+        try
+        {
+            const auto& textEdit = *iter;
+            wxString newText = GetwxUTF8Str(textEdit.at("newText").get<std::string>());
+
+            const auto& range = textEdit.at("range");
+            int startLine = range.at("start").at("line").get<int>();
+            int startCol = range.at("start").at("character").get<int>();
+            int endLine = range.at("end").at("line").get<int>();
+            int endCol = range.at("end").at("character").get<int>();
+
+            int startPos = control->PositionFromLine(startLine) + startCol;
+            int endPos = control->PositionFromLine(endLine) + endCol;
+
+            control->SetTargetStart(startPos);
+            control->SetTargetEnd(endPos);
+            control->ReplaceTarget(newText);
+        }
+        catch (const std::exception& err)
+        {
+            fprintf(stderr, "Parser::%s:%d [%p] Exception: %s\nTextEdit: %s\n",
+                    __FUNCTION__, __LINE__, this, err.what(), iter->dump().c_str());
+
+            wxString errMsg = wxString::Format("ERROR: %s: %s", __FUNCTION__, err.what());
+            CCLogger::Get()->DebugLogError(errMsg);
+        }
+    }
+
+    control->EndUndoAction();
+}
 // ----------------------------------------------------------------------------
 void Parser::OnLSP_GoToPrevFunctionResponse(wxCommandEvent& event)  //response from LSPserver
 // ----------------------------------------------------------------------------

@@ -15,12 +15,12 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13547 $
-* $Id: wxsspinbutton.h 13547 2024-09-14 04:35:04Z mortenmacfly $
+* $Revision: 13698 $
+* $Id: wxsspinbutton.h 13698 2025-08-07 13:25:04Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxsspinbutton.h $
 */
 
-#ifndef WXSSPINBUTTONL_H
+#ifndef WXSSPINBUTTON_H
 #define WXSSPINBUTTON_H
 
 #include "../wxswidget.h"

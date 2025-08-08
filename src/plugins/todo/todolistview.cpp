@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13340 $
- * $Id: todolistview.cpp 13340 2023-08-24 18:12:40Z pecanh $
+ * $Revision: 13690 $
+ * $Id: todolistview.cpp 13690 2025-08-03 09:16:36Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/todo/todolistview.cpp $
  */
 
@@ -670,7 +670,7 @@ void CheckListDialog::OnAllClick(wxCommandEvent& event)
     }
 }
 
-void CheckListDialog::OnListCheck(wxCommandEvent& event)
+void CheckListDialog::OnListCheck(cb_unused wxCommandEvent& event)
 {
     size_t checkedItems = GetChecked().size();
     if (checkedItems == 0)

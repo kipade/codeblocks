@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13567 $
- * $Id: mainframe.cpp 13567 2024-09-14 04:46:09Z mortenmacfly $
+ * $Revision: 13692 $
+ * $Id: mainframe.cpp 13692 2025-08-03 09:28:24Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/tools/cb_share_config/mainframe.cpp $
  */
 
@@ -68,8 +68,8 @@ END_EVENT_TABLE()
 //***********************************************************************
 
 MainFrame::MainFrame(wxWindow* parent,wxWindowID id) :
-  mFileSrc(wxT("")), mCfgSrc(0), mCfgSrcValid(false), mNodesSrc(),
-  mFileDst(wxT("")), mCfgDst(0), mCfgDstValid(false), mNodesDst()
+  mFileSrc(wxT("")), mCfgSrc(nullptr), mCfgSrcValid(false), mNodesSrc(),
+  mFileDst(wxT("")), mCfgDst(nullptr), mCfgDstValid(false), mNodesDst()
 {
 	//(*Initialize(MainFrame)
 	wxButton* btnClose;

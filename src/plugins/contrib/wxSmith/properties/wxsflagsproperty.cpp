@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13619 $
-* $Id: wxsflagsproperty.cpp 13619 2025-02-21 08:03:13Z wh11204 $
+* $Revision: 13684 $
+* $Id: wxsflagsproperty.cpp 13684 2025-08-03 05:15:38Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/properties/wxsflagsproperty.cpp $
 */
 
@@ -45,7 +45,11 @@ void wxsFlagsProperty::PGCreate(wxsPropertyContainer* Object,wxPropertyGridManag
 {
     wxPGChoices PGC(Names,Values);
     wxPGId Id = Grid->AppendIn(Parent,new wxFlagsProperty(GetPGName(),wxPG_LABEL,PGC,VALUE));
+#if wxCHECK_VERSION(3, 3, 0)
+    Grid->SetPropertyAttribute(Id,wxPG_BOOL_USE_CHECKBOX,1L,wxPGPropertyValuesFlags::Recurse);
+#else
     Grid->SetPropertyAttribute(Id,wxPG_BOOL_USE_CHECKBOX,1L,wxPG_RECURSE);
+#endif
     PGRegister(Object,Grid,Id);
 }
 

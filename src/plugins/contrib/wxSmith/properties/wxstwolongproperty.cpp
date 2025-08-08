@@ -16,8 +16,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13292 $
-* $Id: wxstwolongproperty.cpp 13292 2023-05-30 15:50:46Z mortenmacfly $
+* $Revision: 13684 $
+* $Id: wxstwolongproperty.cpp 13684 2025-08-03 05:15:38Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/properties/wxstwolongproperty.cpp $
 */
 
@@ -85,7 +85,11 @@ void wxsTwoLongProperty::PGCreate(wxsPropertyContainer* Object,wxPropertyGridMan
     wxPGId V1Id = Grid->AppendIn(Parent, new wxIntProperty(Value1Name,wxPG_LABEL,VALUE1));
     wxPGId V2Id = Grid->AppendIn(Parent, new wxIntProperty(Value2Name,wxPG_LABEL,VALUE2));
 
+#if wxCHECK_VERSION(3, 3, 0)
+    Grid->SetPropertyAttribute(DefId,wxPG_BOOL_USE_CHECKBOX,1L,wxPGPropertyValuesFlags::Recurse);
+#else
     Grid->SetPropertyAttribute(DefId,wxPG_BOOL_USE_CHECKBOX,1L,wxPG_RECURSE);
+#endif
 
     PGRegister(Object,Grid,DefId,DIM_DEF);
     PGRegister(Object,Grid,V1Id,DIM_VALUE1);

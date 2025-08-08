@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12298 $
-* $Id: wxsboolproperty.cpp 12298 2021-03-06 15:47:09Z fuscated $
+* $Revision: 13684 $
+* $Id: wxsboolproperty.cpp 13684 2025-08-03 05:15:38Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/properties/wxsboolproperty.cpp $
 */
 
@@ -39,7 +39,11 @@ void wxsBoolProperty::PGCreate(wxsPropertyContainer* Object,wxPropertyGridManage
     wxBoolProperty *Property = new wxBoolProperty(GetPGName(),wxPG_LABEL,VALUE);
     Property->SetHelpString(m_HelpString);
     wxPGId ID = Grid->AppendIn(Parent, Property);
+#if wxCHECK_VERSION(3, 3, 0)
+    Grid->SetPropertyAttribute(ID,wxPG_BOOL_USE_CHECKBOX,1L,wxPGPropertyValuesFlags::Recurse);
+#else
     Grid->SetPropertyAttribute(ID,wxPG_BOOL_USE_CHECKBOX,1L,wxPG_RECURSE);
+#endif
     PGRegister(Object,Grid,ID);
 }
 

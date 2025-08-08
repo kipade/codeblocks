@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13616 $
-* $Id: wxscolourproperty.cpp 13616 2025-02-18 15:38:22Z wh11204 $
+* $Revision: 13679 $
+* $Id: wxscolourproperty.cpp 13679 2025-07-21 20:12:31Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/properties/wxscolourproperty.cpp $
 */
 
@@ -205,7 +205,11 @@ namespace
         else
             cpv.Init( type, *wxWHITE );
 
+#if wxCHECK_VERSION(3, 3, 1)
+        m_flags |= static_cast <wxPGFlags> (wxPG_PROP_STATIC_CHOICES); // Colour selection cannot be changed.
+#else
         m_flags |= wxPG_PROP_STATIC_CHOICES; // Colour selection cannot be changed.
+#endif
         m_value << cpv;
         OnSetValue();
     }
@@ -583,7 +587,11 @@ namespace
             int index = paintdata.m_choiceItem;
             value = wxsColourValues[index];
         }
+#if wxCHECK_VERSION(3, 3, 1)
+        else if ( !(m_flags & static_cast <wxPGFlags> (wxPG_PROP_UNSPECIFIED)) )
+#else
         else if ( !(m_flags & (wxPGPropertyFlags)wxPG_PROP_UNSPECIFIED) )
+#endif
         {
             value = GetVal().m_type;
         }

@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13547 $
-* $Id: wxsbaseproperties.h 13547 2024-09-14 04:35:04Z mortenmacfly $
+* $Revision: 13689 $
+* $Id: wxsbaseproperties.h 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxsbaseproperties.h $
 */
 
@@ -87,7 +87,7 @@ class wxsBaseProperties: public wxsPropertyContainer
             m_UseLayout(true),
             m_StyleBits(0),
             m_ExStyleBits(0),
-            m_StyleSet(0)
+            m_StyleSet(nullptr)
         {}
 
         /** \brief Function generating QPPChild Panel for most frequently used

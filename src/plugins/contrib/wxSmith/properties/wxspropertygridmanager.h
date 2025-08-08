@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12722 $
-* $Id: wxspropertygridmanager.h 12722 2022-02-23 09:31:26Z wh11204 $
+* $Revision: 13689 $
+* $Id: wxspropertygridmanager.h 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/properties/wxspropertygridmanager.h $
 */
 
@@ -148,14 +148,14 @@ class PLUGIN_EXPORT wxsPropertyGridManager: public wxPropertyGridManager
          * \param Data place where selection should be stored, if NULL,
          *        selection will be stored in internal variable
          */
-        void StoreSelected(SelectionData* Data=0);
+        void StoreSelected(SelectionData* Data = nullptr);
 
         /** \brief Restoring selected property
          *
          * \param Data structure containing selection data, if NULL,
          *        selection will be restored from internal variable
          */
-        void RestoreSelected(const SelectionData* Data=0);
+        void RestoreSelected(const SelectionData* Data = nullptr);
 
         /** \brief Singleton object */
         static wxsPropertyGridManager* Singleton;

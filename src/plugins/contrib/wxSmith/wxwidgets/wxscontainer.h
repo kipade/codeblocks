@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13547 $
-* $Id: wxscontainer.h 13547 2024-09-14 04:35:04Z mortenmacfly $
+* $Revision: 13689 $
+* $Id: wxscontainer.h 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxscontainer.h $
 */
 
@@ -52,9 +52,9 @@ class PLUGIN_EXPORT wxsContainer: public wxsParent
         wxsContainer(
             wxsItemResData* Data,
             const wxsItemInfo* Info,
-            const wxsEventDesc* EventArray = 0,
-            const wxsStyleSet* StyleSet=0,
-            long PropertiesFlags=flContainer);
+            const wxsEventDesc* EventArray = nullptr,
+            const wxsStyleSet* StyleSet = nullptr,
+            long PropertiesFlags = flContainer);
 
     protected:
 

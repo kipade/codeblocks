@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13547 $
-* $Id: wxsmenubar.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
+* $Revision: 13689 $
+* $Id: wxsmenubar.cpp 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxsmenubar.cpp $
 */
 
@@ -40,7 +40,7 @@ namespace
             wxsMenuEditor* Editor;
 
             MenuEditorDialog(wxsMenuBar* MenuBar):
-                wxScrollingDialog(0,-1,_("MenuBar editor"),wxDefaultPosition,wxDefaultSize,wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER)
+                wxScrollingDialog(nullptr,-1,_("MenuBar editor"),wxDefaultPosition,wxDefaultSize,wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER)
             {
                 wxBoxSizer* Sizer = new wxBoxSizer(wxVERTICAL);
                 Sizer->Add(Editor = new wxsMenuEditor(this,MenuBar),1,wxEXPAND,0);
@@ -68,8 +68,8 @@ wxsMenuBar::wxsMenuBar(wxsItemResData* Data):
     wxsTool(
         Data,
         &Reg.Info,
-        0,
-        0,
+        nullptr,
+        nullptr,
         flVariable|flSubclass|flExtraCode)
 {
 }

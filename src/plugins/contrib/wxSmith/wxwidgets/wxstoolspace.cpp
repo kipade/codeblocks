@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13381 $
-* $Id: wxstoolspace.cpp 13381 2023-10-27 12:55:51Z wh11204 $
+* $Revision: 13689 $
+* $Id: wxstoolspace.cpp 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxstoolspace.cpp $
 */
 
@@ -45,7 +45,7 @@ END_EVENT_TABLE()
 
 wxsToolSpace::wxsToolSpace(wxWindow* Parent,wxsItemResData* Data):
     wxScrolledWindow(Parent),
-    m_First(0),
+    m_First(nullptr),
     m_Count(0),
     m_Data(Data),
     m_Unstable(false)
@@ -189,7 +189,7 @@ void wxsToolSpace::OnMouseClick(wxMouseEvent& event)
             m_Data->SelectItem(Tool->m_Tool,false);
         }
 
-        Tool->m_Tool->MouseClick(0,PosX,PosY);
+        Tool->m_Tool->MouseClick(nullptr,PosX,PosY);
     }
 }
 
@@ -205,7 +205,7 @@ void wxsToolSpace::OnMouseDClick(wxMouseEvent& event)
 
     if ( Tool )
     {
-        Tool->m_Tool->MouseDClick(0,PosX,PosY);
+        Tool->m_Tool->MouseDClick(nullptr,PosX,PosY);
     }
 }
 
@@ -223,7 +223,7 @@ void wxsToolSpace::OnMouseRight(wxMouseEvent& event)
 
     if ( Tool )
     {
-        Tool->m_Tool->MouseRightClick(0,PosX,PosY);
+        Tool->m_Tool->MouseRightClick(nullptr,PosX,PosY);
     }
 }
 

@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13547 $
-* $Id: wxstoolbar.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
+* $Revision: 13689 $
+* $Id: wxstoolbar.cpp 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxstoolbar.cpp $
 */
 
@@ -38,7 +38,7 @@ namespace
             wxsToolBarEditor* Editor;
 
             ToolBarEditorDialog(wxsToolBar* ToolBar):
-                wxScrollingDialog(0,-1,_("ToolBar editor"),wxDefaultPosition,wxDefaultSize,wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER)
+                wxScrollingDialog(nullptr,-1,_("ToolBar editor"),wxDefaultPosition,wxDefaultSize,wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER)
             {
                 wxBoxSizer* Sizer = new wxBoxSizer(wxVERTICAL);
                 Editor = new wxsToolBarEditor(this,ToolBar);
@@ -87,7 +87,7 @@ wxsToolBar::wxsToolBar(wxsItemResData* Data):
     wxsTool(
         Data,
         &Reg.Info,
-        0,
+        nullptr,
         wxsToolBarStyles,
         flVariable|flId|flSubclass|flExtraCode),
     m_Packing(-1),

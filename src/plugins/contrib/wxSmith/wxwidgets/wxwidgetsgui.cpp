@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13381 $
-* $Id: wxwidgetsgui.cpp 13381 2023-10-27 12:55:51Z wh11204 $
+* $Revision: 13689 $
+* $Id: wxwidgetsgui.cpp 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxwidgetsgui.cpp $
 */
 
@@ -196,7 +196,7 @@ bool wxWidgetsGUI::OnCheckIfApplicationManaged()
 
 bool wxWidgetsGUI::OnCreateApplicationBinding()
 {
-    wxWidgetsGUIAppAdoptingDlg Dlg(0,this);
+    wxWidgetsGUIAppAdoptingDlg Dlg(nullptr,this);
     PlaceWindow(&Dlg);
     Dlg.ShowModal();
     return OnCheckIfApplicationManaged();
@@ -528,7 +528,7 @@ void wxWidgetsGUI::EnumerateMainResources(wxArrayString& Names)
     for ( int i=0; i<Count; i++ )
     {
         wxWidgetsRes* Res = wxDynamicCast(GetProject()->GetResource(i),wxWidgetsRes);
-        if ( Res == 0 ) continue;
+        if ( Res == nullptr ) continue;
         if ( Res->GetGUI() != GetName() ) continue;
         if ( !Res->OnGetCanBeMain() ) continue;
         if ( Res->GetLanguage() != m_AppLanguage ) continue;

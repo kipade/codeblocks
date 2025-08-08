@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13522 $
-* $Id: wxscorrector.cpp 13522 2024-05-21 18:54:24Z mortenmacfly $
+* $Revision: 13689 $
+* $Id: wxscorrector.cpp 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxscorrector.cpp $
 */
 
@@ -244,10 +244,10 @@ void wxsCorrector::RebuildSets()
 //    if ( !m_NeedRebuild ) return;
     m_Vars.clear();
     m_Ids.clear();
-    RebuildSetsReq(m_Data->GetRootItem(),0);
+    RebuildSetsReq(m_Data->GetRootItem(),nullptr);
     for ( int i=0; i<m_Data->GetToolsCount(); i++ )
     {
-        RebuildSetsReq(m_Data->GetTool(i),0);
+        RebuildSetsReq(m_Data->GetTool(i),nullptr);
     }
     m_NeedRebuild = false;
 }

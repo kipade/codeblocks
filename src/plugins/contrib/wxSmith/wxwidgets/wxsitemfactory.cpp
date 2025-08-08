@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13381 $
-* $Id: wxsitemfactory.cpp 13381 2023-10-27 12:55:51Z wh11204 $
+* $Revision: 13689 $
+* $Id: wxsitemfactory.cpp 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxsitemfactory.cpp $
 */
 
@@ -99,7 +99,7 @@ wxsItemFactory::wxsItemFactory(const wxsItemInfo* Info):
     m_Info(Info)
 {
     m_Name = Info->ClassName;
-    if ( Info==0 ) return;
+    if ( Info==nullptr ) return;
     ItemMap()[m_Name] = this;
 }
 
@@ -107,7 +107,7 @@ wxsItemFactory::wxsItemFactory(const wxsItemInfo* Info,wxString ClassName):
     m_Info(Info)
 {
     m_Name = ClassName;
-    if ( Info==0 ) return;
+    if ( Info==nullptr ) return;
     ItemMap()[m_Name] = this;
 }
 

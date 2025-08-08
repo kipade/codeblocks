@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13547 $
-* $Id: wxsparent.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
+* $Revision: 13689 $
+* $Id: wxsparent.cpp 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxsparent.cpp $
 */
 
@@ -60,7 +60,7 @@ bool wxsParent::AddChild(wxsItem* Child,int Position)
     if ( Child->GetType() == wxsTTool && GetType() != wxsTTool ) return false;
     if ( !CanAddChild(Child,true) ) return false;
     if ( !Child->CanAddToParent(this,true) ) return false;
-    if ( Child->GetParent() != 0 )
+    if ( Child->GetParent() != nullptr )
     {
         Child->GetParent()->UnbindChild(Child);
     }
@@ -135,7 +135,7 @@ bool wxsParent::IsGrandChild(wxsItem* Child,bool Safe)
 {
     if ( !Safe )
     {
-        while ( Child != 0 )
+        while ( Child != nullptr )
         {
             if ( Child == this ) return true;
             Child = Child->GetParent();

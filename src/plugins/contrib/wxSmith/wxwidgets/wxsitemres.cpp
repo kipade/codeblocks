@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13150 $
-* $Id: wxsitemres.cpp 13150 2023-01-14 11:37:46Z wh11204 $
+* $Revision: 13689 $
+* $Id: wxsitemres.cpp 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxsitemres.cpp $
 */
 
@@ -126,8 +126,8 @@ wxsItemRes::wxsItemRes(wxsProject* Owner,const wxString& Type,bool CanBeMain):
 }
 
 
-        wxsItemRes::wxsItemRes(const wxString& FileName,const TiXmlElement* XrcElem,const wxString& Type):
-    wxWidgetsRes(0,Type),
+wxsItemRes::wxsItemRes(const wxString& FileName,const TiXmlElement* XrcElem,const wxString& Type):
+    wxWidgetsRes(nullptr,Type),
     m_WxsFileName(wxEmptyString),
     m_SrcFileName(wxEmptyString),
     m_HdrFileName(wxEmptyString),

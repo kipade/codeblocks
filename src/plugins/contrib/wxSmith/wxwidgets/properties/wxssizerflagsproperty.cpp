@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12555 $
-* $Id: wxssizerflagsproperty.cpp 12555 2021-12-05 11:37:47Z wh11204 $
+* $Revision: 13689 $
+* $Id: wxssizerflagsproperty.cpp 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/properties/wxssizerflagsproperty.cpp $
 */
 
@@ -93,6 +93,15 @@ void wxsSizerFlagsProperty::PGCreate(wxsPropertyContainer* Object,wxPropertyGrid
     PGRegister(Object,Grid,ID6,SHAPEDIND);
     PGRegister(Object,Grid,ID7,FIXEDIND);
 
+#if wxCHECK_VERSION(3, 3, 0)
+    Grid->SetPropertyAttribute(ID1,wxPG_BOOL_USE_CHECKBOX,1L,wxPGPropertyValuesFlags::Recurse);
+    Grid->SetPropertyAttribute(ID2,wxPG_BOOL_USE_CHECKBOX,1L,wxPGPropertyValuesFlags::Recurse);
+    Grid->SetPropertyAttribute(ID3,wxPG_BOOL_USE_CHECKBOX,1L,wxPGPropertyValuesFlags::Recurse);
+    Grid->SetPropertyAttribute(ID4,wxPG_BOOL_USE_CHECKBOX,1L,wxPGPropertyValuesFlags::Recurse);
+    Grid->SetPropertyAttribute(ID5,wxPG_BOOL_USE_CHECKBOX,1L,wxPGPropertyValuesFlags::Recurse);
+    Grid->SetPropertyAttribute(ID6,wxPG_BOOL_USE_CHECKBOX,1L,wxPGPropertyValuesFlags::Recurse);
+    Grid->SetPropertyAttribute(ID7,wxPG_BOOL_USE_CHECKBOX,1L,wxPGPropertyValuesFlags::Recurse);
+#else
     Grid->SetPropertyAttribute(ID1,wxPG_BOOL_USE_CHECKBOX,1L,wxPG_RECURSE);
     Grid->SetPropertyAttribute(ID2,wxPG_BOOL_USE_CHECKBOX,1L,wxPG_RECURSE);
     Grid->SetPropertyAttribute(ID3,wxPG_BOOL_USE_CHECKBOX,1L,wxPG_RECURSE);
@@ -100,6 +109,7 @@ void wxsSizerFlagsProperty::PGCreate(wxsPropertyContainer* Object,wxPropertyGrid
     Grid->SetPropertyAttribute(ID5,wxPG_BOOL_USE_CHECKBOX,1L,wxPG_RECURSE);
     Grid->SetPropertyAttribute(ID6,wxPG_BOOL_USE_CHECKBOX,1L,wxPG_RECURSE);
     Grid->SetPropertyAttribute(ID7,wxPG_BOOL_USE_CHECKBOX,1L,wxPG_RECURSE);
+#endif
 }
 
 bool wxsSizerFlagsProperty::PGRead(wxsPropertyContainer* Object,wxPropertyGridManager* Grid,wxPGId Id,long Index)

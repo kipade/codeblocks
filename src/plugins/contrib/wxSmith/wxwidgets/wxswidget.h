@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12722 $
-* $Id: wxswidget.h 12722 2022-02-23 09:31:26Z wh11204 $
+* $Revision: 13689 $
+* $Id: wxswidget.h 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxswidget.h $
 */
 
@@ -61,8 +61,8 @@ class PLUGIN_EXPORT wxsWidget: public wxsItem
         wxsWidget(
             wxsItemResData*     Data,
             const wxsItemInfo*  Info,
-            const wxsEventDesc* EventArray = 0,
-            const wxsStyleSet*  StyleSet = 0,
+            const wxsEventDesc* EventArray = nullptr,
+            const wxsStyleSet*  StyleSet = nullptr,
             long                PropertiesFlags = flWidget);
 
     protected:
@@ -76,7 +76,7 @@ class PLUGIN_EXPORT wxsWidget: public wxsItem
          * there will be Variable name and identifier and at the end, all
          * required base properties.
          */
-        virtual void OnEnumWidgetProperties(long Flags) = 0;
+        virtual void OnEnumWidgetProperties(long _Flags) = 0;
 
         /** \brief Function which adds new items to QPP
          *
@@ -95,7 +95,7 @@ class PLUGIN_EXPORT wxsWidget: public wxsItem
          * Function enumerating item properties. The implementation
          * does call EnumContainerProperties() and adds all default properties.
          */
-        virtual void OnEnumItemProperties(long Flags);
+        virtual void OnEnumItemProperties(long _Flags);
 
         /** \brief Function Adding QPPChild panels for base properties of this
          *         container.
@@ -104,7 +104,6 @@ class PLUGIN_EXPORT wxsWidget: public wxsItem
          * QPPChild panels.
          */
         virtual void OnAddItemQPP(wxsAdvQPP* QPP);
-
 };
 
 #endif

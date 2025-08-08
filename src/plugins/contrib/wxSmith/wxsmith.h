@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12722 $
-* $Id: wxsmith.h 12722 2022-02-23 09:31:26Z wh11204 $
+* $Revision: 13689 $
+* $Id: wxsmith.h 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxsmith.h $
 */
 
@@ -72,7 +72,7 @@ class PLUGIN_EXPORT wxSmith : public cbPlugin
         /** \brief This function will add entries into menu */
         void BuildMenu(wxMenuBar* menuBar);
 
-        void BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTreeData* data = 0);
+        void BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTreeData* data = nullptr);
         bool BuildToolBar(wxToolBar* toolBar);
         void OnAttach();
         void OnRelease(bool appShutDown);

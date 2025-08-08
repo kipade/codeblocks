@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12722 $
-* $Id: wxsitemresdata.h 12722 2022-02-23 09:31:26Z wh11204 $
+* $Revision: 13689 $
+* $Id: wxsitemresdata.h 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxsitemresdata.h $
 */
 
@@ -260,14 +260,14 @@ class PLUGIN_EXPORT wxsItemResData
         inline int GetToolsCount() { return (int)m_Tools.Count(); }
 
         /** \brief Getting tool at given index */
-        inline wxsTool* GetTool(int Index) { return ((Index>=0)&&(Index<GetToolsCount())) ? m_Tools[Index] : 0; }
+        inline wxsTool* GetTool(int Index) { return ((Index>=0)&&(Index<GetToolsCount())) ? m_Tools[Index] : nullptr; }
 
         /* ******************* */
         /*  Preview functions  */
         /* ******************* */
 
         /** \brief Checking if there's preview already */
-        inline bool IsPreview() { return m_Preview!=0; }
+        inline bool IsPreview() { return m_Preview!=nullptr; }
 
         /** \brief Showing preview of current resource content */
         bool ShowPreview();
@@ -276,7 +276,7 @@ class PLUGIN_EXPORT wxsItemResData
         bool HidePreview();
 
         /** \brief Function notifying that preview has been closed externally */
-        inline void NotifyPreviewClosed() { m_Preview = 0; }
+        inline void NotifyPreviewClosed() { m_Preview = nullptr; }
 
         /* *********************** */
         /*  Notification handlers  */

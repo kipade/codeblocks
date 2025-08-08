@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13381 $
-* $Id: wxsproject.cpp 13381 2023-10-27 12:55:51Z wh11204 $
+* $Revision: 13689 $
+* $Id: wxsproject.cpp 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxsproject.cpp $
 */
 
@@ -238,7 +238,7 @@ void wxsProject::WriteConfiguration(TiXmlElement* element)
 
 bool wxsProject::AddResource(wxsResource* NewResource)
 {
-    if ( NewResource == 0 )
+    if ( NewResource == nullptr )
     {
         return false;
     }
@@ -246,7 +246,7 @@ bool wxsProject::AddResource(wxsResource* NewResource)
     const wxString& Type = NewResource->GetResourceType();
     const wxString& Name = NewResource->GetResourceName();
 
-    if ( FindResource(Name) != 0 )
+    if ( FindResource(Name) != nullptr )
     {
         return false;
     }
@@ -302,7 +302,7 @@ void wxsProject::Configure()
                                 "Should I create proper bindings?"),_("wxSmith"),wxYES_NO) == wxNO ) return;
             if ( !m_GUI->CreateApplicationBinding() ) return;
         }
-        cbConfigurationDialog Dlg(0,-1,_("Configuring wxSmith"));
+        cbConfigurationDialog Dlg(nullptr,-1,_("Configuring wxSmith"));
         Dlg.AttachConfigurationPanel(m_GUI->BuildConfigurationPanel(&Dlg));
         PlaceWindow(&Dlg);
         Dlg.ShowModal();

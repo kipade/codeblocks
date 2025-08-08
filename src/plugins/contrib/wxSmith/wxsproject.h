@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 10874 $
-* $Id: wxsproject.h 10874 2016-07-16 20:00:28Z jenslody $
+* $Revision: 13689 $
+* $Id: wxsproject.h 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxsproject.h $
 */
 
@@ -77,7 +77,7 @@ class wxsProject
         inline int GetResourcesCount() { return (int)m_Resources.Count(); }
 
         /** \brief Getting resource from index */
-        inline wxsResource* GetResource(int Index) { return ((Index>=0)&(Index<GetResourcesCount()))?m_Resources[Index]:0; }
+        inline wxsResource* GetResource(int Index) { return ((Index>=0)&(Index<GetResourcesCount()))?m_Resources[Index]:nullptr; }
 
         /** \brief Removing resource from project */
         bool DelResource(wxsResource* Resource);

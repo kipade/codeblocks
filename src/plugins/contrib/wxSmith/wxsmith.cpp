@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13381 $
-* $Id: wxsmith.cpp 13381 2023-10-27 12:55:51Z wh11204 $
+* $Revision: 13689 $
+* $Id: wxsmith.cpp 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxsmith.cpp $
 */
 
@@ -178,7 +178,7 @@ void wxSmith::BuildBrowserParents()
         default:
         {
             cbAuiNotebook* Notebook = Manager::Get()->GetProjectManager()->GetUI().GetNotebook();
-            wxASSERT(Notebook!=0);
+            wxASSERT(Notebook!=nullptr);
 
             // Creating main splitting object
             m_Splitter = new wxsStoringSplitterWindow(Notebook);

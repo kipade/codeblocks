@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13620 $
-* $Id: wxseventseditor.cpp 13620 2025-02-21 13:17:44Z wh11204 $
+* $Revision: 13689 $
+* $Id: wxseventseditor.cpp 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxseventseditor.cpp $
 */
 
@@ -92,7 +92,7 @@ void wxsEventsEditor::BuildEvents(wxsItem* Item,wxsPropertyGridManager* Grid)
         // TODO: Create new group
         if ( Event->ET == wxsEventDesc::Category )
         {
-            m_Ids.Add(0);
+            m_Ids.Add(nullptr);
             continue;
         }
 

@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 12197 $
-* $Id: wxsdimensionproperty.cpp 12197 2020-08-11 08:14:14Z fuscated $
+* $Revision: 13689 $
+* $Id: wxsdimensionproperty.cpp 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/properties/wxsdimensionproperty.cpp $
 */
 
@@ -80,7 +80,11 @@ void wxsDimensionProperty::PGCreate(wxsPropertyContainer* Object,wxPropertyGridM
     wxPGId DUId;
     PGRegister(Object,Grid,Grid->AppendIn(Parent,new wxIntProperty(GetPGName(),wxPG_LABEL,VALUE)),DIM_VALUE);
     PGRegister(Object,Grid,DUId = Grid->AppendIn(Parent,new wxBoolProperty(PGDUName,wxPG_LABEL,UNITS)),DIM_UNITS);
+#if wxCHECK_VERSION(3, 3, 0)
+    Grid->SetPropertyAttribute(DUId,wxPG_BOOL_USE_CHECKBOX,1L,wxPGPropertyValuesFlags::Recurse);
+#else
     Grid->SetPropertyAttribute(DUId,wxPG_BOOL_USE_CHECKBOX,1L,wxPG_RECURSE);
+#endif
 }
 
 bool wxsDimensionProperty::PGRead(wxsPropertyContainer* Object,wxPropertyGridManager* Grid,wxPGId Id,long Index)

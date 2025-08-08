@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 8251 $
-* $Id: wxstoolspace.h 8251 2012-08-28 02:31:00Z ollydbg $
+* $Revision: 13689 $
+* $Id: wxstoolspace.h 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/wxstoolspace.h $
 */
 
@@ -49,7 +49,7 @@ class wxsToolSpace: public wxScrolledWindow
         void RefreshSelection();
 
         /** \brief Checking whether there are any tools inside this resource */
-        inline bool AreAnyTools() { return m_First!=0; }
+        inline bool AreAnyTools() { return m_First!=nullptr; }
 
     private:
 

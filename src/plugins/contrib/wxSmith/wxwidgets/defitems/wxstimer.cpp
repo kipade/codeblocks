@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13547 $
-* $Id: wxstimer.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
+* $Revision: 13689 $
+* $Id: wxstimer.cpp 13689 2025-08-03 09:11:18Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxstimer.cpp $
 */
 
@@ -39,7 +39,7 @@ wxsTimer::wxsTimer(wxsItemResData* Data):
         Data,
         &Reg.Info,
         wxsTimerEvents,
-        0,
+        nullptr,
         flVariable|flId|flSubclass|flExtraCode)
 {
     m_Interval = 0;

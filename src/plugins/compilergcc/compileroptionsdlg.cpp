@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13675 $
- * $Id: compileroptionsdlg.cpp 13675 2025-07-01 11:33:27Z wh11204 $
+ * $Revision: 13683 $
+ * $Id: compileroptionsdlg.cpp 13683 2025-08-02 15:52:27Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/compilergcc/compileroptionsdlg.cpp $
  */
 
@@ -737,7 +737,11 @@ void CompilerOptionsDlg::DoFillOptions()
 
         wxPGProperty *prop = new wxBoolProperty(option->name, wxPG_LABEL, option->enabled);
         m_FlagsPG->AppendIn(categoryProp, prop);
+#if wxCHECK_VERSION(3, 3, 0)
+        m_FlagsPG->SetPropertyAttribute(prop, wxPG_BOOL_USE_CHECKBOX, true, wxPGPropertyValuesFlags::Recurse);
+#else
         m_FlagsPG->SetPropertyAttribute(prop, wxPG_BOOL_USE_CHECKBOX, true, wxPG_RECURSE);
+#endif
     }
 
     wxPGProperty *root = m_FlagsPG->GetRoot();
@@ -745,7 +749,11 @@ void CompilerOptionsDlg::DoFillOptions()
     {
         const unsigned count = root->GetChildCount();
         for (unsigned ii = 0; ii < count; ++ii)
+#if wxCHECK_VERSION(3, 3, 0)
+            m_FlagsPG->SortChildren(root->Item(ii), wxPGPropertyValuesFlags::Recurse);
+#else
             m_FlagsPG->SortChildren(root->Item(ii), wxPG_RECURSE);
+#endif
     }
     m_FlagsPG->Thaw();
 } // DoFillOptions

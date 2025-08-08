@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13496 $
- * $Id: watchesdlg.cpp 13496 2024-04-01 00:03:34Z pecanh $
+ * $Revision: 13683 $
+ * $Id: watchesdlg.cpp 13683 2025-08-02 15:52:27Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/src/watchesdlg.cpp $
  */
 
@@ -283,7 +283,11 @@ class WatchRawDialog : public wxScrollingDialog
             switch (m_type)
             {
                 case TypeNormal:
+#if wxCHECK_VERSION(3, 3, 0)
+                    m_text->SetValue(watch->GetValueAsString(wxPGPropValFormatFlags::FullValue));
+#else
                     m_text->SetValue(watch->GetValueAsString(wxPG_FULL_VALUE));
+#endif
                     break;
 
                 case TypeDebug:

@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13691 $
-* $Id: wxstoolbaritem.cpp 13691 2025-08-03 09:26:28Z mortenmacfly $
+* $Revision: 13693 $
+* $Id: wxstoolbaritem.cpp 13693 2025-08-03 13:51:11Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxstoolbaritem.cpp $
 */
 
@@ -67,8 +67,8 @@ wxsToolBarItem::wxsToolBarItem(wxsItemResData* Data, ToolType Tool):
         Data,
         &Info,
         (Tool == Separator || Tool == Stretchable) ? nullptr : wxsToolBarItemEvents,
-        0,
-        (Tool == Separator || Tool == Stretchable) ? nullptr : (flVariable|flId)
+        nullptr,
+        (Tool == Separator || Tool == Stretchable) ? 0 : (flVariable|flId)
     ),
     m_Type(Tool)
 {

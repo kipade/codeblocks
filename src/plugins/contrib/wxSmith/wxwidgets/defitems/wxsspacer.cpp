@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13547 $
-* $Id: wxsspacer.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
+* $Revision: 13691 $
+* $Id: wxsspacer.cpp 13691 2025-08-03 09:26:28Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxsspacer.cpp $
 */
 
@@ -67,7 +67,7 @@ namespace
 
 }
 
-wxsSpacer::wxsSpacer(wxsItemResData* Data) : wxsItem(Data, &Reg.Info, flSize, 0, 0)
+wxsSpacer::wxsSpacer(wxsItemResData* Data) : wxsItem(Data, &Reg.Info, flSize, nullptr, nullptr)
 {
 }
 
@@ -79,10 +79,10 @@ wxObject* wxsSpacer::OnBuildPreview(wxWindow* Parent,long _Flags)
 {
     wxSize Sz = GetBaseProps()->m_Size.GetSize(Parent);
     // Set a minimum display size, otherwise you will get a lot of asserts about zero width bitmaps
-    // if you hover over the spacer while inserting a widget (in a verticaL sizer)
+    // if you hover over the spacer while inserting a widget (in a vertical sizer)
     Sz.IncTo(wxSize(8, 8));
     if (_Flags & pfExact)
-        return new wxSizerItem(Sz.GetWidth(), Sz.GetHeight(), 0, 0, 0, 0);
+        return new wxSizerItem(Sz.GetWidth(), Sz.GetHeight(), 0, 0, 0, nullptr);
 
     return new wxsSpacerPreview(Parent, Sz);
 }

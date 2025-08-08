@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13547 $
-* $Id: wxssplitterwindow.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
+* $Revision: 13691 $
+* $Id: wxssplitterwindow.cpp 13691 2025-08-03 09:26:28Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxssplitterwindow.cpp $
 */
 
@@ -138,7 +138,7 @@ void wxsSplitterWindow::OnBuildCreatingCode()
 void wxsSplitterWindow::OnEnumContainerProperties(cb_unused long _Flags)
 {
     static const long    OrientValues[] = { wxHORIZONTAL, wxVERTICAL, 0 };
-    static const wxChar* OrientNames[]  = { _T("horizontal"), _T("vertical"), 0 };
+    static const wxChar* OrientNames[]  = { _T("horizontal"), _T("vertical"), nullptr };
 
     WXS_LONG(wxsSplitterWindow,SashPos,_("Sash position"),_T("sashpos"),0);
     WXS_FLOAT(wxsSplitterWindow,SashGravity,_("Sash gravity"), _T("sashgravity"), 0.5);

@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13547 $
-* $Id: wxssimplefonteditordlg.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
+* $Revision: 13691 $
+* $Id: wxssimplefonteditordlg.cpp 13691 2025-08-03 09:26:28Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/properties/wxssimplefonteditordlg.cpp $
 */
 
@@ -202,7 +202,7 @@ void wxsSimpleFontEditorDlg::OnOK(cb_unused wxCommandEvent& event)
 
 void wxsSimpleFontEditorDlg::OnButton1Click(cb_unused wxCommandEvent& event)
 {
-    wxFont Font = ::wxGetFontFromUser(0,m_WorkingCopy.BuildFont());
+    wxFont Font = ::wxGetFontFromUser(nullptr,m_WorkingCopy.BuildFont());
     if ( !Font.Ok() ) return;
 
     m_WorkingCopy.Size = Font.GetPointSize();

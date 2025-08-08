@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13547 $
-* $Id: wxsmenuitem.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
+* $Revision: 13691 $
+* $Id: wxsmenuitem.cpp 13691 2025-08-03 09:26:28Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxsmenuitem.cpp $
 */
 
@@ -66,9 +66,9 @@ wxsMenuItem::wxsMenuItem(wxsItemResData* Data,bool BreakOrSeparator):
     wxsTool(
         Data,
         &Info,
-        BreakOrSeparator?0:wxsMenuItemEvents,
+        BreakOrSeparator?nullptr:wxsMenuItemEvents,
         0,
-        BreakOrSeparator?0:flVariable|flId|flExtraCode),
+        BreakOrSeparator?nullptr:flVariable|flId|flExtraCode),
     m_Type(Normal),
     m_Enabled(true),
     m_Checked(false)

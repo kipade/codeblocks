@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13547 $
-* $Id: wxschecklistbox.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
+* $Revision: 13691 $
+* $Id: wxschecklistbox.cpp 13691 2025-08-03 09:26:28Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxschecklistbox.cpp $
 */
 
@@ -95,7 +95,7 @@ void wxsCheckListBox::OnBuildCreatingCode()
 
 wxObject* wxsCheckListBox::OnBuildPreview(wxWindow* Parent,long _Flags)
 {
-    wxCheckListBox* Preview = new wxCheckListBox(Parent,GetId(),Pos(Parent),Size(Parent),0,0,Style());
+    wxCheckListBox* Preview = new wxCheckListBox(Parent,GetId(),Pos(Parent),Size(Parent),0,nullptr,Style());
     for ( size_t i = 0; i < ArrayChoices.GetCount(); ++i )
     {
         int Val = Preview->Append(ArrayChoices[i]);

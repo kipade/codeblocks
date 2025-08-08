@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13541 $
-* $Id: wxsfontproperty.cpp 13541 2024-08-11 18:01:17Z mortenmacfly $
+* $Revision: 13691 $
+* $Id: wxsfontproperty.cpp 13691 2025-08-03 09:26:28Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/properties/wxsfontproperty.cpp $
 */
 
@@ -294,7 +294,7 @@ wxsFontProperty::wxsFontProperty(const wxString& PGName,const wxString& DataName
 
 bool wxsFontProperty::ShowEditor(wxsPropertyContainer* Object)
 {
-    wxsSimpleFontEditorDlg Dlg(0,VALUE);
+    wxsSimpleFontEditorDlg Dlg(nullptr,VALUE);
     PlaceWindow(&Dlg);
     return Dlg.ShowModal() == wxID_OK;
 }

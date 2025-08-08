@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13547 $
-* $Id: wxsscrollingdialog.cpp 13547 2024-09-14 04:35:04Z mortenmacfly $
+* $Revision: 13691 $
+* $Id: wxsscrollingdialog.cpp 13691 2025-08-03 09:26:28Z mortenmacfly $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxsscrollingdialog.cpp $
 */
 
@@ -111,7 +111,7 @@ wxObject* wxsScrollingDialog::OnBuildPreview(wxWindow* Parent,long _Flags)
         Dlg = wxDynamicCast(Parent,wxScrollingDialog);
         if ( Dlg )
         {
-            Dlg->Create(0,GetId(),Title,wxDefaultPosition,wxDefaultSize,Style());
+            Dlg->Create(nullptr,GetId(),Title,wxDefaultPosition,wxDefaultSize,Style());
             Dlg->SetClientSize(Size(wxTheApp->GetTopWindow()));
             Dlg->Move(Pos(wxTheApp->GetTopWindow()));
         }

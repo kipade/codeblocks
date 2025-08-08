@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13675 $
- * $Id: directcommands.cpp 13675 2025-07-01 11:33:27Z wh11204 $
+ * $Revision: 13700 $
+ * $Id: directcommands.cpp 13700 2025-08-07 18:57:18Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/compilergcc/directcommands.cpp $
  */
 
@@ -57,7 +57,7 @@ DirectCommands::DirectCommands(CompilerGCC* compilerPlugin,
     m_pCompilerPlugin(compilerPlugin),
     m_pCompiler(compiler),
     m_pProject(project),
-    m_pGenerator(0)
+    m_pGenerator(nullptr)
 {
     // even if there is no project, the command generator need to be
     // initialised for single file compilation to work.
@@ -603,13 +603,13 @@ wxArrayString DirectCommands::GetPreBuildCommands(ProjectBuildTarget* target) co
             {
                 if (target)
                 {
-                    m_pGenerator->GenerateCommandLine(buildcmds[i], target, 0, wxEmptyString,
+                    m_pGenerator->GenerateCommandLine(buildcmds[i], target, nullptr, wxEmptyString,
                                                       wxEmptyString, wxEmptyString, wxEmptyString);
                 }
                 else
                 {
                     m_pGenerator->GenerateCommandLine(buildcmds[i],
-                                                      m_pProject->GetCurrentlyCompilingTarget(), 0,
+                                                      m_pProject->GetCurrentlyCompilingTarget(), nullptr,
                                                       wxEmptyString, wxEmptyString, wxEmptyString,
                                                       wxEmptyString);
                 }

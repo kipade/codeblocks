@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13675 $
- * $Id: debuggerdriver.cpp 13675 2025-07-01 11:33:27Z wh11204 $
+ * $Revision: 13701 $
+ * $Id: debuggerdriver.cpp 13701 2025-08-07 18:57:39Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/debuggergdb/debuggerdriver.cpp $
  */
 
@@ -122,7 +122,7 @@ void DebuggerDriver::QueueCommand(DebuggerCmd* dcmd, QueuePriority prio)
 
 DebuggerCmd* DebuggerDriver::CurrentCommand()
 {
-    return m_DCmds.GetCount() ? m_DCmds[0] : 0;
+    return m_DCmds.GetCount() ? m_DCmds[0] : nullptr;
 }
 
 void DebuggerDriver::RunQueue()

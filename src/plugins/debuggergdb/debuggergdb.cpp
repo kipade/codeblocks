@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13675 $
- * $Id: debuggergdb.cpp 13675 2025-07-01 11:33:27Z wh11204 $
+ * $Revision: 13701 $
+ * $Id: debuggergdb.cpp 13701 2025-08-07 18:57:39Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/debuggergdb/debuggergdb.cpp $
  */
 
@@ -62,13 +62,12 @@ typedef HANDLE WINAPI (*CreateToolhelp32SnapshotApiCall)(DWORD  dwFlags,   DWORD
 typedef BOOL WINAPI   (*Process32FirstApiCall)          (HANDLE hSnapshot, LPPROCESSENTRY32W lppe);
 typedef BOOL WINAPI   (*Process32NextApiCall)           (HANDLE hSnapshot, LPPROCESSENTRY32W lppe);
 
-DebugBreakProcessApiCall        DebugBreakProcessFunc = 0;
-CreateToolhelp32SnapshotApiCall CreateToolhelp32SnapshotFunc = 0;
-Process32FirstApiCall           Process32FirstFunc = 0;
-Process32NextApiCall            Process32NextFunc = 0;
+DebugBreakProcessApiCall        DebugBreakProcessFunc        = nullptr;
+CreateToolhelp32SnapshotApiCall CreateToolhelp32SnapshotFunc = nullptr;
+Process32FirstApiCall           Process32FirstFunc           = nullptr;
+Process32NextApiCall            Process32NextFunc            = nullptr;
 
-HINSTANCE kernelLib = 0;
-
+HINSTANCE kernelLib = nullptr;
 #endif
 
 #ifdef __WXMSW__

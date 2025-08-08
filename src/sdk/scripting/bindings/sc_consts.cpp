@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 12794 $
- * $Id: sc_consts.cpp 12794 2022-04-14 22:34:58Z bluehazzard $
+ * $Revision: 13697 $
+ * $Id: sc_consts.cpp 13697 2025-08-07 08:26:47Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/sdk/scripting/bindings/sc_consts.cpp $
  */
 
@@ -101,7 +101,7 @@ namespace ScriptBindings
         BIND_INT_CONSTANT(wxPATH_NORM_ABSOLUTE);
         BIND_INT_CONSTANT(wxPATH_NORM_LONG);
         BIND_INT_CONSTANT(wxPATH_NORM_SHORTCUT);
-        BIND_INT_CONSTANT(wxPATH_NORM_ALL);
+        // BIND_INT_CONSTANT(wxPATH_NORM_ALL);
 
         // OptionsRelationType
         BIND_INT_CONSTANT(ortCompilerOptions);

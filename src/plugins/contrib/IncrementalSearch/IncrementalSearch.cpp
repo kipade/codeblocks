@@ -4,8 +4,8 @@
  *
  * Copyright: 2008 Jens Lody
  *
- * $Revision: 12967 $
- * $Id: IncrementalSearch.cpp 12967 2022-10-08 09:27:23Z wh11204 $
+ * $Revision: 13713 $
+ * $Id: IncrementalSearch.cpp 13713 2025-08-17 16:54:51Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/IncrementalSearch/IncrementalSearch.cpp $
  */
 
@@ -483,7 +483,15 @@ void IncrementalSearch::DoFocusToolbar()
         evt.pWindow = (wxWindow*)m_pToolbar;
         Manager::Get()->ProcessEvent(evt);
     }
+
+#ifdef __WXMAC__
+    // on macOS only set focus if we really lost it, to avoid native select all,
+    // or it will reset the text selection
+    if (!m_pTextCtrl->HasFocus())
+        m_pTextCtrl->SetFocus();
+#else
     m_pTextCtrl->SetFocus();
+#endif
 }
 
 void IncrementalSearch::OnToggleHighlight(wxCommandEvent& /*event*/)

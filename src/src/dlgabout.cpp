@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13647 $
- * $Id: dlgabout.cpp 13647 2025-03-31 18:42:45Z mortenmacfly $
+ * $Revision: 13711 $
+ * $Id: dlgabout.cpp 13711 2025-08-16 16:22:04Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/src/dlgabout.cpp $
  */
 
@@ -147,6 +147,7 @@ dlgAbout::dlgAbout(wxWindow* parent)
         "Jonas Zinn          : Misc. wxSmith AddOns and plugins\n"
         "Mirai Computing     : cbp2make tool\n"
         "Anders F Bjoerklund : wxMac compatibility\n"
+        "Christo             : clangd-client improvements and bug-fixes\n"
         "\n"));
 
     const wxString contributors(_(

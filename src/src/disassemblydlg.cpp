@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13658 $
- * $Id: disassemblydlg.cpp 13658 2025-05-05 12:58:09Z wh11204 $
+ * $Revision: 13705 $
+ * $Id: disassemblydlg.cpp 13705 2025-08-11 17:07:14Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/src/disassemblydlg.cpp $
  */
 
@@ -63,19 +63,22 @@ DisassemblyDlg::DisassemblyDlg(wxWindow* parent) :
     m_pCode->MarkerSetBackground(DEBUG_MARKER, wxColour(0xFF, 0xFF, 0x00));
     wxXmlResource::Get()->AttachUnknownControl(_T("lcCode"), m_pCode);
 
-    // use the same font as editor's
+    // set a default font
 #if wxCHECK_VERSION(3, 1, 0)
     wxFont font(FromDIP(8), wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #else
     wxFont font(wxRound(8*cbGetContentScaleFactor(*this)), wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #endif
-    wxString fontstring = Manager::Get()->GetConfigManager(_T("editor"))->Read(_T("/font"), wxEmptyString);
-    if (!fontstring.IsEmpty())
+    // use the same font as editor's if available
+    const wxString fontstring(Manager::Get()->GetConfigManager("editor")->Read("/font", wxEmptyString));
+    if (!fontstring.empty())
     {
         wxNativeFontInfo nfi;
         nfi.FromString(fontstring);
         font.SetNativeFontInfo(nfi);
+        font.Scale(cbGetContentScaleFactor(*this));
     }
+
     m_pCode->StyleSetFont(wxSCI_STYLE_DEFAULT, font);
 
     EditorColourSet* colour_set = Manager::Get()->GetEditorManager()->GetColourSet();

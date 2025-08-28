@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
-+ * $Revision: 13708 $
-+ * $Id: codecompletion.cpp 13708 2025-08-16 05:36:08Z mortenmacfly $
++ * $Revision: 13720 $
++ * $Id: codecompletion.cpp 13720 2025-08-28 17:54:13Z pecanh $
 + * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/codecompletion.cpp $
  */
 
@@ -3769,7 +3769,11 @@ void ClgdCompletion::ShutdownLSPclient(cbProject* pProject)
             // Tell LSP server to quit
             pClient->LSP_Shutdown();
             GetParseManager()->m_LSP_Clients.erase(pProject); // erase first or crash
-            delete pClient;
+            // On reparsing, avoid crash due to deleted eventhandler being used to delete itself. //Christo patch 1552
+            // Note: do not set debug breakpoint in next 4 lines or you'll get "Unusual termination of LSP" message.
+            pClient->SetEvtHandlerEnabled(false); //christo patch 1552
+            wxTheApp->CallAfter([pClient]()
+                                { delete pClient; });
             pClient = nullptr;
 
             // The clangd process is probably already terminated by LSP_Shutdown above.

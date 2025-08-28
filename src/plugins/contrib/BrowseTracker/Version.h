@@ -18,7 +18,7 @@
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 // ----------------------------------------------------------------------------
-// RCS-ID: $Id: Version.h 13673 2025-06-26 15:54:00Z pecanh $
+// RCS-ID: $Id: Version.h 13721 2025-08-28 18:07:09Z pecanh $
 
 #ifndef VERSION_H
 #define VERSION_H
@@ -58,7 +58,7 @@ class AppVersion
 
 #include <wx/string.h>
 //-----Release-Feature-Fix------------------
-#define VERSION wxT("1.4.129 25/06/24")
+#define VERSION wxT("1.4.130 25/08/16")
 //------------------------------------------
 // Release - Current development identifier
 // Feature - User interface level
@@ -66,6 +66,7 @@ class AppVersion
 #endif // VERSION_H
 //versions
 // ----------------------------------------------------------------------------
+// 1.4.130  2025/08/16 Add missing editor activations to jump tracker array
 // 1.4.129  2025/06/24 Include logmanager.h for non CB_PRECOMP compiles
 // 1.4.128  2025/06/23 Apply some cppcheck suggestions. Thanks Blauzahn
 //                     https://forums.codeblocks.org/index.php?topic=26066.0;topicseen

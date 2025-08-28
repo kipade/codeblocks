@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13709 $
- * $Id: parser.cpp 13709 2025-08-16 05:40:18Z mortenmacfly $
+ * $Revision: 13710 $
+ * $Id: parser.cpp 13710 2025-08-16 10:57:04Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/clangd_client/src/codecompletion/parser/parser.cpp $
  */
 
@@ -1659,7 +1659,7 @@ void Parser::OnLSP_DiagnosticsResponse(wxCommandEvent& event)
             {
                 pClient->SetLSP_EditorIsParsed(pEditor, true);
                 pParser = (Parser*)GetParseManager()->GetParserByProject(pProject);
-                size_t remainingToParse = pParser ? pParser->GetFilesRemainingToParse() : nullptr;
+                size_t remainingToParse = pParser ? pParser->GetFilesRemainingToParse() : 0;
                 if (not remainingToParse)
                 {
                     remainingToParse = pClient->LSP_GetServerFilesParsingCount();

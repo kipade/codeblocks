@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13712 $
- * $Id: parsemanager.cpp 13712 2025-08-17 16:36:22Z wh11204 $
+ * $Revision: 13714 $
+ * $Id: parsemanager.cpp 13714 2025-08-17 17:43:45Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parsemanager.cpp $
  */
 
@@ -468,7 +468,7 @@ wxArrayString ParseManager::GetAllPathsByFilename(const wxString& filename)
     if (path.empty())
         return wxArrayString();
 
-    wxDir dir(fn.GetPath());
+    wxDir dir(path);
     if (!dir.IsOpened())
         return wxArrayString();
 

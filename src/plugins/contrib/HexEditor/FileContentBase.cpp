@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with HexEditor. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 7109 $
-* $Id: FileContentBase.cpp 7109 2011-04-15 11:53:16Z mortenmacfly $
+* $Revision: 13719 $
+* $Id: FileContentBase.cpp 13719 2025-08-25 18:00:40Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/HexEditor/FileContentBase.cpp $
 */
 
@@ -149,7 +149,7 @@ FileContentBase::OffsetT FileContentBase::Remove( const ExtraUndoData& extraUndo
     return mod->Length();
 }
 
-FileContentBase::OffsetT FileContentBase::Add( const ExtraUndoData& extraUndoData, OffsetT position, OffsetT length, void* data)
+FileContentBase::OffsetT FileContentBase::Add( const ExtraUndoData& extraUndoData, OffsetT position, OffsetT length, const void* data)
 {
     if ( !length ) return 0;
 

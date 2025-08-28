@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with HexEditor. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13126 $
-* $Id: ExpressionParser.cpp 13126 2022-12-18 10:35:32Z wh11204 $
+* $Revision: 13719 $
+* $Id: ExpressionParser.cpp 13719 2025-08-25 18:00:40Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/HexEditor/ExpressionParser.cpp $
 */
 
@@ -39,7 +39,7 @@ namespace Expression
     const Parser::resType Parser::resFloat;
 
 
-    Parser::Parser()
+    Parser::Parser() : m_ErrorPos(0), m_Output(nullptr), m_StartPos(nullptr), m_CurrentPos(nullptr)
     {
     }
 
@@ -607,5 +607,4 @@ namespace Expression
             m_Output->PushOperation( op );
         }
     }
-
 }

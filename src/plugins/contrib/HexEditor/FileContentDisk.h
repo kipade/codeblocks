@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with HexEditor. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 7109 $
-* $Id: FileContentDisk.h 7109 2011-04-15 11:53:16Z mortenmacfly $
+* $Revision: 13719 $
+* $Id: FileContentDisk.h 13719 2025-08-25 18:00:40Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/HexEditor/FileContentDisk.h $
 */
 
@@ -42,13 +42,13 @@ class FileContentDisk: public FileContentBase
         FileContentDisk();
 
         /** \brief Dctor */
-        virtual ~FileContentDisk();
+        virtual ~FileContentDisk() override;
 
         /** \brief Reading the data from the file */
-        virtual bool ReadFile( const wxString& fileName );
+        virtual bool ReadFile( const wxString& fileName ) override;
 
         /** \brief Writing the data to the file */
-        virtual bool WriteFile( const wxString& fileName );
+        virtual bool WriteFile( const wxString& fileName ) override;
 
         /** \brief Getting size of the content */
         virtual OffsetT GetSize();

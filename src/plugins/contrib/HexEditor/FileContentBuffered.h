@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with HexEditor. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 7109 $
-* $Id: FileContentBuffered.h 7109 2011-04-15 11:53:16Z mortenmacfly $
+* $Revision: 13719 $
+* $Id: FileContentBuffered.h 13719 2025-08-25 18:00:40Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/HexEditor/FileContentBuffered.h $
 */
 
@@ -36,16 +36,16 @@ class FileContentBuffered: public FileContentBase
         FileContentBuffered();
 
         /** \brief Dctor */
-        ~FileContentBuffered();
+        ~FileContentBuffered() override;
 
         /** \brief Reading the data */
-        bool ReadFile( const wxString& fileName );
+        bool ReadFile( const wxString& fileName ) override;
 
         /** \brief Writing the data */
-        bool WriteFile( const wxString& fileName );
+        bool WriteFile( const wxString& fileName ) override;
 
         /** \brief Getting size of the content */
-        OffsetT GetSize();
+        OffsetT GetSize() override;
 
         /** \brief Reading some part of data */
         OffsetT Read( void* buff, OffsetT position, OffsetT length );

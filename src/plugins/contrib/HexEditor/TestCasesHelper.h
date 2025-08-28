@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with HexEditor plugin. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 8350 $
-* $Id: TestCasesHelper.h 8350 2012-09-04 08:05:13Z jenslody $
+* $Revision: 13719 $
+* $Id: TestCasesHelper.h 13719 2025-08-25 18:00:40Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/HexEditor/TestCasesHelper.h $
 */
 
@@ -56,7 +56,7 @@ class TestCasesHelper: public T, public TestCasesBase
     public:
 
         /** \brief Run the tests */
-        virtual bool PerformTests()
+        virtual bool PerformTests() override
         {
             return RunTests();
         }

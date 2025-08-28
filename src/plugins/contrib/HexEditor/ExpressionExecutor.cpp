@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with HexEditor. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 13003 $
-* $Id: ExpressionExecutor.cpp 13003 2022-11-08 08:50:45Z wh11204 $
+* $Revision: 13719 $
+* $Id: ExpressionExecutor.cpp 13719 2025-08-25 18:00:40Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/HexEditor/ExpressionExecutor.cpp $
 */
 
@@ -65,7 +65,7 @@ namespace Expression
         };
     } }
 
-    Executor::Executor()
+    Executor::Executor() : m_Code(nullptr), m_OperationPos(0), m_Content(nullptr), m_Current(0), m_Status(executedSuccessfully)
     {
     }
 

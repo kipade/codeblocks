@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with HexEditor. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 7109 $
-* $Id: ExpressionParser.h 7109 2011-04-15 11:53:16Z mortenmacfly $
+* $Revision: 13719 $
+* $Id: ExpressionParser.h 13719 2025-08-25 18:00:40Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/HexEditor/ExpressionParser.h $
 */
 
@@ -44,6 +44,12 @@ namespace Expression
 
             /** \brief Dctor */
             ~Parser();
+
+            /** \brief Disable copy contructor */
+            Parser(const Parser&) = delete;
+
+            /** \brief Disable assignment operator */
+            Parser& operator =(Parser&) = delete;
 
             /** \brief Parsing the expression */
             bool Parse( const wxString& expression, Preprocessed& output );

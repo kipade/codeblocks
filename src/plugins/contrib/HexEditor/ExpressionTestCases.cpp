@@ -15,8 +15,8 @@
 * You should have received a copy of the GNU General Public License
 * along with HexEditor. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision: 7109 $
-* $Id: ExpressionTestCases.cpp 7109 2011-04-15 11:53:16Z mortenmacfly $
+* $Revision: 13719 $
+* $Id: ExpressionTestCases.cpp 13719 2025-08-25 18:00:40Z wh11204 $
 * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/contrib/HexEditor/ExpressionTestCases.cpp $
 */
 
@@ -41,7 +41,7 @@ namespace Expression
 
         inline void Ensure( bool condition, const wxString& msg )
         {
-            ((TestCasesHelper< ExpressionTests >*)this)->Ensure( condition, msg );
+            static_cast < TestCasesHelper< ExpressionTests >* > (this)->Ensure( condition, msg );
         }
     };
 

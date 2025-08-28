@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision: 13699 $
- * $Id: cbeditor.cpp 13699 2025-08-07 18:56:13Z mortenmacfly $
+ * $Revision: 13715 $
+ * $Id: cbeditor.cpp 13715 2025-08-24 15:30:16Z mortenmacfly $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/sdk/cbeditor.cpp $
  */
 
@@ -1046,7 +1046,14 @@ void cbEditor::SetModified(bool modified)
         NotifyPlugins(cbEVT_EDITOR_MODIFIED);
         // visual state
         if (m_pProjectFile)
-            m_pProjectFile->SetFileState(m_pControl->GetReadOnly() ? fvsReadOnly : (m_Modified ? fvsModified : fvsNormal));
+        {
+            FileVisualState currentVisualState = m_pProjectFile->GetFileState();
+            bool isManagedByVcs = (currentVisualState >= fvsVcAdded) && (currentVisualState <= fvsVcNonControlled);
+            if (!isManagedByVcs)
+            {
+                m_pProjectFile->SetFileState(m_pControl->GetReadOnly() ? fvsReadOnly : (m_Modified ? fvsModified : fvsNormal));
+            }
+        }
     }
 }
 

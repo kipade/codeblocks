@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision: 13675 $
- * $Id: parsemanager.cpp 13675 2025-07-01 11:33:27Z wh11204 $
+ * $Revision: 13712 $
+ * $Id: parsemanager.cpp 13712 2025-08-17 16:36:22Z wh11204 $
  * $HeadURL: https://svn.code.sf.net/p/codeblocks/code/trunk/src/plugins/codecompletion/parsemanager.cpp $
  */
 
@@ -463,17 +463,19 @@ wxArrayString ParseManager::GetAllPathsByFilename(const wxString& filename)
 {
     TRACE(_T("ParseManager::GetAllPathsByFilename: Enter"));
 
-    wxArrayString dirs;
     const wxFileName fn(filename);
+    const wxString path(fn.GetPath());
+    if (path.empty())
+        return wxArrayString();
 
     wxDir dir(fn.GetPath());
     if (!dir.IsOpened())
         return wxArrayString();
 
-    wxArrayString files;
+    wxArrayString dirs, files;
     ParseManagerHelper::ParserDirTraverser traverser(wxEmptyString, files);
     const wxString filespec = fn.HasExt() ? fn.GetName() + _T(".*") : fn.GetName();
-    CCLogger::Get()->DebugLog(_T("ParseManager::GetAllPathsByFilename: Traversing '") + fn.GetPath() + _T("' for: ") + filespec);
+    CCLogger::Get()->DebugLog(_T("ParseManager::GetAllPathsByFilename: Traversing '") + path + _T("' for: ") + filespec);
 
     // search in the same directory of the input file
     dir.Traverse(traverser, filespec, wxDIR_FILES);
